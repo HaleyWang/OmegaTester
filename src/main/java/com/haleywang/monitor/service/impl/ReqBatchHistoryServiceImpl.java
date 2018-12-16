@@ -1,0 +1,45 @@
+package com.haleywang.monitor.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import com.haleywang.db.mapper.Sort;
+import com.haleywang.monitor.dao.ReqBatchHistoryRepository;
+import com.haleywang.monitor.model.ReqBatchHistory;
+import com.haleywang.monitor.model.ReqTaskHistory;
+import com.haleywang.monitor.service.ReqBatchHistoryService;
+import org.apache.ibatis.session.SqlSession;
+import tk.mybatis.mapper.entity.Example;
+
+public class ReqBatchHistoryServiceImpl extends BaseServiceImpl<ReqBatchHistory> implements ReqBatchHistoryService {
+
+	private ReqBatchHistoryRepository reqBatchHistoryRepository;
+
+	public ReqBatchHistoryServiceImpl() {
+		initRepository();
+	}
+
+	public void initRepository() {
+		ReqBatchHistoryRepository reqBatchHistoryRepository = getMapper(ReqBatchHistoryRepository.class);
+		this.reqBatchHistoryRepository = reqBatchHistoryRepository;
+		this.mapper = (reqBatchHistoryRepository);
+	}
+	
+	
+	public List<ReqBatchHistory> findByBatchId(Long batchId) {
+
+		Example example1 = new Example(ReqBatchHistory.class);
+		//example1.setOrderByClause(" history_id desc ");
+
+		example1.createCriteria().andEqualTo("batchId", batchId);
+
+		return reqBatchHistoryRepository.selectByExample(example1);
+	}
+
+
+	public List<ReqBatchHistory> findByBatchId(Long batchId, Sort sort) {
+		return reqBatchHistoryRepository.findByBatchId(batchId, sort);
+	}
+
+}

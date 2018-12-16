@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="./../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="./../assets/css/ie10-viewport-bug-workaround.css"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script src="./../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="./../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <link rel="stylesheet" type="text/css" href="./css/jquery.jscrollpane.css">
+
+    <link rel="stylesheet" type="text/css" href="./css/keyvalueeditor.css">
+    <link rel="stylesheet" href="js/angular-ui-tree/angular-ui-tree.min.css">
+
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+
+
+
+    <script src="js/underscore-min.js"></script>
+
+
+    <!-- Bootstrap core JavaScript
+            ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./../dist/js/jquery-1.12.4.min.js"></script>
+    <script>
+	window.jQuery
+			|| document
+					.write('<script src="./../assets/js/vendor/jquery.min.js"><\/script>')
+
+    </script>
+    <script src="./../dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="./../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    <link rel="stylesheet" href="js/jsonview/jquery.jsonview.css" />
+    <script type="text/javascript" src="js/jsonview/jquery.jsonview.js"></script>
+
+
+    <script src="js/split.js"></script>
+
+    <script src="js/ace-builds-master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/ace-builds-master/src-noconflict/ext-beautify.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-ui-tree/angular-ui-tree.js"></script>
+
+
+
+    <script src="js/ace-builds-master/ui-ace.js"></script>
+
+    <script src="js/tree.js"></script>
+    <script src="js/tool/htmlformat.js"></script>
+
+    <script src="js/tool/jsformat.js"></script>
+
+    <script src="/assets/js/icon/iconfont.js"></script>
+
+    <script src="js/app.js"></script>
+
+
+    <style type="text/css">
+        .icon {
+            /* 通过设置 font-size 来改变图标大小 */
+            width: 1em; height: 1em;
+            /* 图标和文字相邻时，垂直对齐 */
+            vertical-align: -0.15em;
+            /* 通过设置 color 来改变 SVG 的颜色/fill */
+            fill: currentColor;
+            /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+               normalize.css 中也包含这行 */
+            overflow: hidden;
+            font-size: 25px;
+        }
+
+    </style>
+
+</head>
+
+<body ng-app="TodoApp" ng-controller="TodoController">
+
+
+<!-- Nested node template -->
+<script type="text/ng-template" id="nodes_renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content clearfix tree-group-{{node.groupId==node.id}} tree-collapsed-{{collapsed}}">
+        <div class="tree-node-inner" >
+            <a ng-show="node.groupId == node.id" class="btn btn-success btn-xs btn-toggle " data-nodrag ng-click="toggle(this)">
+
+                <svg class="icon icon-enter" ng-show="collapsed"  aria-hidden="true">
+                    <use xlink:href="#icon-enter"></use>
+                </svg>
+
+                <svg class="icon icon-unfold" ng-hide="collapsed" aria-hidden="true">
+                    <use xlink:href="#icon-unfold"></use>
+                </svg>
+            </a>
+            <a ng-click="clickReqItem(node)" data-nodrag ><span class="method-{{node.method}}">{{node.method}}</span> {{node.name}}</a>
+        </div>
+
+        <div class="btn btn-xs  dropdown btn0" data-nodrag>
+            <a class=" " type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-more"></use>
+                </svg>
+
+
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                <li><a   data-nodrag ng-click="remove(this);reqDelete(node)">
+
+                    <svg class="icon icon-delete" ng-hide="collapsed" aria-hidden="true">
+                        <use xlink:href="#icon-delete"></use>
+                    </svg>
+
+                    <span>Delete</span></a></li>
+
+                <li role="separator" class="divider"></li>
+
+                <li ng-show="node.groupId == node.id"><a  data-nodrag ng-click="newSubItem(this)" class="li-node-item" >
+
+                    <svg class="icon icon-add" ng-hide="collapsed" aria-hidden="true">
+                        <use xlink:href="#icon-add"></use>
+                    </svg>
+
+                    <span>New</span> </a></li>
+
+                <li ng-show="node.groupId != node.id"><a  data-nodrag ng-click="reqDuplicate(node)" class="li-node-item" >
+
+
+                    <svg class="icon icon-add" ng-hide="collapsed" aria-hidden="true">
+                        <use xlink:href="#icon-add"></use>
+                    </svg>
+
+
+                    Duplicate </a></li>
+
+
+
+            </ul>
+        </div>
+
+
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
+        </li>
+    </ol>
+</script>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ok-tester</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+
+
+                <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                        data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false">Env
+
+                    <span data-ng-repeat="item in settingList | filter:{type: 'env', current: 1}">
+                        : <span ng-bind="item.name"></span>
+                    </span>
+
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu setting-dropdown-menu">
+                        <li><a href="#" data-toggle="modal"
+                               data-target="#myModal_env">Manange Env</a></li>
+                        <li role="separator" class="divider"></li>
+
+
+                        <li><a href="#" data-ng-click="changeEnv({})" >No Env</a></li>
+                        <li role="separator" class="divider"></li>
+
+                        <li class="li-settings" >
+                            <ul>
+                            <li
+                                    data-ng-repeat="item in settingList | filter:{type: 'env'}"
+                            data-ng-click="changeEnv(item)"
+                                 class="env-item current-{{item.current}}"
+                            ><a href="#"><span ng-bind="item.name"></span></a></li>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+                <li><a href="/">Builder</a></li>
+                <li><a href="/batch.html">Runner</a></li>
+                <li ng-hide="currentAccount.name"><a data-toggle="modal" id="btn-login"
+                                                     data-target=".at-login-modal-sm" href="#">Sign In</a></li>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                    <li><a href="#">Regular link</a></li>
+                    <li class="disabled"><a href="#">Disabled link</a></li>
+                    <li><a href="#">Another link</a></li>
+                </ul>
+
+
+                <li ng-show="currentAccount.name"><a id="dLabel"
+                                                     data-target="#" href="#" data-toggle="dropdown" role="button"
+                                                     aria-haspopup="true" aria-expanded="false">
+
+                    <span ng-bind="currentAccount.name"></span>
+                    <span class="caret"></span>
+                </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        <li><a id="dLabel" data-target="#" data-ng-click="logout()"
+                               href="#" role="button" aria-haspopup="true"
+                               aria-expanded="false"> Logout </a></li>
+                    </ul>
+                </li>
+
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="container-fluid split-box">
+    <div id="a" class="split split-horizontal">
+
+        <div id="sidebar">
+            <div id="header" class="clearfix">
+                <input type="text" ng-change="onReqSearchTextChange()"
+
+                       ng-model="query"
+                        class="form-control"
+                       placeholder="Search...">
+            </div>
+            <div id="sidebar-sections" class="clearfix">
+                <div id="history-options" class="section-options">
+                    <a class="history-actions-delete" rel="tooltip"
+                       data-placement="bottom" data-original-title="Clear history">
+
+                    </a>
+                </div>
+                <div ng-show="collectionsOrHistory" id=""
+                     class=" pull-right box-collections-his" >
+                    <i ng-show="folderClose" data-ng-click="doFolderOpen()"
+                       class="expanded ">
+
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-offline_fill"></use>
+                        </svg>
+                    </i>
+                    <i ng-hide="folderClose" data-ng-click="doFolderClose()"
+                        class="expanded  ">
+
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-addition"></use>
+                        </svg>
+                    </i>
+                </div>
+
+                <ul id="sidebar-selectors" class="nav nav-pills">
+                    <li ng-click="onClickcollectionsOrHistory('history')" class=""><a
+                            href="#sidebar-section-history" data-id="history"
+                            data-toggle="tab">History</a></li>
+                    <li ng-click="onClickcollectionsOrHistory('collections')"
+                        class="active"><a href="#sidebar-section-collections"
+                                          data-id="collections" data-toggle="tab">Collections</a></li>
+                </ul>
+                <div id="sidebar-section-data">
+                    <div ng-hide="collectionsOrHistory" class="tab-pane"
+                         id="sidebar-section-history">
+                        <ul id="history-items" class="clearfix">
+
+
+                            <li ng-repeat="tab in reqHistoryList track by $index "
+                                data-idx="{{$index}}" role="presentation"
+                                class="{{tab.active}}"><a class="a-tab"
+                                                          data-ng-click="onClickHistoryItem(tab)" href="#home"
+                                                          aria-controls="home" role="tab" data-toggle="tab">
+
+                                <div class="his-item " ng-class="tab.testSuccess ? 'test-success':'test-error' ">{{tab.req.name}} {{tab.createdOn}}</div>
+                                <div class="his-sub-item">
+                                    <span class="statut-code-{{tab.statutCode}}">{{tab.statutCode}} </span>
+                                    <span> {{tab.req.method}} </span>  {{tab.req.url}}
+                                </div>
+
+
+
+                            </a></li>
+
+                        </ul>
+                        <div ng-hide="reqHistoryList.length"
+                             class="empty-message size-{{reqHistoryList.length}}">Nothing
+                            in your history yet. You can automatically save and access your
+                            sent requests here.
+                        </div>
+                    </div>
+                    <div ng-show="collectionsOrHistory" class="tab-pane active"
+                         id="sidebar-section-collections">
+
+<!--
+                        <div data-angular-treeview="true" class="req-tree"
+                             data-tree-id="mytree" data-tree-model="reqList"></div>
+                             -->
+
+                        <div ui-tree="treeOptions" id="tree-root">
+
+                            <ol ui-tree-nodes="treeOptions" ng-model="reqList">
+                                <li ng-repeat="node in reqList" ui-tree-node ng-include="'nodes_renderer.html'"
+                                    ng-show="visibleGroup(node)"></li>
+                            </ol>
+                        </div>
+
+                        <div class="empty-message hide-true" >You
+                            haven't created any collections yet. Collections let you group
+                            requests together for quick access.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sidebar-filler"></div>
+        </div>
+
+    </div>
+    <div id="b" class="split split-horizontal content">
+
+
+        <div id="main" class="">
+
+            <div id="c" class="split content">
+                <div>
+
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs req-tabs" role="tablist">
+
+                        <li ng-repeat="tab in reqTabs track by $index | limitTo:5 "
+                            data-idx="{{$index}}" role="presentation" class="li-req-tabs {{tab.active}}">
+                            <a class="a-tab" data-ng-click="clickReqTab(tab)" href="#home"
+                               title="{{tab.name}}"
+                               aria-controls="home" role="tab" data-toggle="tab">{{tab.name}}&nbsp;
+
+                                <div class="tab-remove-btn" href="#"
+                                     ng-click="removeReqTab(tab)">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </div>
+                            </a>
+                        </li>
+
+
+                        <li><a href="#settings" ng-click="newReqTabModel()"> <span
+                                class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home"></div>
+                        <div role="tabpanel" class="tab-pane" id="profile"></div>
+                        <div role="tabpanel" class="tab-pane" id="messages"></div>
+                        <div role="tabpanel" class="tab-pane" id="settings"></div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="panel panel-default border-none" >
+                    <div class="panel-heading request-box" >
+
+                        <div id="request-url" class="clearfix">
+                            <div id="request-url-wrapper" class="request-url-wrapper" >
+
+                                <div class="input-group">
+                                    <input class="form-control" ng-model="currentReqTabData.name"
+                                           placeholder="Name"
+                                           readonly="readonly"
+                                           aria-label="Text input with segmented button dropdown">
+
+                                    <div class="input-group-btn">
+                                        <button type="button" ng-click="sendCurrentReq()"
+                                                class="btn btn-default">Send
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="btn-group pull-right">
+
+
+                                    <!-- Split button -->
+                                    <div class="btn-group ">
+                                        <button ng-click="reqSave()" type="button"
+                                                class="btn btn-default">Save
+                                        </button>
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            <span class="caret"></span> <span class="sr-only">Toggle
+												Dropdown</span>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li><a id="add-to-collection"
+                                                   href="#modal-add-to-collection" data-toggle="modal"
+                                                   data-backdrop="static" data-keyboard="true">Save as ...</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="request-modifiers">
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                                    <li><a href="#">Regular link</a></li>
+                                    <li class="disabled"><a href="#">Disabled link</a></li>
+                                    <li><a href="#">Another link</a></li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+
+                        <div class="js-max-box req-box " ng-class="reqMaxBox" >
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs req-data-tab" role="tablist">
+                                <li data-idx="0" role="presentation" class="active"><a
+                                        data-ng-dblclick="reqTabDblclick()"
+                                        href="#req_data" aria-controls="home" role="tab"
+                                        data-toggle="tab">request</a></li>
+
+                                <li class="" data-idx="1" role="presentation">
+                                    <a href="#req_script" aria-controls="messages" role="tab"
+                                       data-ng-dblclick="reqTabDblclick()"
+                                       data-toggle="tab">pre script</a>
+                                </li>
+                                <li data-idx="2" role="presentation"><a href="#req_test"
+                                                                        data-ng-dblclick="reqTabDblclick()"
+                                                                        aria-controls="settings" role="tab"
+                                                                        data-toggle="tab">test</a>
+                                </li>
+
+                                <div class="box-format" ng-click="formatReqData()">
+                                    <a href="##">Format</a>
+                                </div>
+                            </ul>
+
+
+                            <!-- Tab panes -->
+                            <div class="tab-content req-body-content
+" >
+                                <div role="tabpanel" class="tab-pane active" id="req_data">
+
+
+
+                                    <div data-ng-show="showAce"
+                                         ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded, autoScrollEditorIntoView: true, mode: 'javascript'}"
+                                         ng-model="currentReqTabData.meta.request"></div>
+
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="req_script">
+
+
+                                    <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
+                                          data-ng-show="showAce"
+                                         ng-model="currentReqTabData.meta.preRequestScript"
+                                    ></div>
+
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="req_test">
+
+                                    <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
+                                          data-ng-show="showAce"
+                                         ng-model="currentReqTabData.meta.testScript"
+                                    ></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div id="d" class="split content">
+
+                <div class="panel-body response-box js-max-box" ng-class="resMaxBox">
+
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#res-body"
+                                                                  data-ng-dblclick="resTabDblclick()"
+
+                                                                  aria-controls="res-body" role="tab" data-toggle="tab">Body</a>
+                        </li>
+                        <li class="hide " role="presentation">
+                            <a href="#res-body-json"
+                               data-ng-click="drawBodyJson()"
+                               data-ng-dblclick="resTabDblclick()"
+                               aria-controls="res-body-json" role="tab" data-toggle="tab">Body json</a>
+                        </li>
+
+                        <li role="presentation"><a href="#res-headers"
+                                                   data-ng-dblclick="resTabDblclick()"
+                                                   aria-controls="res-headers" role="tab" data-toggle="tab">Headers</a>
+                        </li>
+                        <!-- //todo -->
+                        <li class="hide " role="presentation"><a href="#res-cookies"
+                                                                 data-ng-dblclick="resTabDblclick()"
+                                                                 aria-controls="res-cookies" role="tab" data-toggle="tab">Cookies</a>
+                        </li>
+                        <li role="presentation"><a href="#res-tests"
+                                                   data-ng-dblclick="resTabDblclick()"
+                                                   aria-controls="res-tests" role="tab" data-toggle="tab" ><span ng-class="currentReqTabData.response.testError ? 'test-success-false':'test-success-true' " >Tests</span></a></li>
+
+
+                        <div data-ng-show="currentReqTabData.loading"
+                             class="box-req-loading"
+                             >
+                            loading
+                        </div>
+                        <div class="box-status"
+                                data-ng-show="currentReqTabData.response && !currentReqTabData.loading"
+                                >
+                            Status: {{currentReqTabData.response.status}} Time:
+                            {{currentReqTabData.response.spent_time}}
+                        </div>
+
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content res-body-content" >
+                        <div role="tabpanel" class="tab-pane active" id="res-body">
+
+
+                            <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
+                                  data-ng-show="showAce"
+                                 ng-model="currentReqTabData.response.body"
+                            ></div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane hide" id="res-body-json">
+                            <div id="json">
+
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="res-headers">
+                            <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
+                                  data-ng-show="showAce"
+                                 ng-model="currentReqTabData.response.headers"
+                            ></div>
+
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="res-cookies">
+                            <textarea class="form-control" rows="18"></textarea>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="res-tests">
+
+                            <br/>
+                            <ul  class="list-group">
+                                <li data-ng-repeat="testResult in currentReqTabData.response.testResultArr" class="list-group-item ">
+                                    <span ng-if="testResult.success" class="test-success-{{testResult.success}}" ng-bind="testResult.i + ' : ' + testResult.v"></span>
+                                    <span ng-if="!testResult.success" class="test-success-false" ng-bind="testResult.i + ' : ' + testResult.v"></span>
+
+                                </li>
+
+                            </ul>
+
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg"
+        data-toggle="modal" data-target="#myModal">Launch demo modal
+</button>
+
+
+<div class="modal fade" id="myModal_env" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel_env">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel_env">Env</h4>
+            </div>
+            <div class="modal-body">
+                <div data-ng-show="settingView == 'save'">
+                    <!--save -->
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Name</label> <input
+                            type="text" class="form-control"
+                            ng-model="editEnv.name"
+                            placeholder="Name">
+                    </div>
+                    <textarea data-ng-model="editEnv.content" class="form-control" rows="3" placeholder="Textarea"></textarea>
+
+
+
+                </div>
+                <div data-ng-show="settingView == 'list'" class="box-setting-view" >
+                    <!--list -->
+
+
+                    <table class="table">
+
+                        <tbody>
+                        <tr data-ng-repeat="item in settingList | filter:{type: 'env'}" class="current-{{item.current}}">
+
+                            <td><a data-ng-click="gotoEditEnvView(item)"><span  ng-bind="item.name"></span></a></td>
+                            <td width="60"><a data-ng-click="duplicateEnv(item)">duplicate</a></td>
+                            <td width="60"><a data-ng-click="deleteEnv(item)">delete</a></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="modal-footer " data-ng-show="settingView == 'list'">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button data-ng-click="gotoAddEnvView()" type="button" class="btn btn-primary" >Add
+
+                </button>
+            </div>
+            <div class="modal-footer " data-ng-show="settingView == 'save'">
+                <button type="button" data-ng-click="gotoEnvListView()" class="btn btn-default" >Back</button>
+                <button type="button" data-ng-click="saveEnv()" class="btn btn-primary" >Save
+
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Small modal -->
+<div class="modal fade at-login-modal-sm " tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm " role="document">
+        <div class="modal-content loginpanel">
+
+            <div class="">
+                <i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
+                <h2>
+                    <span class="fa fa-quote-left "></span> Sign In <span
+                        class="fa fa-quote-right "></span>
+                </h2>
+                <div>
+                    <input id="username" ng-model="loginModel.email" type="text"
+                           placeholder="Email" onkeypress="check_values();"> <input
+                        id="password" ng-model="loginModel.pass" type="password"
+                        placeholder="password" onkeypress="check_values();">
+
+                    <div class="buttonwrapper">
+                        <button id="loginbtn" ng-click="login()"
+                                ng-show="loginModel.email && loginModel.pass"
+                                class="btn btn-warning loginbutton">
+                            <span class="glyphicon glyphicon-hand-right"></span>
+                        </button>
+                        <span id="lockbtn" ng-hide="loginModel.email && loginModel.pass"
+                              class="glyphicon glyphicon-lock lockbutton redborder"></span>
+                    </div>
+                </div>
+
+                <div class="box-sign-btns" >
+                    <a data-toggle="modal" data-target=".at-register-modal-sm"
+                       href="#" data-dismiss="modal" aria-label="Close"> Sign Up</a>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Small modal  -->
+<div class="modal fade at-register-modal-sm " tabindex="-1"
+     role="dialog" aria-labelledby="registerModalLabel">
+    <div class="modal-dialog modal-sm " role="document">
+        <div class="modal-content loginpanel">
+
+            <div class="">
+                <i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
+                <h2>
+                    <span class="fa fa-quote-left "></span> Sign Up <span
+                        class="fa fa-quote-right "></span>
+                </h2>
+                <div>
+                    <input id="username1" ng-model="registerModel.name" type="text"
+                           placeholder="Name" onkeypress="check_values();"> <input
+                        id="Email" ng-model="registerModel.email" type="text"
+                        placeholder="Email" onkeypress="check_values();"> <input
+                        id="password1" ng-model="registerModel.pass" type="password"
+                        placeholder="Password" onkeypress="check_values();">
+
+                    <div class="buttonwrapper">
+                        <button id="loginbtn" ng-click="register()"
+                                ng-show="registerModel.name && registerModel.email && registerModel.pass"
+                                class="btn btn-warning loginbutton">
+                            <span class="glyphicon glyphicon-hand-right"></span>
+                        </button>
+                        <span id="lockbtn"
+                              ng-hide="registerModel.name && registerModel.email && registerModel.pass"
+                              class="glyphicon glyphicon-lock lockbutton redborder"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="modal-add-to-collection" class="modal fade"
+     data-keyboard="true" tabindex="-1" aria-hidden="true" role="dialog"
+     aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal"
+                   id="modal-share-collection-close">x</a>
+
+                <h4 class="modal-title">Add request to a collection</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="form-add-to-collection">
+
+
+                    <div class="form-group">
+                        <label for="select-collection" class="col-sm-4 control-label">Existing
+                            collection</label>
+                        <div class="col-sm-8">
+                            <select ng-model="newReqObj.reqGroup.groupId"
+                                    name="select-collection" class="form-control"
+                                    id="select-collection">
+
+                                <option value="">Select</option>
+
+                                <option ng-repeat="gr in groupList " value="{{gr.groupId}}">{{gr.name}}</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="new-collection">or
+                            create a new one</label>
+
+                        <div class="col-sm-8">
+                            <input ng-model="newReqObj.reqGroup.name" type="text"
+                                   class="form-control" id="new-collection"/>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn btn-primary"
+                   ng-click="reqSaveAs()">Add to collection</a> <a
+                    data-dismiss="modal" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<!-- Small modal  -->
+<div class="modal fade at-group-title" tabindex="-1"
+     role="dialog" aria-labelledby="registerModalLabel">
+    <div class="modal-dialog modal-sm " role="document">
+        <div class="modal-content loginpanel">
+
+            <div class="">
+                <i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
+
+                <div>
+                    <input id="title" ng-model="groupEditObj.name" type="text"
+                           placeholder="title"  >
+
+
+                    <div class="buttonwrapper">
+                        <button id="loginbtn" ng-click="updateGroup()"
+                                data-dismiss="modal"
+                                class="btn btn-warning ">
+                            Save
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

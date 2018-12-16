@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+  </style>
+</head>
+<body>
+
+
+
+<table>
+
+<tr>
+<td id="a1" width="200" height="60">
+{
+	"dependencies":[{"api":"/demo/v2/user/v1.0/fees/7950987;4","teamName":"ddd","teamMembers":"jim"
+}
+,{
+	"api":"/dataapi/v2/billing/v1.0/fees","teamName":"ddd","teamMembers":"Jonn"
+}
+,{
+	"api":"udeploy.demo.com","teamName":"","teamMembers":"lili"
+}
+,{
+	"api":"server disk,cpu alert","teamName":"","teamMembers":"Mandy"
+}
+]
+}
+
+</td>
+<td id="a11" width="200" height="60">
+11
+</td>
+</tr>
+<tr>
+<td  id="a111" height="60">
+12
+</td>
+<td  id="a1111" height="60">
+112
+</td>
+</tr>
+
+</table>
+
+
+<script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script src="src-noconflict/ext-beautify.js" type="text/javascript" charset="utf-8"></script>
+	
+<script>
+
+function editTD(id) {
+    var editor = ace.edit(id);
+    //editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/json");
+
+	var beautify = ace.require("ace/ext/beautify"); // get reference to extension
+
+	editor.renderer.setOption('showLineNumbers', false);
+	editor.renderer.setShowGutter(false);
+	
+	editor.getSession().on('change', function(a, b) {
+		console.log(b.getValue());
+		if(b.getValue().trim().startsWith('<')) {
+			console.log('xml');
+			editor.session.setMode("ace/mode/html");
+		}else if (b.getValue().trim().startsWith('{') || b.getValue().trim().startsWith('[')) {
+			editor.session.setMode("ace/mode/json");
+
+		}else if (b.getValue().trim().length > 1 ) {
+			editor.session.setMode("ace/mode/text");
+		}
+	});
+
+	editor.commands.addCommand({
+		name: "beautify",
+		exec: function(editor) {
+			//beautify.beautify(editor.session);
+			var session = editor.getSession();
+			console.log('----');
+			
+			if(session.getValue().trim().startsWith('<')) {
+				console.log('xml');
+				
+				
+				
+			}else if (session.getValue().trim().startsWith('{') || session.getValue().trim().startsWith('[')) {
+				
+				session.setValue(JSON.stringify(JSON.parse(session.getValue()), null, 4));
+
+			}
+		},
+		bindKey: { win: "Ctrl-Alt-F", mac: "Command-Alt-F" }   
+	});
+	
+}
+
+var tds = document.querySelectorAll("td")
+
+for(var i = 0, n = tds.length ; i < n; i++) {
+	var item = tds[i];
+	//editTD(item.id);
+}
+
+document.addEventListener('click',function(event){
+	var target = event.target;     //通过console.log(event)查看有target属性
+									//target属性(就是我们点击的这个元素标签对象)
+									//parentNode是父级标签对象
+									//nodeName是标签名字
+	console.log('---');
+	if(target.nodeName == "TD"){
+		//判断我们点击的是A标签
+		//发起ajax
+		console.log(target.id);
+		editTD(target.id);
+		console.log(target);
+	}
+})
+
+
+</script>
+
+</body>
+</html>

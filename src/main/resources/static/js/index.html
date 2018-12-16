@@ -1,0 +1,22 @@
+<!doctype html>
+<html >
+  <head>
+    
+    <script src="./angular.min.js"></script>
+    <script src="./app.js"></script>
+
+  </head>
+  <body>
+    <div ng-app="TodoApp" data-ng-controller="TodoController"  >
+         <h3> Name </h3>
+
+         <input type="text" data-ng-model="name" /> 
+
+        <ul>
+          <li data-ng-repeat="cust in customers | filter:name " >
+            {{ cust.name }} - {{ cust.city }}
+          </li>
+        </ul>
+    </div>
+  </body>
+</html>

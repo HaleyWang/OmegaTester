@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JSON VIEW</title>
+  <link rel="shortcut icon" type="image/png" href="./favicon.png"/>
+  <link rel="stylesheet" href="./jquery.jsonview.css" />
+</head>
+<body>
+<div id="json"></div>
+
+<!-- javascript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="./jquery.jsonview.js"></script>
+<script>
+var json = {
+    "hey": "guy",
+    "anumber": 243,
+    "anobject": {
+        "whoa": "nuts",
+        "anarray": [1, 2, "thr<h1>ee"],
+        "anotherarray": [1, 2],
+        "more": "stuff"
+    },
+    "awesome": true,
+    "bogus": false,
+    "meaning": null,
+    "japanese": "明日がある。",
+    "link": "http://jsonview.com",
+    "notLink": "http://jsonview.com is great"
+};
+</script>
+</html>

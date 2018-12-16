@@ -1,0 +1,33 @@
+cmd-->
+
+
+# check maven & java version
+C:\Users\hwang3>mvn -v
+Apache Maven 3.3.3 (7994120775791599e205a5524ec3e0dfe41d4a06; 2015-04-2
+7+08:00)
+Maven home: D:\soft\apache-maven-3.3.3
+Java version: 1.8.0_91, vendor: Oracle Corporation
+Java home: D:\soft\java\jdk1.8.0_91\jre
+Default locale: en_US, platform encoding: GBK
+OS name: "windows 7", version: "6.1", arch: "amd64", family: "dos"
+
+
+
+note: Java version: 1.8.0_91
+
+
+
+#How do I tell Spring Boot which main class to use for the executable jar?
+<start-class>com.haleywang.monitor.App</start-class>
+
+# build
+mvn clean package
+
+# run
+cd target
+java -jar {jarfilename}
+
+
+
+
+

@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+
+<style type="text/css">
+/* angular.treeview */
+div[data-angular-treeview] {
+	/* prevent user selection */
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	/* default */
+	font-family: Tahoma;
+	font-size: 13px;
+	color: #555;
+	text-decoration: none;
+}
+
+div[data-tree-model] ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: none;
+	overflow: hidden;
+}
+
+div[data-tree-model] li {
+	position: relative;
+	padding: 0 0 0 20px;
+	line-height: 20px;
+}
+
+div[data-tree-model] li .expanded {
+	padding: 1px 10px;
+	background-image:
+		url("http://cfile23.uf.tistory.com/image/205B973A50C13F4B19D9BD");
+	background-repeat: no-repeat;
+}
+
+div[data-tree-model] li .collapsed {
+	padding: 1px 10px;
+	background-image:
+		url("http://cfile23.uf.tistory.com/image/1459193A50C13F4B1B05FB");
+	background-repeat: no-repeat;
+}
+
+div[data-tree-model] li .normal {
+	padding: 1px 10px;
+	background-image:
+		url("http://cfile23.uf.tistory.com/image/165B663A50C13F4B196CCA");
+	background-repeat: no-repeat;
+}
+
+div[data-tree-model] li i, div[data-tree-model] li span {
+	cursor: pointer;
+}
+
+div[data-tree-model] li .selected {
+	background-color: #aaddff;
+	font-weight: bold;
+	padding: 1px 5px;
+}
+
+/* example */
+label {
+	display: inline-block;
+	width: 30px;
+	padding: 0 10px;
+	font-weight: bold;
+}
+
+.button_panel {
+	margin: 10px 0 30px 0;
+	padding: 10px;
+	background-color: #EEEEEE;
+	border-radius: 5px;
+	font: 12px Tahoma;
+}
+
+.input_panel {
+	padding: 10px 5px;
+}
+
+.done_button {
+	margin-top: 10px;
+}
+</style>
+<script src="/js/angular.min.js"></script>
+<script>
+	
+
+(function(){
+	  
+	  //angular module
+	  var myApp = angular.module('myApp', ['angularTreeview']);
+
+	  //test controller
+	  myApp.controller('myController', function($scope){
+	      
+	    //temporary node
+	    $scope.temporaryNode = {
+	        children: []
+	    };
+
+	  	//test tree model
+	    $scope.roleList = [
+	        { label : "User", id : "role1", children : [
+	          { label : "subUser1", id : "role11", children : [] },
+	          { label : "subUser2", id : "role12", children : [
+	            { label : "subUser2-1", id : "role121", children : [
+	              { label : "subUser2-1-1", id : "role1211", children : [] },
+	              { label : "subUser2-1-2", id : "role1212", children : [] }
+	            ]}
+	          ]}
+	        ]},
+
+	        { label : "Admin", id : "role2", children : [] },
+
+	        { label : "Guest", id : "role3", children : [] }
+	      ];
+	      
+	      $scope.done = function () {
+	          /* reset */
+	          $scope.mytree.currentNode.selected = undefined;
+	          $scope.mytree.currentNode = undefined;
+	          $scope.mode = undefined;
+	      };
+	      
+	      $scope.addChildDone = function () {
+	          /* add child */
+	          if( $scope.temporaryNode.id && $scope.temporaryNode.label ) {
+	              $scope.mytree.currentNode.children.push( angular.copy($scope.temporaryNode) );
+	          }
+	          
+	          /* reset */
+	          $scope.temporaryNode.id = "";
+	          $scope.temporaryNode.label = "";
+	          
+	          $scope.done();
+	      };
+	  
+	  });
+	  
+	})();
+
+
+	/*
+		@license Angular Treeview version 0.1.6
+		ⓒ 2013 AHN JAE-HA http://github.com/eu81273/angular.treeview
+		License: MIT
+	*/
+
+	(function(f){f.module("angularTreeview",[]).directive("treeModel",function($compile){return{restrict:"A",link:function(b,h,c){var a=c.treeId,g=c.treeModel,e=c.nodeLabel||"label",d=c.nodeChildren||"children",e='<ul><li data-ng-repeat="node in '+g+'"><i class="collapsed" data-ng-show="node.'+d+'.length && node.collapsed" data-ng-click="'+a+'.selectNodeHead(node)"></i><i class="expanded" data-ng-show="node.'+d+'.length && !node.collapsed" data-ng-click="'+a+'.selectNodeHead(node)"></i><i class="normal" data-ng-hide="node.'+
+	d+'.length"></i> <span data-ng-class="node.selected" data-ng-click="'+a+'.selectNodeLabel(node)">{{node.'+e+'}}</span><div data-ng-hide="node.collapsed" data-tree-id="'+a+'" data-tree-model="node.'+d+'" data-node-id='+(c.nodeId||"id")+" data-node-label="+e+" data-node-children="+d+"></div></li></ul>";a&&g&&(c.angularTreeview&&(b[a]=b[a]||{},b[a].selectNodeHead=b[a].selectNodeHead||function(a){a.collapsed=!a.collapsed},b[a].selectNodeLabel=b[a].selectNodeLabel||function(c){b[a].currentNode&&b[a].currentNode.selected&&
+	(b[a].currentNode.selected=void 0);c.selected="selected";b[a].currentNode=c}),h.html('').append($compile(e)(b)))}}})})(angular);
+
+</script>
+
+</head>
+<body>
+	<div ng-app="myApp">
+		<div ng-controller="myController">
+
+			<div class="button_panel">
+				<input type="button" value="EDIT NODE"
+					data-ng-click="mode = 'editNode'"
+					data-ng-disabled="!mytree.currentNode" /> <input type="button"
+					value="ADD CHILD" data-ng-click="mode = 'addChild'"
+					data-ng-disabled="!mytree.currentNode" />
+
+				<div class="input_panel" data-ng-show="mode == 'editNode'">
+					<h4>Selected Node</h4>
+					<label>ID</label> <input data-ng-model="mytree.currentNode.id"
+						disabled /><br /> <label>Label</label> <input
+						data-ng-model="mytree.currentNode.label" /><br /> <input
+						type="button" value="DONE" class="done_button"
+						data-ng-click="done()">
+				</div>
+
+				<div class="input_panel" data-ng-show="mode == 'addChild'">
+					<h4>New Node</h4>
+					<label>ID</label> <input data-ng-model="temporaryNode.id" /><br />
+					<label>Label</label> <input data-ng-model="temporaryNode.label" /><br />
+					<input type="button" value="DONE" class="done_button"
+						data-ng-click="addChildDone()">
+				</div>
+			</div>
+
+
+
+			<!--
+      [TREE attribute]
+      angular-treeview: the treeview directive
+      tree-id : each tree's unique id.
+      tree-model : the tree model on $scope.
+      node-id : each node's id
+      node-label : each node's label
+      node-children: each node's children
+    -->
+			<div data-angular-treeview="true" data-tree-id="mytree"
+				data-tree-model="roleList"></div>
+
+		</div>
+	</div>
+</body>
+</html>
