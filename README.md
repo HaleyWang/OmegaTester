@@ -7,7 +7,7 @@ Maven > 3.2.1
 Your favorite IDE
 
 ```
-cd ApiTester
+cd OmegaTester
 mvn clean install
 mvn exec:java
 ```
