@@ -1,4 +1,4 @@
-# ApiTester
+# OmegaTester
 
 ## Run from the sources.
 Prerequisites:
@@ -15,7 +15,7 @@ mvn exec:java
 To change port use the following commands.
 
 ```
-cd ApiTester
+cd OmegaTester
 mvn exec:java -Dexec.args="8080"
 ```
 
