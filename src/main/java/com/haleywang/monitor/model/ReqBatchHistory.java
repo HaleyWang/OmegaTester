@@ -1,6 +1,7 @@
 package com.haleywang.monitor.model;
 
 import com.haleywang.monitor.utils.DateUtils;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+@Data
 @Entity
 public class ReqBatchHistory implements Serializable {
 
@@ -39,55 +41,7 @@ public class ReqBatchHistory implements Serializable {
     
     private long costTime;
 
-	public String getName() {
-		return name;
-	}
 
-	public int getSuccessNum() {
-		return successNum;
-	}
-
-	public void setSuccessNum(int successNum) {
-		this.successNum = successNum;
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public long getCostTime() {
-		return costTime;
-	}
-
-	public void setCostTime(long costTime) {
-		this.costTime = costTime;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public Long getBatchHistoryId() {
-		return batchHistoryId;
-	}
-
-	public void setBatchHistoryId(Long batchHistoryId) {
-		this.batchHistoryId = batchHistoryId;
-	}
-
-
-	public Long getBatchId() {
-		return batchId;
-	}
-
-	public void setBatchId(Long batchId) {
-		this.batchId = batchId;
-	}
 
 	public Date getBatchStartDate() {
 		return DateUtils.copy(batchStartDate);
@@ -97,13 +51,7 @@ public class ReqBatchHistory implements Serializable {
 		this.batchStartDate = DateUtils.copy(batchStartDate);
 	}
 
-	public Statuts getStatuts() {
-		return statuts;
-	}
 
-	public void setStatuts(Statuts statuts) {
-		this.statuts = statuts;
-	}
 
 
 }

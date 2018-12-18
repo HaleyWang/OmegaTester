@@ -16,6 +16,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public interface ReqInfoService extends BaseService<ReqInfo> {
 
 	public List<ReqInfo> listRequestInfoByReqGroup( ReqGroup reqGroup);
+	public List<ReqInfo> listRequestInfoByReqGroup( Long reqGroupId);
 
 
 	public List<ReqGroup> listRequestInfoByAccount(ReqAccount acc);

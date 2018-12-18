@@ -1,0 +1,3 @@
+2018-12-18 21:08:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+INSERT INTO req_batch  ( batch_id,schedule_id,env_setting_id,group_id,created_by_id,modified_by_id,name,enable,time_expression,statuts,created_on,updated_on ) VALUES( ?,?,?,?,?,?,?,?,?,?,?,? ) [42102-197]

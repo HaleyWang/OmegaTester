@@ -33,4 +33,24 @@ public class BatchHistoryCtrl extends BaseCtrl {
         return JsonUtils.toJson(res);
     }
 
+    public String  detail()  {
+        Long batchHistoryId = Long.parseLong(getUrlParam("batchHistoryId"));
+
+        ReqBatchHistoryService reqBatchHistoryService = new ReqBatchHistoryServiceImpl();
+
+        ReqBatchHistory o = reqBatchHistoryService.findOne(batchHistoryId);
+
+        return JsonUtils.toJson(o);
+    }
+
+
+    public String delete() throws InterruptedException {
+        Long batchHistoryId = Long.parseLong(getUrlParam("batchHistoryId"));
+
+        ReqBatchHistoryService reqBatchHistoryService = new ReqBatchHistoryServiceImpl();
+
+        reqBatchHistoryService.deleteByPrimaryKey(batchHistoryId);
+        return JsonUtils.toJson(new ResultStatus<>());
+    }
+
 }

@@ -1,12 +1,10 @@
 package com.haleywang.monitor.service.impl;
 
 import com.haleywang.db.mapper.Sort;
-import com.haleywang.monitor.dao.ReqBatchHistoryRepository;
+import com.haleywang.monitor.dao.*;
 import com.haleywang.monitor.dto.UnirestRes;
-import com.haleywang.monitor.model.ReqBatch;
-import com.haleywang.monitor.model.ReqBatchHistory;
-import com.haleywang.monitor.model.ReqGroup;
-import com.haleywang.monitor.model.ReqInfo;
+import com.haleywang.monitor.model.*;
+import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.service.ReqBatchHistoryService;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.ReqInfoService;
@@ -19,7 +17,7 @@ import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.List;
 
-public class ReqJobService {
+public class ReqJobService extends BaseServiceImpl<ReqBatch> {
 
 	static int REQBATCHHISTORY_MAX_SIZE_PER_BATCH_ID = 100;
 	
@@ -34,6 +32,19 @@ public class ReqJobService {
 
 	@Resource
 	ReqBatchHistoryRepository reqBatchHistoryRepository;
+
+	ReqAccountService reqAccountService;
+
+	public ReqJobService() {
+		ReqBatchRepository requestInfoRepository = getMapper(ReqBatchRepository.class);
+		this.reqBatchHistoryRepository = getMapper(ReqBatchHistoryRepository.class);
+		this.mapper = (requestInfoRepository);
+
+		this.requestInfoService = new ReqInfoServiceImpl();
+		this.reqBatchService = new ReqBatchServiceImpl();
+		this.reqBatchHistoryService = new ReqBatchHistoryServiceImpl();
+		this.reqAccountService = new ReqAccountServiceImpl();
+	}
 
 
 
@@ -56,8 +67,11 @@ public class ReqJobService {
 
 
 		//split batch to tasks
-		ReqGroup reqGroup = batch.getReqGroup();
-		List<ReqInfo> ll = requestInfoService.listRequestInfoByReqGroup(reqGroup);
+		Long reqGroupId = batch.getGroupId();
+		if(reqGroupId == null) {
+			return;
+		}
+		List<ReqInfo> ll = requestInfoService.listRequestInfoByReqGroup(reqGroupId);
 		ReqBatchHistory.Statuts statuts = ReqBatchHistory.Statuts.PROCESSING;
 
 		reqBatchHistory.setTotal(ll.size());
@@ -78,13 +92,19 @@ public class ReqJobService {
 				statuts = ReqBatchHistory.Statuts.CANCELLED;
 				break;
 			}
-			ri = requestInfoService.detail(ri.getId(), batch.getCreatedBy());
-			UnirestRes<String> res = requestInfoService.send(ri, batch.getCreatedBy(),
+			ReqAccount account = reqAccountService.findOne(batch.getCreatedById());
+			ri = requestInfoService.detail(ri.getId(), account);
+			UnirestRes<String> res = requestInfoService.send(ri, account,
 					batchHistoryId, null);
 			if(res.getTestSuccess() == null || res.getTestSuccess()) {
 				reqBatchHistory.setSuccessNum(reqBatchHistory.getSuccessNum() + 1);
 			}
-			reqBatchHistoryService.save(reqBatchHistory );
+
+			if(reqBatchHistory.getBatchHistoryId() ==null) {
+				reqBatchHistoryService.save(reqBatchHistory );
+			}else {
+				reqBatchHistoryService.update(reqBatchHistory );
+			}
 		}
 		reqBatchHistory.setCostTime(System.currentTimeMillis() -t);
 

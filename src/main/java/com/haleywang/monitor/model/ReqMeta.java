@@ -44,6 +44,7 @@ public class ReqMeta {
 	}
 
 	@Lob
+	@ColumnType(jdbcType = JdbcType.CLOB)
 	private String data;
 
 	public Long getMetaId() {

@@ -1,5 +1,6 @@
 package com.haleywang.db;
 
+import com.google.common.base.Splitter;
 import com.haleywang.db.mapper.Sort;
 import com.haleywang.monitor.dao.*;
 import com.haleywang.monitor.model.ReqAccount;
@@ -22,6 +23,9 @@ import tk.mybatis.mapper.session.Configuration;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,6 +43,8 @@ public class DBUtils {
 
             synchronized (DBUtils.class) {
                 if (sqlSessionFactory == null) {
+                    //it is a bad practice to use multiple connections when connecting to SQLite
+                    //change to h2 db
 
 
                     String path = PathUtils.getRoot();
@@ -46,11 +52,19 @@ public class DBUtils {
                     path = path.replace("target/", "");
                     System.out.println(path);
 
+                    /*
                     String driver = "org.sqlite.JDBC";
                     String url = "jdbc:sqlite:file:{root}/data/dump.sqlite";
                     url = url.replace("{root}", path);
                     String username = null;
                     String password = null;
+                    */
+                    String driver = "org.h2.Driver";
+                    String url = "jdbc:h2:file:{root}/data1/h2db;AUTO_SERVER=TRUE;MODE=MySQL;AUTO_RECONNECT=TRUE;DB_CLOSE_DELAY=-1";
+                    url = url.replace("{root}", path);
+                    String username = null;
+                    String password = null;
+
 
                     DataSource dataSource = new PooledDataSource(driver, url, username, password);
                     TransactionFactory transactionFactory = new JdbcTransactionFactory();
@@ -78,7 +92,7 @@ public class DBUtils {
         }
     }
 
-    private static Class<?>[] getAllMapperClasses() {
+    static Class<?>[] getAllMapperClasses() {
         return new Class<?>[]{
                 BlogMapper.class,
                 ReqSettingRepository.class,
@@ -92,6 +106,37 @@ public class DBUtils {
                 ReqTaskHistoryRepository.class,
                 ReqTaskHistoryMetaRepository.class
         };
+    }
+
+    public static void doInitSql(SqlSession session) throws IOException {
+        Class<?>[] types = DBUtils.getAllMapperClasses();
+        for (Class<?> type : types) {
+            String sqls = SqlHelper.getMapperSql(session, type, "createTableSql");
+
+
+            List<String> sqlList = Splitter.on(";").omitEmptyStrings().trimResults().splitToList(sqls);
+
+            for (String sql : sqlList) {
+                sql += ";";
+                System.out.println(sql);
+                Connection con = session.getConnection();
+
+                try {
+                    Statement sm = con.createStatement();
+                    sm.execute(sql);
+                    con.commit();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+        }
+
+
+        System.out.println("init_sql >>>>>>>  ");
     }
 
 

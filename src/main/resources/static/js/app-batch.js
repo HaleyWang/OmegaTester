@@ -194,7 +194,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 		console.log(batchHistoryId);
 		
 		
-		$http.get("/v1/req/history/list?batchHistoryId=" + batchHistoryId).success(function(res) {
+		$http.get("/v1/reqHistory/list?batchHistoryId=" + batchHistoryId).success(function(res) {
 			console.log(res);
 			$scope.reqHistoryList = res.data;
 		});
@@ -209,7 +209,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 		console.log(batchHistoryId);
 		
 		
-		$http.get("/v1/req/history/list?batchHistoryId=" + batchHistoryId).success(function(res) {
+		$http.get("/v1/reqHistory/list?batchHistoryId=" + batchHistoryId).success(function(res) {
 			console.log(res);
 			var result = res.data;
 			var errorResults = [];
@@ -231,7 +231,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 	$scope.fectReqHistoryDetail =  function(reqHistory) {
 	    var id = reqHistory.historyId;
 	    reqHistory.req.showDetail = !reqHistory.req.showDetail;
-        $http.get("/v1/req/history/detail?id=" +id).success(function(res) {
+        $http.get("/v1/reqHistory/detail?id=" +id).success(function(res) {
             console.log(res);
 
             reqHistory.req.meta = res.data.req.meta;

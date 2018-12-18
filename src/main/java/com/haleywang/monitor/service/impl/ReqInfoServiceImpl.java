@@ -279,8 +279,10 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 	public UnirestRes<String> send(ReqInfo ri, ReqAccount currentAccout,
 								   Long batchHistoryId, ReqSetting envString) throws UnirestException, MalformedURLException {
 
-		if(envString == null) {
-			envString = reqSettingService.findByTypeAndOnwerAndCurrent(ReqSetting.SettingType.ENV, currentAccout.getAccountId(), 1);
+		if(envString == null ) {
+			if( currentAccout != null) {
+				envString = reqSettingService.findByTypeAndOnwerAndCurrent(ReqSetting.SettingType.ENV, currentAccout.getAccountId(), 1);
+			}
 		}
 
 		String preReqResultStr =  runPreRequestScript(ri, envString);
@@ -326,7 +328,14 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
     private void removeOldHistory(ReqInfo ri, ReqAccount currentAccout, HisType hisType) {
         int max = 100;
 
-        List<ReqTaskHistory> hList = reqTaskHistoryRepository.findByCreatedByIdAndHisType(currentAccout.getAccountId(), ri.getId(), hisType);
+		Example reqTaskHistoryExample = new Example(ReqTaskHistory.class);
+		reqTaskHistoryExample.createCriteria().andEqualTo("createdById", currentAccout.getAccountId())
+		.andEqualTo("hisType", hisType);
+		//reqTaskHistoryExample.setOrderByClause("task_history_id asc");
+		reqTaskHistoryExample.orderBy("taskHistoryId").asc();
+		List<ReqTaskHistory> hList = reqTaskHistoryRepository.selectByExample(reqTaskHistoryExample);
+
+
         int neesDeleteSize = CollectionUtils.size(hList) - max;
 
 
@@ -338,14 +347,14 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
 
             Example reqTaskHistoryMetaExample = new Example(ReqTaskHistoryMeta.class);
-            reqTaskHistoryMetaExample.createCriteria().andEqualTo("historyId", rt.getHistoryId());
+            reqTaskHistoryMetaExample.createCriteria().andEqualTo("taskHistoryId", rt.getTaskHistoryId());
 
             List<ReqTaskHistoryMeta> hms = reqTaskHistoryMetaRepository.selectByExample(reqTaskHistoryMetaExample);
             try {
                 for (ReqTaskHistoryMeta rthm : hms) {
                     reqTaskHistoryMetaRepository.deleteByPrimaryKey(rthm.getId());
                 }
-                reqTaskHistoryRepository.deleteByPrimaryKey(rt.getHistoryId());
+                reqTaskHistoryRepository.deleteByPrimaryKey(rt.getTaskHistoryId());
 
             } catch (Exception e) {
 				throw new ReqException(e.getMessage(), e);
@@ -408,7 +417,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
 
 		Example example1 = new Example(ReqTaskHistory.class);
-		example1.setOrderByClause(" history_id desc ");
+		example1.orderBy("taskHistoryId").desc();
 
 		example1.createCriteria().andEqualTo("createdById", currentAccout.getAccountId())
 				.andEqualTo("hisType", hisType.name().toUpperCase());
@@ -434,7 +443,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		ReqTaskHistory h = reqTaskHistoryRepository.selectByPrimaryKey(id);
 		// todo
 		Example e = new Example(ReqTaskHistoryMeta.class);
-		e.createCriteria().andEqualTo("historyId", h.getHistoryId());
+		e.createCriteria().andEqualTo("taskHistoryId", h.getTaskHistoryId());
 		List<ReqTaskHistoryMeta> hms = reqTaskHistoryMetaRepository.selectByExample(e);
 		if(!CollectionUtils.isEmpty(hms)) {
 			h.setReqTaskHistoryMeta(hms.get(0));
@@ -452,7 +461,12 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         return requestInfoRepository.selectByExample(reqInfoExample);
 	}
 
-	@Override
+
+	public List<ReqInfo> listRequestInfoByReqGroup(Long reqGroupId) {
+		return listRequestInfoByReqGroup(reqGroupService.findOne(reqGroupId));
+	}
+
+		@Override
 	public List<ReqInfo> listRequestInfoByReqGroup(ReqGroup reqGroup) {
 
         Example reqInfoExample = new Example(ReqInfo.class);
@@ -460,7 +474,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         reqInfoExample.setOrderByClause(" name desc ");
 
 
-        return  requestInfoRepository.selectByExample(new ReqGroup[]{reqGroup});
+        return  requestInfoRepository.selectByExample(reqInfoExample);
 	}
 
 	@Override
@@ -468,8 +482,10 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		//Sort sort =  Sort.of( "historyId", false);
 		//Pageable pageable = new PageRequest(0, HISTORY_LIMIT_SIZE, sort);
 			//reqTaskHistoryRepository.findByCreatedByIdAndHisType(accountId, hisType);
-		
-		return reqTaskHistoryRepository.findByBatchHistoryId(batchHistoryId);
+		Example e = new Example(ReqTaskHistory.class);
+		e.createCriteria().andEqualTo("batchHistoryId", batchHistoryId);
+
+		return reqTaskHistoryRepository.selectByExample(e);
 	}
 	
 	

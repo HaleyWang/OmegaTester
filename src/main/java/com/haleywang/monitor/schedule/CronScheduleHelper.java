@@ -4,19 +4,16 @@ import com.haleywang.db.DBUtils;
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.model.ReqBatch;
 import com.haleywang.monitor.service.ReqBatchService;
-import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
-import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;
 import com.haleywang.monitor.service.impl.ReqJobService;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.quartz.CronExpression;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +21,7 @@ import java.util.List;
  */
 public class CronScheduleHelper {
 
-
+    private static final Logger LOG = LoggerFactory.getLogger(CronScheduleHelper.class);
 
 
     public static void putSchedule(Job job)  {
@@ -56,7 +53,10 @@ public class CronScheduleHelper {
         List<ReqBatch> list = new ArrayList<>();
         try {
             ReqBatchService reqBatchService = new ReqBatchServiceImpl();
-            list.addAll(reqBatchService.findAll());
+
+            //reqBatchService.initDb();
+
+            list.addAll(reqBatchService.findAll(null));
         }finally {
             DBUtils.closeSession(true);
         }
@@ -74,11 +74,17 @@ public class CronScheduleHelper {
                         ReqJobService.runBatch(reqBatch);
 
                     } catch (MalformedURLException e) {
+                        LOG.error(e.getMessage(), e);
                         throw new ReqException(e.getMessage(), e);
 
                     } catch (UnirestException e) {
+                        LOG.error(e.getMessage(), e);
+
                         throw new ReqException(e.getMessage(), e);
 
+                    } catch (Exception e) {
+                        LOG.error(e.getMessage(), e);
+                        throw new ReqException(e.getMessage(), e);
 
                     }finally {
                         DBUtils.closeSession(true);

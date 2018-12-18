@@ -1,0 +1,1201 @@
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE BLOG (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE BLOG ADD NAME TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table blog (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE blog ADD name TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_SETTING (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_SETTING ADD NAME TEXT;
+ALTER TABLE REQ_SETTING ADD ONWER INTEGER;
+ALTER TABLE REQ_SETTING ADD CURRENT TEXT;
+ALTER TABLE REQ_SETTING ADD ONWER_TYPE TEXT;
+ALTER TABLE REQ_SETTING ADD CONTENT TEXT;
+ALTER TABLE REQ_SETTING ADD TYPE TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_setting (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_setting ADD name TEXT;
+ALTER TABLE req_setting ADD onwer INTEGER;
+ALTER TABLE req_setting ADD current TEXT;
+ALTER TABLE req_setting ADD onwer_type TEXT;
+ALTER TABLE req_setting ADD content TEXT;
+ALTER TABLE req_setting ADD type TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_ACCOUNT (ACCOUNT_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_ACCOUNT ADD NAME TEXT;
+ALTER TABLE REQ_ACCOUNT ADD EMAIL TEXT;
+ALTER TABLE REQ_ACCOUNT ADD PASSWORD TEXT;
+ALTER TABLE REQ_ACCOUNT ADD AKEY TEXT;
+ALTER TABLE REQ_ACCOUNT ADD TOKEN TEXT;
+ALTER TABLE REQ_ACCOUNT ADD TYPE TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_account (account_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_account ADD name TEXT;
+ALTER TABLE req_account ADD email TEXT;
+ALTER TABLE req_account ADD password TEXT;
+ALTER TABLE req_account ADD akey TEXT;
+ALTER TABLE req_account ADD token TEXT;
+ALTER TABLE req_account ADD type TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH_HISTORY (BATCH_HISTORY_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_BATCH_HISTORY ADD BATCH_ID INTEGER;
+ALTER TABLE REQ_BATCH_HISTORY ADD NAME TEXT;
+ALTER TABLE REQ_BATCH_HISTORY ADD BATCH_START_DATE TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch_history (batch_history_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_batch_history ADD batch_id INTEGER;
+ALTER TABLE req_batch_history ADD name TEXT;
+ALTER TABLE req_batch_history ADD batch_start_date TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH (BATCH_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_BATCH ADD SCHEDULE_ID INTEGER;
+ALTER TABLE REQ_BATCH ADD ENV_SETTING_ID INTEGER;
+ALTER TABLE REQ_BATCH ADD GROUP_ID INTEGER;
+ALTER TABLE REQ_BATCH ADD CREATED_BY_ID INTEGER;
+ALTER TABLE REQ_BATCH ADD MODIFIED_BY_ID INTEGER;
+ALTER TABLE REQ_BATCH ADD NAME TEXT;
+ALTER TABLE REQ_BATCH ADD ENABLE TEXT;
+ALTER TABLE REQ_BATCH ADD TIME_EXPRESSION TEXT;
+ALTER TABLE REQ_BATCH ADD STATUTS TEXT;
+ALTER TABLE REQ_BATCH ADD CREATED_ON TEXT;
+ALTER TABLE REQ_BATCH ADD UPDATED_ON TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch (batch_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_batch ADD schedule_id INTEGER;
+ALTER TABLE req_batch ADD env_setting_id INTEGER;
+ALTER TABLE req_batch ADD group_id INTEGER;
+ALTER TABLE req_batch ADD created_by_id INTEGER;
+ALTER TABLE req_batch ADD modified_by_id INTEGER;
+ALTER TABLE req_batch ADD name TEXT;
+ALTER TABLE req_batch ADD enable TEXT;
+ALTER TABLE req_batch ADD time_expression TEXT;
+ALTER TABLE req_batch ADD statuts TEXT;
+ALTER TABLE req_batch ADD created_on TEXT;
+ALTER TABLE req_batch ADD updated_on TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_GROUP (GROUP_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_GROUP ADD PARENT_ID INTEGER;
+ALTER TABLE REQ_GROUP ADD CREATED_BY_ID INTEGER;
+ALTER TABLE REQ_GROUP ADD MODIFIED_BY_ID INTEGER;
+ALTER TABLE REQ_GROUP ADD NAME TEXT;
+ALTER TABLE REQ_GROUP ADD SORT TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_group (group_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_group ADD parent_id INTEGER;
+ALTER TABLE req_group ADD created_by_id INTEGER;
+ALTER TABLE req_group ADD modified_by_id INTEGER;
+ALTER TABLE req_group ADD name TEXT;
+ALTER TABLE req_group ADD sort TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_INFO (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_INFO ADD NAME TEXT;
+ALTER TABLE REQ_INFO ADD SWAGGER_ID TEXT;
+ALTER TABLE REQ_INFO ADD URL TEXT;
+ALTER TABLE REQ_INFO ADD METHOD TEXT;
+ALTER TABLE REQ_INFO ADD GROUP_ID INTEGER;
+ALTER TABLE REQ_INFO ADD SORT TEXT;
+ALTER TABLE REQ_INFO ADD CREATED_ON TEXT;
+ALTER TABLE REQ_INFO ADD UPDATED_ON TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_info (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_info ADD name TEXT;
+ALTER TABLE req_info ADD swagger_id TEXT;
+ALTER TABLE req_info ADD url TEXT;
+ALTER TABLE req_info ADD method TEXT;
+ALTER TABLE req_info ADD group_id INTEGER;
+ALTER TABLE req_info ADD sort TEXT;
+ALTER TABLE req_info ADD created_on TEXT;
+ALTER TABLE req_info ADD updated_on TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_META (META_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_META ADD REQ_ID INTEGER;
+ALTER TABLE REQ_META ADD DATA_TYPE TEXT;
+ALTER TABLE REQ_META ADD DATA TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_meta (meta_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_meta ADD req_id INTEGER;
+ALTER TABLE req_meta ADD data_type TEXT;
+ALTER TABLE req_meta ADD data TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_RELATION (RELATION_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_RELATION ADD OBJECT_ID INTEGER;
+ALTER TABLE REQ_RELATION ADD TYPE TEXT;
+ALTER TABLE REQ_RELATION ADD PERMISSION TEXT;
+ALTER TABLE REQ_RELATION ADD ACCOUNT_ID INTEGER; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_relation (relation_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_relation ADD object_id INTEGER;
+ALTER TABLE req_relation ADD type TEXT;
+ALTER TABLE req_relation ADD permission TEXT;
+ALTER TABLE req_relation ADD account_id INTEGER; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY (TASK_HISTORY_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_TASK_HISTORY ADD BATCH_HISTORY_ID INTEGER;
+ALTER TABLE REQ_TASK_HISTORY ADD REQ_ID INTEGER;
+ALTER TABLE REQ_TASK_HISTORY ADD HIS_TYPE TEXT;
+ALTER TABLE REQ_TASK_HISTORY ADD CREATED_BY_ID INTEGER;
+ALTER TABLE REQ_TASK_HISTORY ADD CREATED_ON TEXT;
+ALTER TABLE REQ_TASK_HISTORY ADD TEST_STATUTS TEXT;
+ALTER TABLE REQ_TASK_HISTORY ADD STATUTS TEXT;
+ALTER TABLE REQ_TASK_HISTORY ADD STATUT_CODE TEXT;
+ALTER TABLE REQ_TASK_HISTORY ADD TEST_SUCCESS TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history (task_history_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_task_history ADD batch_history_id INTEGER;
+ALTER TABLE req_task_history ADD req_id INTEGER;
+ALTER TABLE req_task_history ADD his_type TEXT;
+ALTER TABLE req_task_history ADD created_by_id INTEGER;
+ALTER TABLE req_task_history ADD created_on TEXT;
+ALTER TABLE req_task_history ADD test_statuts TEXT;
+ALTER TABLE req_task_history ADD statuts TEXT;
+ALTER TABLE req_task_history ADD statut_code TEXT;
+ALTER TABLE req_task_history ADD test_success TEXT; [42001-197]
+2018-12-18 07:56:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY_META (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  );
+ALTER TABLE REQ_TASK_HISTORY_META ADD TASK_HISTORY_ID INTEGER;
+ALTER TABLE REQ_TASK_HISTORY_META ADD CONTENT TEXT;
+ALTER TABLE REQ_TASK_HISTORY_META ADD TEST_REPORT TEXT; "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history_meta (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  );
+ALTER TABLE req_task_history_meta ADD task_history_id INTEGER;
+ALTER TABLE req_task_history_meta ADD content TEXT;
+ALTER TABLE req_task_history_meta ADD test_report TEXT; [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE BLOG (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table blog (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "BLOG" not found; SQL statement:
+ALTER TABLE blog ADD name TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_SETTING (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_setting (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD name TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD current TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer_type TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD content TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD type TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_ACCOUNT (ACCOUNT_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_account (account_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD name TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD email TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD password TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD akey TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD token TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD type TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH_HISTORY (BATCH_HISTORY_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch_history (batch_history_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD name TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_start_date TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH (BATCH_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch (batch_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD schedule_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD env_setting_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD group_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD name TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD enable TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD time_expression TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD statuts TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_on TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD updated_on TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_GROUP (GROUP_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_group (group_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD parent_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD name TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD sort TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_INFO (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_info (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD name TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD swagger_id TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD url TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD method TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD group_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD sort TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD created_on TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD updated_on TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_META (META_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_meta (meta_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD req_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data_type TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_RELATION (RELATION_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_relation (relation_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD object_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD type TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD permission TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD account_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY (TASK_HISTORY_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history (task_history_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD batch_history_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD req_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD his_type TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_on TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_statuts TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statuts TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statut_code TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_success TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY_META (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history_meta (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD task_history_id INTEGER; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD content TEXT; [42102-197]
+2018-12-18 20:02:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD test_report TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE BLOG (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table blog (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "BLOG" not found; SQL statement:
+ALTER TABLE blog ADD name TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_SETTING (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_setting (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD name TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD current TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer_type TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD content TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD type TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_ACCOUNT (ACCOUNT_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_account (account_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD name TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD email TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD password TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD akey TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD token TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD type TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH_HISTORY (BATCH_HISTORY_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch_history (batch_history_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD name TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_start_date TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH (BATCH_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch (batch_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD schedule_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD env_setting_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD group_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD name TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD enable TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD time_expression TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD statuts TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_on TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD updated_on TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_GROUP (GROUP_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_group (group_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD parent_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD name TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD sort TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_INFO (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_info (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD name TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD swagger_id TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD url TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD method TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD group_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD sort TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD created_on TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD updated_on TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_META (META_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_meta (meta_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD req_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data_type TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_RELATION (RELATION_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_relation (relation_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD object_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD type TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD permission TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD account_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY (TASK_HISTORY_ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history (task_history_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD batch_history_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD req_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD his_type TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_on TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_statuts TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statuts TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statut_code TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_success TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY_META (ID INTEGER PRIMARY KEY AUTOINCREMENT[*] NOT NULL UNIQUE  ); "; expected "HASH, AUTO_INCREMENT, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history_meta (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD task_history_id INTEGER; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD content TEXT; [42102-197]
+2018-12-18 20:07:14 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD test_report TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE BLOG (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table blog (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "BLOG" not found; SQL statement:
+ALTER TABLE blog ADD name TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_SETTING (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_setting (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD name TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD current TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer_type TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD content TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD type TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_ACCOUNT (ACCOUNT_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_account (account_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD name TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD email TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD password TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD akey TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD token TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD type TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH_HISTORY (BATCH_HISTORY_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch_history (batch_history_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD name TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_start_date TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH (BATCH_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch (batch_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD schedule_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD env_setting_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD group_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD name TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD enable TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD time_expression TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD statuts TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_on TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD updated_on TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_GROUP (GROUP_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_group (group_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD parent_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD name TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD sort TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_INFO (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_info (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD name TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD swagger_id TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD url TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD method TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD group_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD sort TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD created_on TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD updated_on TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_META (META_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_meta (meta_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD req_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data_type TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_RELATION (RELATION_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_relation (relation_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD object_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD type TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD permission TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD account_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY (TASK_HISTORY_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history (task_history_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD batch_history_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD req_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD his_type TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_on TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_statuts TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statuts TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statut_code TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_success TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY_META (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history_meta (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD task_history_id INTEGER; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD content TEXT; [42102-197]
+2018-12-18 20:22:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD test_report TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE BLOG (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table blog (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "BLOG" not found; SQL statement:
+ALTER TABLE blog ADD name TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_SETTING (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_setting (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD name TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD current TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer_type TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD content TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD type TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_ACCOUNT (ACCOUNT_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_account (account_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD name TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD email TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD password TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD akey TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD token TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD type TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH_HISTORY (BATCH_HISTORY_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch_history (batch_history_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD name TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_start_date TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH (BATCH_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch (batch_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD schedule_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD env_setting_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD group_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD name TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD enable TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD time_expression TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD statuts TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_on TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD updated_on TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_GROUP (GROUP_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_group (group_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD parent_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD name TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD sort TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_INFO (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_info (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD name TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD swagger_id TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD url TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD method TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD group_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD sort TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD created_on TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD updated_on TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_META (META_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_meta (meta_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD req_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data_type TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_RELATION (RELATION_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_relation (relation_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD object_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD type TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD permission TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD account_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY (TASK_HISTORY_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history (task_history_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD batch_history_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD req_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD his_type TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_on TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_statuts TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statuts TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statut_code TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_success TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY_META (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history_meta (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD task_history_id INTEGER; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD content TEXT; [42102-197]
+2018-12-18 20:25:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD test_report TEXT; [42102-197]
+2018-12-18 20:25:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE BLOG (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table blog (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "BLOG" not found; SQL statement:
+ALTER TABLE blog ADD name TEXT; [42102-197]
+2018-12-18 20:25:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_SETTING (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_setting (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:25:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD name TEXT; [42102-197]
+2018-12-18 20:25:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD current TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD onwer_type TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD content TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_SETTING" not found; SQL statement:
+ALTER TABLE req_setting ADD type TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_ACCOUNT (ACCOUNT_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_account (account_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD name TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD email TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD password TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD akey TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD token TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_ACCOUNT" not found; SQL statement:
+ALTER TABLE req_account ADD type TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH_HISTORY (BATCH_HISTORY_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch_history (batch_history_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD name TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH_HISTORY" not found; SQL statement:
+ALTER TABLE req_batch_history ADD batch_start_date TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_BATCH (BATCH_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_batch (batch_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD schedule_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD env_setting_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD group_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD name TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD enable TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD time_expression TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD statuts TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD created_on TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
+ALTER TABLE req_batch ADD updated_on TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_GROUP (GROUP_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_group (group_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD parent_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD modified_by_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD name TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_GROUP" not found; SQL statement:
+ALTER TABLE req_group ADD sort TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_INFO (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_info (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD name TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD swagger_id TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD url TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD method TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD group_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD sort TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD created_on TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_INFO" not found; SQL statement:
+ALTER TABLE req_info ADD updated_on TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_META (META_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_meta (meta_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD req_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data_type TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_META" not found; SQL statement:
+ALTER TABLE req_meta ADD data TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_RELATION (RELATION_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_relation (relation_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD object_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD type TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD permission TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_RELATION" not found; SQL statement:
+ALTER TABLE req_relation ADD account_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY (TASK_HISTORY_ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history (task_history_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD batch_history_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD req_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD his_type TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_by_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD created_on TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_statuts TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statuts TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD statut_code TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY" not found; SQL statement:
+ALTER TABLE req_task_history ADD test_success TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE TABLE REQ_TASK_HISTORY_META (ID INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE[*]  ); "; expected "CHECK, REFERENCES, ,, )"; SQL statement:
+create table req_task_history_meta (id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL UNIQUE  ); [42001-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD task_history_id INTEGER; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD content TEXT; [42102-197]
+2018-12-18 20:26:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "REQ_TASK_HISTORY_META" not found; SQL statement:
+ALTER TABLE req_task_history_meta ADD test_report TEXT; [42102-197]

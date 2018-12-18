@@ -12,20 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 @Entity
@@ -71,7 +61,10 @@ public class ReqInfo implements Serializable, ReqGroupItem {
     private String name;
 
 	private String swaggerId;
-    
+
+
+	@ColumnType(jdbcType = JdbcType.VARCHAR)
+	@Column(length = 2048)
     private String url;
 
 	@JsonDeserialize(using = CustomDateDeserializer.class)

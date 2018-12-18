@@ -7,7 +7,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         CronScheduleHelper.start();
-        new Server().start(args);
+        Server.start(args);
     }
 
 

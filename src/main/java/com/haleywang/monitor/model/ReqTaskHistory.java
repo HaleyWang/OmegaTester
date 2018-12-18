@@ -25,7 +25,7 @@ public class ReqTaskHistory implements Serializable {
     
     @Id
 	@GeneratedValue(generator= "JDBC")
-    private Long historyId;
+    private Long taskHistoryId;
 
     private Long batchHistoryId;
 	private Long reqId;

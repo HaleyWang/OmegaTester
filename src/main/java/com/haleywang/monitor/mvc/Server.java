@@ -18,9 +18,9 @@ public class Server {
     private static final Logger LOG = LoggerFactory.getLogger(Server.class);
 
     private static final int DEFAULT_PORT = 8000;
-    int nThreads = 500;
+    static int nThreads = 500;
 
-    public void start(String[] args) throws Exception {
+    public static void start(String[] args) throws Exception {
         String args0 = (args != null && args.length >=1) ? args[0] : null ;
         int port = NumberUtils.toInt(args0, DEFAULT_PORT);
 

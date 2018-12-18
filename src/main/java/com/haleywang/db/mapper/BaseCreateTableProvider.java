@@ -1,5 +1,7 @@
 package com.haleywang.db.mapper;
 
+import com.haleywang.monitor.utils.AnnotationUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.mapping.MappedStatement;
 import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
@@ -7,8 +9,10 @@ import tk.mybatis.mapper.mapperhelper.MapperHelper;
 import tk.mybatis.mapper.mapperhelper.MapperTemplate;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
 
+import javax.persistence.Column;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -135,7 +139,9 @@ public class BaseCreateTableProvider  extends MapperTemplate {
         int i = 0;
         int n = pks.size();
         for(EntityColumn pk : pks) {
-            sql.append(pk.getColumn()).append(" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE ");
+            //sql.append(pk.getColumn()).append(" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE ");
+            sql.append(pk.getColumn()).append(" INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ");
+
             if(i < n-1) {
                 sql.append(',');
             }
@@ -147,18 +153,40 @@ public class BaseCreateTableProvider  extends MapperTemplate {
 
 
         // alter sql
-        Map<String, String> typeMap = new HashMap<String, String>();
-        typeMap.put("java.lang.String", "TEXT");
-        typeMap.put("java.lang.Long", "INTEGER");
-        typeMap.put("java.lang.Date", "DATE");
+        Map<String, String> typeMap = new HashMap<>();
+        typeMap.put("java.lang.String", "VARCHAR");
+        typeMap.put("java.lang.Long", "BIGINT");
+        typeMap.put("java.lang.Integer", "INTEGER");
+        typeMap.put("java.util.Date", "TIMESTAMP");
         for(EntityColumn columnObj : columns) {
             if(columnObj.isId()) {
                 continue;
             }
+            //@Column(length=4000)
+
+            Column columnLengthAnn = columnObj.getEntityField().getAnnotation(Column.class);
+            Integer columnLength = (Integer) AnnotationUtils.getValue(columnLengthAnn, "length");
+            String jdbcType = Optional.ofNullable(columnObj.getJdbcType()).map(o -> o.name()).orElse(null);
+            String colummTyle = typeMap.getOrDefault(columnObj.getJavaType().getName(), "TEXT");
+            if(StringUtils.isNotEmpty(jdbcType)) {
+                colummTyle = jdbcType;
+                if(columnLength != null) {
+                    colummTyle += "("+columnLength+")";
+                }
+            }
+            if(colummTyle.endsWith("VARCHAR")) {
+                colummTyle +="(50)";
+            }
+
+            if(columnObj.getColumn().contains("creat")) {
+                System.out.println(123);
+            }
+
+            //AnnotationUtils.getAnnotation()
             sql.append("ALTER TABLE ").append(tName).append(" ADD ")
                     .append(columnObj.getColumn())
                     .append(" ")
-                    .append(typeMap.getOrDefault(columnObj.getJavaType().getName(), "TEXT"))
+                    .append(colummTyle)
                     .append(";")
             .append("\n");
 

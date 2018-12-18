@@ -2,6 +2,7 @@ package com.haleywang.monitor.service.impl;
 
 import com.haleywang.db.DBUtils;
 import com.haleywang.db.mapper.MyMapper;
+import com.haleywang.monitor.model.ReqAccount;
 import com.haleywang.monitor.service.BaseService;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -40,7 +41,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public List<T> findAll() {
+	public List<T> findAll(ReqAccount reqAccount) {
 		return mapper.selectAll();
 	}
 

@@ -19,7 +19,7 @@ public interface ReqInfoRepository extends MyMapper<ReqInfo> {
             @Result(column="url",property="url"),
             @Result(column="name",property="name")
     })
-    @Select("select * from req_info where id in (select req_id from req_task_history WHERE created_by_id = #{createdById} and his_type = #{hisType} order by history_id desc limit 0, 1000) ")
+    @Select("select * from req_info where id in (select req_id from req_task_history WHERE created_by_id = #{createdById} and his_type = #{hisType} order by task_history_id desc limit 0, 1000) ")
     List<ReqInfo> findHistoryReqInfo(@Param("createdById") Long createdById, @Param("hisType") String hisType);
 
 }

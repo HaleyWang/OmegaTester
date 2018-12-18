@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -92,6 +93,27 @@ public class ReqCtrl extends BaseCtrl {
     }
 
     public String version() {
+        ResultStatus<String> res = new ResultStatus<>();
+        return JsonUtils.toJson(res.of(Msg.OK, "1"));
+    }
+
+    public String version2() {
+        try {
+            TimeUnit.SECONDS.sleep(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ResultStatus<String> res = new ResultStatus<>();
+        return JsonUtils.toJson(res.of(Msg.OK, "1"));
+    }
+
+    public String version3() {
+        try {
+            TimeUnit.SECONDS.sleep(30);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ResultStatus<String> res = new ResultStatus<>();
         return JsonUtils.toJson(res.of(Msg.OK, "1"));
     }

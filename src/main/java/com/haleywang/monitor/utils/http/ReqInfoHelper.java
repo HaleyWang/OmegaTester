@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicates;
 import com.haleywang.monitor.model.ReqInfo;
 import com.haleywang.monitor.model.ReqMeta;
 import com.haleywang.monitor.model.ReqMeta.DataType;
@@ -27,15 +29,20 @@ public class ReqInfoHelper {
 	public static HttpRequestItem parse(ReqInfo ri, ReqSetting envStrring, String preReqResultStr)
 			throws MalformedURLException {
 
-		String envJson = envStrring != null ? envStrring.getContent() : "";
 		Map<String, String>  meta = ri.getMeta();
-
 		String request = meta.get("request");
+		Preconditions.checkNotNull(request, "request should not be null, reqInfo id:" + ri.getId());
+
+
+		String envJson = envStrring != null ? envStrring.getContent() : "";
+
 
 		return getHttpRequestItem(request, envJson, preReqResultStr);
 	}
 
 	public static HttpRequestItem getHttpRequestItem(String request, String envJson, String preReqResultStr) throws MalformedURLException {
+
+		Preconditions.checkNotNull(request, "request should not be null");
 
 		HashMap<String, Objects> map = new HashMap<>();
 		if(StringUtils.isNotBlank(envJson)) {
@@ -68,6 +75,9 @@ public class ReqInfoHelper {
 
 		HttpRequestItem reqItem = new HttpRequestItem();
 		JSONObject reqJsonObject = new JSONObject(request);
+
+		Preconditions.checkArgument(StringUtils.isNotEmpty(reqJsonObject.getString("url")), "request url should not be null");
+
 
 		String method = StringUtils.defaultIfBlank(ObjectUtils.toString(JsonUtils.val(reqJsonObject, "method")), "GET");
 		reqItem.setHttpMethod(HttpMethod.valueOf(StringUtils.upperCase(method.toUpperCase())));

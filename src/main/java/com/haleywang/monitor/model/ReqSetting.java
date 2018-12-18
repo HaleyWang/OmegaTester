@@ -31,7 +31,8 @@ public class ReqSetting implements Serializable {
     
     private String onwerType;
 
-    private String content;
+	@ColumnType(jdbcType = JdbcType.CLOB)
+	private String content;
 
 	@ColumnType(
 			column = "type",

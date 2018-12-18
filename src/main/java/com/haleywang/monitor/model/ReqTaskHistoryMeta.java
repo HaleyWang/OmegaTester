@@ -6,7 +6,11 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import org.apache.ibatis.type.JdbcType;
+import tk.mybatis.mapper.annotation.ColumnType;
 
+@Data
 @Entity
 public class ReqTaskHistoryMeta implements Serializable {
 
@@ -19,60 +23,28 @@ public class ReqTaskHistoryMeta implements Serializable {
     @Id
 	@GeneratedValue(generator= "JDBC")
     private Long id;
-    private Long historyId;
+    private Long taskHistoryId;
     
 	@Transient
     private ReqTaskHistory reqTaskHistory;
 	
 
 	@Lob
-    private String content;
-    
+	@ColumnType(jdbcType = JdbcType.CLOB)
+	private String content;
+
+	@ColumnType(jdbcType = JdbcType.VARCHAR)
 	@Column(length=4000)
     private String testReport;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public ReqTaskHistory getReqTaskHistory() {
-		return reqTaskHistory;
-	}
 
 	public void setReqTaskHistory(ReqTaskHistory reqTaskHistory) {
 
 		if(reqTaskHistory != null) {
-			this.historyId = reqTaskHistory.getHistoryId();
+			this.taskHistoryId = reqTaskHistory.getTaskHistoryId();
 		}
 		this.reqTaskHistory = reqTaskHistory;
 	}
 
-	public String getContent() {
-		return content;
-	}
 
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getTestReport() {
-		return testReport;
-	}
-
-	public void setTestReport(String testReport) {
-		this.testReport = testReport;
-	}
-
-
-	public Long getHistoryId() {
-		return historyId;
-	}
-
-	public void setHistoryId(Long historyId) {
-		this.historyId = historyId;
-	}
 }
