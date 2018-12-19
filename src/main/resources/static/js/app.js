@@ -446,7 +446,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	$scope.reqDelete = function(node) {
 		log("===", node);
 		var url = '/v1/req/delete';
-		var isReqGroup = node.groupId == node.id;
+		var isReqGroup = node.group;
         if(isReqGroup) {
             url = '/v1/req/group/delete'
         }
@@ -494,7 +494,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 
 
-		var isReqGroup = node.groupId == node.id;
+		var isReqGroup = node.group;
 		if(isReqGroup) {
 			$scope.groupEditObj = {groupId: node.groupId, name: node.name, obj: node};
 			return ;
