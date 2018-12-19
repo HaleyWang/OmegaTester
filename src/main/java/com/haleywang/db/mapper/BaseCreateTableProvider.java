@@ -178,10 +178,6 @@ public class BaseCreateTableProvider  extends MapperTemplate {
                 colummTyle +="(50)";
             }
 
-            if(columnObj.getColumn().contains("creat")) {
-                System.out.println(123);
-            }
-
             //AnnotationUtils.getAnnotation()
             sql.append("ALTER TABLE ").append(tName).append(" ADD ")
                     .append(columnObj.getColumn())
