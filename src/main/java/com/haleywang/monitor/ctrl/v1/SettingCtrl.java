@@ -32,9 +32,9 @@ public class SettingCtrl extends BaseCtrl {
             if (ri1 == null) {
                 return JsonUtils.toJson(res.of(Msg.NOT_FOUND));
             }
-            if (Objects.equals(ri1.getOnwer() , acc.getAccountId()) ) {
-                return JsonUtils.toJson(res.of(Msg.NOT_ALLOWED));
-            }
+            //if (Objects.equals(ri1.getOnwer() , acc.getAccountId()) ) {
+            //    return JsonUtils.toJson(res.of(Msg.NOT_ALLOWED));
+            //}
 
             if (ri.getId() != null) {
                 reqSettingService.update(ri);
@@ -129,7 +129,7 @@ public class SettingCtrl extends BaseCtrl {
 
         System.out.println(" ====> delete");
 
-        Long id = Long.parseLong(getBodyParamsToMap().get("id").toString());
+        Long id = Long.parseLong(getUrlParam("id"));
 
         ReqAccount acc = currentAccount();
 
