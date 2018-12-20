@@ -20,12 +20,16 @@ mvn exec:java -Dexec.args="8080"
 
 ```
 
+Run form the main method.
+Open com.haleywang.monitor.App, and run the main method.
+
 # TODO list
 ```
 1. Add test cases before pre test tab.
 2. Add requestData(urlPrams & postBody) as controller parameter.
 3. Runner page.
 4. Add test demo script.
+5. Drag request name to sort.
 
 ```
 
