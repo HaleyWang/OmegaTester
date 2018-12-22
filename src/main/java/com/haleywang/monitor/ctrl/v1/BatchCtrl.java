@@ -10,6 +10,7 @@ import com.haleywang.monitor.mvc.BaseCtrl;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,8 +37,11 @@ public class BatchCtrl extends BaseCtrl {
 
         ReqBatchService service = new ReqBatchServiceImpl();
         ReqBatch reqBatchDb =  service.findOne(reqBatch.getBatchId());
-        reqBatchDb.setEnable(reqBatch.getEnable());
-        service.update(reqBatchDb, currentAccount());
+        reqBatch.setCreatedById(reqBatchDb.getCreatedById());
+        reqBatch.setModifiedById(currentAccount().getAccountId());
+        reqBatch.setUpdatedOn(new Date());
+
+        service.update(reqBatch, currentAccount());
 
         return JsonUtils.toJson(res.of(Msg.OK));
     }

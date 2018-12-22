@@ -271,7 +271,8 @@
 													class="glyphicon glyphicon-option-horizontal"
 													aria-hidden="true"></span></a>
 												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a data-ng-click="batchDetail(batch)" href="#"><span
+													<li><a data-ng-click="batchDetail(batch)"   href="#modal-edit-batch" data-toggle="modal"
+														   data-backdrop="static" data-keyboard="true" ><span
 															class="glyphicon glyphicon-subscript" aria-hidden="true"></span>
 															Detail</a></li>
 													<li><a ng-hide="batch.enable" data-ng-click="batch.enable = true;batchUpdate(batch)" href="#"><span
@@ -543,6 +544,108 @@
 	</div>
 
 
+	<div id="modal-edit-batch" class="modal fade" data-keyboard="true"
+		 tabindex="-1" aria-hidden="true" role="dialog"
+		 aria-labelledby="editBatchModalLabel">
+
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal"
+					   id="modal-share-collection-close">x</a>
+
+					<h4 class="modal-title">Edit batch</h4>
+				</div>
+
+				<div class="modal-body">
+					<form class="form-horizontal" id="form-add-to-collection">
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="new-collection">Batch
+								name</label>
+
+							<div class="col-sm-8">
+								<input ng-model="currentEditBatch.name" type="text"
+									   class="form-control" id="new-request-name" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-4 control-label">Groups
+							</label>
+							<div class="col-sm-8">
+								<select ng-model="currentEditBatch.groupId"
+										name="select-collection" class="form-control"
+										id="select-collection1">
+
+									<option value="">Select</option>
+
+									<option ng-repeat="gr in groupList " value="{{gr.groupId}}">{{gr.name}}</option>
+
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-4 control-label">Env
+							</label>
+							<div class="col-sm-8">
+								<select ng-model="currentEditBatch.envSettingId"
+										name="select-collection" class="form-control"
+										id="select-collection">
+
+									<option value="">Select</option>
+
+									<option ng-repeat="setting in settingList " ng-show="{{setting.type == 'ENV'}}" value="{{setting.id}}">{{setting.name}}</option>
+
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="new-collection">Time
+								Expression </label>
+
+							<div class="col-sm-8">
+								<input ng-model="currentEditBatch.timeExpression" type="text"
+									   class="form-control" id="new-request-name1" />
+								<p>
+									<code>0 0/5 * * * ?</code>
+									//every 5 minutes
+								</p>
+								<p>
+									<code>0 0 8 * * ?</code>
+									//every day at 8:00
+								</p>
+							</div>
+
+						</div>
+
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="new-collection">Request
+								description</label>
+
+							<div class="col-sm-8">
+								<textarea ng-model="currentEditBatch.description"
+										  class="form-control" id="new-request-description"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<a data-dismiss="modal" class="btn btn-primary"
+					   ng-click="batchEdit()">Save</a> <a data-dismiss="modal"
+														 class="btn btn-secondary">Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<div id="modal-add-batch" class="modal fade" data-keyboard="true"
 		tabindex="-1" aria-hidden="true" role="dialog"
 		aria-labelledby="myModalLabel">
@@ -575,7 +678,7 @@
 							<label for="inputEmail3" class="col-sm-4 control-label">Groups
 							</label>
 							<div class="col-sm-8">
-								<select ng-model="newBatchObj.reqGroup.groupId"
+								<select ng-model="newBatchObj.groupId"
 									name="select-collection" class="form-control"
 									id="select-collection1">
 
@@ -597,7 +700,7 @@
 
 									<option value="">Select</option>
 
-									<option ng-repeat="setting in settingList " ng-show="{{setting.type == 'env'}}" value="{{setting.id}}">{{setting.name}}</option>
+									<option ng-repeat="setting in settingList " ng-show="{{setting.type == 'ENV'}}" value="{{setting.id}}">{{setting.name}}</option>
 
 								</select>
 							</div>

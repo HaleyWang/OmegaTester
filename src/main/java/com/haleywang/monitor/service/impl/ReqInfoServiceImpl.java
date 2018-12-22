@@ -426,18 +426,22 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
 		List<ReqTaskHistory> list = reqTaskHistoryRepository.selectByExampleAndRowBounds(example1, rowBounds);
 
-		List<ReqInfo> reqInfoList = requestInfoRepository.findHistoryReqInfo(currentAccout.getAccountId(), hisType.name().toUpperCase());
-
-		Map<Long, ReqInfo> idReqInfoMap = reqInfoList.stream().collect(Collectors.toMap(ri -> ri.getId(), ri -> ri, (r, s) -> r));
-
-		list.stream().forEach(reqTaskHistory -> reqTaskHistory.setReq(idReqInfoMap.get(reqTaskHistory.getReqId())));
+		getReqInfoForHistory(currentAccout, hisType, list);
 
 		return list;
 
 		//return reqTaskHistoryRepository.findByCreatedByIdAndHisType(currentAccout.getAccountId(), hisType);
 		
 	}
-	
+
+	private void getReqInfoForHistory(ReqAccount currentAccout, HisType hisType, List<ReqTaskHistory> list) {
+		List<ReqInfo> reqInfoList = requestInfoRepository.findHistoryReqInfo(currentAccout.getAccountId(), hisType.name().toUpperCase());
+
+		Map<Long, ReqInfo> idReqInfoMap = reqInfoList.stream().collect(Collectors.toMap(ri -> ri.getId(), ri -> ri, (r, s) -> r));
+
+		list.stream().forEach(reqTaskHistory -> reqTaskHistory.setReq(idReqInfoMap.get(reqTaskHistory.getReqId())));
+	}
+
 	@Override
 	public ReqTaskHistory findHistoryDetail(ReqAccount currentAccout, Long id)  {
 		ReqTaskHistory h = reqTaskHistoryRepository.selectByPrimaryKey(id);
@@ -485,7 +489,13 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		Example e = new Example(ReqTaskHistory.class);
 		e.createCriteria().andEqualTo("batchHistoryId", batchHistoryId);
 
-		return reqTaskHistoryRepository.selectByExample(e);
+		List<ReqTaskHistory> list = reqTaskHistoryRepository.selectByExample(e);
+
+
+		getReqInfoForHistory(currentAccout, HisType.BATCH, list);
+
+		return list;
+
 	}
 	
 	

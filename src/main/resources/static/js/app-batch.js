@@ -62,10 +62,12 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 	$scope.fectchGroups();
 
 	$scope.newBatchObj = {
-		reqGroup : {
-			groupId : 33
-		}
+
 	};
+
+
+	$scope.currentEditBatch = {};
+
 	$scope.batchAdd = function() {
 
 		$http({
@@ -120,8 +122,24 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 
 	$scope.batchDetail = function(batch) {
 
-
+        $scope.currentEditBatch = batch;
 	}
+
+	//batchEdit
+
+	$scope.batchEdit = function() {
+
+    		$http({
+    			method : 'POST',
+    			url : '/v1/batch/update',
+    			data : $scope.currentEditBatch,
+    		}).success(function(res) {
+    			console.log(res);
+    			$scope.fectchBatchs();
+
+
+    		})
+    	};
 
 	$scope.batchDelete = function(batch) {
 
@@ -229,7 +247,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 
 
 	$scope.fectReqHistoryDetail =  function(reqHistory) {
-	    var id = reqHistory.historyId;
+	    var id = reqHistory.taskHistoryId;
 	    reqHistory.req.showDetail = !reqHistory.req.showDetail;
         $http.get("/v1/reqHistory/detail?id=" +id).success(function(res) {
             console.log(res);

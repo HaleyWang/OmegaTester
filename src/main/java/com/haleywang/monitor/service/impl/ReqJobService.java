@@ -115,7 +115,11 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
 		}
 		reqBatchHistory.setStatuts(statuts);
 
-		reqBatchHistoryService.save(reqBatchHistory );
+		if(reqBatchHistory.getBatchHistoryId() != null) {
+			reqBatchHistoryService.update(reqBatchHistory );
+		}else {
+			reqBatchHistoryService.save(reqBatchHistory );
+		}
 
 		//TODO
 		//removeOldReqBatchHistory(scheduleJob.getBatchId(), ReqBatchHistory.Statuts.completed);
