@@ -1,7 +1,7 @@
 var app = angular.module('TodoApp', [ 'angularTreeview', 'ui.ace', 'ui.tree' ]);
 
 function log() {
-    //console.log(arguments);
+    console.log.apply(this, arguments);
 }
 var editors =   [];
 
@@ -25,6 +25,14 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		}
 	};
 
+	     $scope.collapseAll = function () {
+            $scope.$broadcast('angular-ui-tree:collapse-all');
+          };
+
+          $scope.expandAll = function () {
+            $scope.$broadcast('angular-ui-tree:expand-all');
+          };
+
 /*
 	$scope.$watch('currentReqTabData.name',function(){
         log($scope.currentReqTabData.name);
@@ -33,7 +41,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
     //
     $scope.$watch('currentReqTabData.meta.request',function(){
 
-		console.log(111);
 
         if(!$scope.currentReqTabData.meta) {
            return ;
@@ -314,6 +321,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
         for(var i in reqGroupList) {
             openReqGroupItem(reqGroupList[i], open);
         }
+
+
 	}
 
 	function openReqGroupItem(reqGroupItem, open) {
@@ -882,14 +891,17 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
     $scope.doFolderOpen = function() {
 
         $scope.folderClose = false;
-        log(11);
+        log("expandAll");
         openReqGroupList($scope.reqList, true);
+
+        $scope.expandAll();
 
     };
     $scope.doFolderClose = function() {
         $scope.folderClose = true;
-        log(22);
+        log("collapseAll");
         openReqGroupList($scope.reqList, false);
+        $scope.collapseAll();
 
     };
 
