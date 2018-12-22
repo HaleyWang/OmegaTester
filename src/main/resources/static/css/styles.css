@@ -2162,7 +2162,7 @@ background: #ddd;
 
 
 .box-collections-his {
-	margin: 8px 16px 6px;
+	margin: 8px 3px 6px;
 }
 
 .tree-node-content .dropdown-menu span {
@@ -2295,4 +2295,23 @@ tr.angular-ui-tree-empty {
 .li-req-tabs .a-tab {
 
 	overflow:hidden;max-height: 31px;    line-height: 19px;
+}
+
+.batch-detail-box {
+    overflow:scroll;
+    height: 100%;
+    position: relative;
+}
+
+.batch-detail-list {
+padding: 50px 0;
+    overflow:scroll;
+}
+
+.batch-detail-input {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    z-index: 2;
 }

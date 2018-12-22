@@ -358,11 +358,13 @@
 
 
 			<div class="panel panel-default batch-detail-box">
+				<div class="batch-detail-input">
+					<input type="text" ng-model="reqHistoryName" class="form-control ng-pristine ng-valid ng-touched" placeholder="Search...">
 
-				<input type="text" ng-model="reqHistoryName" class="form-control ng-pristine ng-valid ng-touched" placeholder="Search...">
+				</div>
 
-
-				<ul class="list-group">
+				<div class="batch-detail-list">
+					<ul class="list-group">
 					<li class="list-group-item req-result-msg"
 						ng-repeat="reqHistory in reqHistoryList | reqHistoryFilter:reqHistoryName " style="overflow: hidden;">
 
@@ -386,7 +388,7 @@
 								</div>
 
 							</div>
-							<div class="col-md-6">{{reqHistory.status}}
+							<div class="col-md-6 text-right ">{{reqHistory.status}}
 								<button data-ng-click="fectReqHistoryDetail(reqHistory)">Detail</button>
 							</div>
 						</div>
@@ -430,6 +432,8 @@
 
 					</li>
 				</ul>
+
+				</div>
 			</div>
 
 
