@@ -15,13 +15,18 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by haley on 2018/12/5.
  */
 public class CronScheduleHelper {
 
+    private static final BlockingQueue<ReqBatch> REQ_BATCH_QUEUE = new LinkedBlockingDeque();
+
     private static final Logger LOG = LoggerFactory.getLogger(CronScheduleHelper.class);
+    static long timeout = 30 * 60;
 
 
     public static void putSchedule(Job job)  {
@@ -39,6 +44,12 @@ public class CronScheduleHelper {
             @Override
             public void run() {
                 startSchedule();
+
+                try {
+                           while(true) { putSchedule(REQ_BATCH_QUEUE.take()); }
+                } catch (InterruptedException e) { /* handle */
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -46,9 +57,17 @@ public class CronScheduleHelper {
         t.start();
     }
 
+    public static void addSchedule(ReqBatch reqBatch) {
+        try {
+            REQ_BATCH_QUEUE.put(reqBatch);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void startSchedule() {
 
-        long timeout = 30 * 60;
+
 
         List<ReqBatch> list = new ArrayList<>();
         try {
@@ -66,36 +85,40 @@ public class CronScheduleHelper {
             if(BooleanUtils.isFalse(reqBatch.getEnable()) || StringUtils.isBlank(reqBatch.getTimeExpression())) {
                 continue;
             }
-            putSchedule(new SimpleJob(reqBatch.getBatchId()+"", timeout, reqBatch.getTimeExpression()) {
-                @Override
-                public void run() {
-                    ReqJobService ReqJobService = new ReqJobService();
-                    try {
-                        ReqJobService.runBatch(reqBatch);
-
-                    } catch (MalformedURLException e) {
-                        LOG.error(e.getMessage(), e);
-                        throw new ReqException(e.getMessage(), e);
-
-                    } catch (UnirestException e) {
-                        LOG.error(e.getMessage(), e);
-
-                        throw new ReqException(e.getMessage(), e);
-
-                    } catch (Exception e) {
-                        LOG.error(e.getMessage(), e);
-                        throw new ReqException(e.getMessage(), e);
-
-                    }finally {
-                        DBUtils.closeSession(true);
-                    }
-
-                }
-            });
+            putSchedule(reqBatch);
 
         }
 
 
+    }
+
+    private static void putSchedule(ReqBatch reqBatch) {
+        putSchedule(new SimpleJob(reqBatch.getBatchId()+"", timeout, reqBatch.getTimeExpression()) {
+            @Override
+            public void run() {
+                ReqJobService ReqJobService = new ReqJobService();
+                try {
+                    ReqJobService.runBatch(reqBatch);
+
+                } catch (MalformedURLException e) {
+                    LOG.error(e.getMessage(), e);
+                    throw new ReqException(e.getMessage(), e);
+
+                } catch (UnirestException e) {
+                    LOG.error(e.getMessage(), e);
+
+                    throw new ReqException(e.getMessage(), e);
+
+                } catch (Exception e) {
+                    LOG.error(e.getMessage(), e);
+                    throw new ReqException(e.getMessage(), e);
+
+                }finally {
+                    DBUtils.closeSession(true);
+                }
+
+            }
+        });
     }
 
 }

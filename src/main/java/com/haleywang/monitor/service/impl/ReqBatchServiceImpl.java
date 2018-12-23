@@ -8,6 +8,7 @@ import com.haleywang.monitor.dao.ReqAccountRepository;
 import com.haleywang.monitor.dao.ReqBatchRepository;
 import com.haleywang.monitor.model.ReqAccount;
 import com.haleywang.monitor.model.ReqBatch;
+import com.haleywang.monitor.schedule.CronScheduleHelper;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.ReqGroupService;
 import com.haleywang.monitor.utils.AESUtil;
@@ -101,6 +102,6 @@ public class ReqBatchServiceImpl extends BaseServiceImpl<ReqBatch> implements
 	@Override
 	public void update(ReqBatch reqBatch, ReqAccount reqAccount) {
 		super.update(reqBatch);
-
+		CronScheduleHelper.addSchedule(reqBatch);
 	}
 }

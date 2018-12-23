@@ -62,7 +62,8 @@ public class ScheduleTool {
         }
 
         if(map.containsKey(job.getId())) {
-            return;
+            //return;
+            cancelSchedule(job.getId());
         }
 
 
