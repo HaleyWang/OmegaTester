@@ -86,19 +86,21 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
     };
 
     $scope.reqTabDblclick = function() {
-    var me = $scope;
-             log('dblclick');
-             if(me.reqMaxBox == "max-box") {
-                 me.reqMaxBox = ""
-                 me.showAce =true;
-             }else {
-                 me.reqMaxBox = "max-box"
-                 me.showAce =false;
-                  $timeout(function() {
-                     me.showAce =true
-                  }, 100);
-             }
-        };
+         var me = $scope;
+         log('dblclick');
+         if(me.reqMaxBox == "max-box") {
+             me.reqMaxBox = ""
+             me.showAce =true;
+         }else {
+             me.reqMaxBox = "max-box"
+             me.showAce =false;
+              $timeout(function() {
+                 me.showAce =true
+              }, 100);
+         }
+    };
+
+
 
     $scope.drawBodyJson = function() {
         /*

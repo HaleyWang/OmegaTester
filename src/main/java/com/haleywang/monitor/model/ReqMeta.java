@@ -11,10 +11,8 @@ import javax.persistence.*;
 public class ReqMeta {
 	
 	public static enum DataType {
-		TAB, SUB_TAB, REQUEST, TEST_SCRIPT, PRE_REQUEST_SCRIPT, DESCRIPTION
+		TAB, SUB_TAB, REQUEST, TEST_SCRIPT, PRE_REQUEST_SCRIPT, DESCRIPTION, CASES
 	}
-
-
 
 
 	@Id

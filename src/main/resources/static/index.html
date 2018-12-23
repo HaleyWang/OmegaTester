@@ -467,17 +467,24 @@
                                 <li data-idx="0" role="presentation" class="active"><a
                                         data-ng-dblclick="reqTabDblclick()"
                                         href="#req_data" aria-controls="home" role="tab"
-                                        data-toggle="tab">request</a></li>
+                                        data-toggle="tab">Request</a></li>
+
+
+                                <li class="" data-idx="3" role="presentation">
+                                    <a href="#cases" aria-controls="messages" role="tab"
+                                       data-ng-dblclick="reqTabDblclick()"
+                                       data-toggle="tab">Cases</a>
+                                </li>
 
                                 <li class="" data-idx="1" role="presentation">
                                     <a href="#req_script" aria-controls="messages" role="tab"
                                        data-ng-dblclick="reqTabDblclick()"
-                                       data-toggle="tab">pre script</a>
+                                       data-toggle="tab">Pre script</a>
                                 </li>
                                 <li data-idx="2" role="presentation"><a href="#req_test"
                                                                         data-ng-dblclick="reqTabDblclick()"
                                                                         aria-controls="settings" role="tab"
-                                                                        data-toggle="tab">test</a>
+                                                                        data-toggle="tab">Test</a>
                                 </li>
 
                                 <div class="box-format" ng-click="formatReqData()">
@@ -515,6 +522,16 @@
                                           data-ng-show="showAce"
                                          ng-model="currentReqTabData.meta.testScript"
                                     ></div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="cases">
+
+
+                                    <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
+                                          data-ng-show="showAce"
+                                          ng-model="currentReqTabData.meta.cases"
+                                    ></div>
+
+
                                 </div>
                             </div>
 
