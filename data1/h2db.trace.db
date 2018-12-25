@@ -405,3 +405,12 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:/Users/haley
 	at org.h2.mvstore.FileStore.open(FileStore.java:173)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
 	... 43 more
+2018-12-23 22:19:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Timeout trying to lock table ; SQL statement:
+DELETE FROM req_task_history_meta  WHERE  id = ? [50200-197]
+2018-12-23 22:19:58 jdbc[5]: exception
+org.h2.jdbc.JdbcSQLException: Timeout trying to lock table ; SQL statement:
+DELETE FROM req_task_history_meta  WHERE  id = ? [50200-197]
+2018-12-23 22:40:04 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Timeout trying to lock table ; SQL statement:
+DELETE FROM req_task_history_meta  WHERE  id = ? [50200-197]

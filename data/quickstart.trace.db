@@ -1,6 +1,0 @@
-2018-12-18 00:16:08 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
-SELECT batch_id,schedule_id,env_setting_id,group_id,created_by_id,modified_by_id,name,enable,time_expression,statuts,created_on,updated_on  FROM req_batch [42102-197]
-2018-12-18 20:27:31 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "REQ_BATCH" not found; SQL statement:
-SELECT batch_id,schedule_id,env_setting_id,group_id,created_by_id,modified_by_id,name,enable,time_expression,statuts,created_on,updated_on  FROM req_batch [42102-197]
