@@ -11,6 +11,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tk.mybatis.mapper.entity.Example;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -74,8 +75,9 @@ public class CronScheduleHelper {
             ReqBatchService reqBatchService = new ReqBatchServiceImpl();
 
             //reqBatchService.initDb();
-
-            list.addAll(reqBatchService.findAll(null));
+            Example example = Example.builder(ReqBatch.class).build();
+            example.createCriteria().andEqualTo("enable", "true");
+            list.addAll(reqBatchService.findAll(example));
         }finally {
             DBUtils.closeSession(true);
         }
@@ -98,7 +100,7 @@ public class CronScheduleHelper {
             public void run() {
                 ReqJobService ReqJobService = new ReqJobService();
                 try {
-                    ReqJobService.runBatch(reqBatch);
+                    ReqJobService.runBatch(reqBatch.getBatchId());
 
                 } catch (MalformedURLException e) {
                     LOG.error(e.getMessage(), e);

@@ -8,6 +8,7 @@ import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.mvc.BaseCtrl;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.IOException;
 import java.util.Date;
@@ -51,7 +52,9 @@ public class BatchCtrl extends BaseCtrl {
 
         ReqBatchService service = new ReqBatchServiceImpl();
 
-        List<ReqBatch> ll = service.findAll(currentAccount());
+        Example example = new Example(ReqBatch.class);
+        example.orderBy("enable").desc();
+        List<ReqBatch> ll = service.findAll(example);
 
         res.setData(ll);
 

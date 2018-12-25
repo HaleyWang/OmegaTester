@@ -9,6 +9,7 @@ import com.haleywang.monitor.service.ReqBatchHistoryService;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.ReqInfoService;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +60,35 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
     }
 
 
-	public void runBatch( ReqBatch batch) throws MalformedURLException, UnirestException {
+	public void runBatch( Long batchId) throws MalformedURLException, UnirestException {
+
+		ReqBatch batch = reqBatchService.findOne(batchId);
+		if(!BooleanUtils.isTrue(batch.getEnable())) {
+			return;
+		}
+		if(ReqBatch.Status.RUNNING.name().equals(batch.getStatus())) {
+			return;
+		}
+
+		batch.setStatus(ReqBatch.Status.RUNNING.name());
+		int num = reqBatchService.updateByVersion(batch);
+		if(num <= 0) {
+			return;
+		}
+
+		try {
+			doRunBatch(batch);
+		}finally {
+			ReqBatch batchObj = reqBatchService.findOne(batchId);
+			batchObj.setStatus("");
+			reqBatchService.update(batchObj);
+		}
+	}
+
+	private void doRunBatch( ReqBatch batch ) throws MalformedURLException, UnirestException {
+
+
+
 
 		ReqBatchHistory reqBatchHistory = new ReqBatchHistory();
 		reqBatchHistory.setBatchId(batch.getBatchId());

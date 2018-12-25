@@ -7,6 +7,10 @@ import java.util.concurrent.*;
 
 import com.google.common.util.concurrent.*;
 import com.haleywang.monitor.common.ReqException;
+import com.haleywang.monitor.model.ReqBatch;
+import com.haleywang.monitor.service.ReqBatchService;
+import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
+import org.apache.commons.lang3.BooleanUtils;
 import org.quartz.CronExpression;
 
 public class ScheduleTool {
@@ -46,6 +50,16 @@ public class ScheduleTool {
     }
 
     public void putSchedule(Job job) {
+
+        ReqBatchService reqBatchService = new ReqBatchServiceImpl();
+        ReqBatch reqBatch = reqBatchService.findOne(Long.parseLong(job.getId()));
+        if(!BooleanUtils.isTrue(reqBatch.getEnable())) {
+            return;
+        }
+        if(reqBatch.getStatus() == ReqBatch.Status.RUNNING.name()) {
+            return;
+        }
+
         if(service == null) {
             init();
         }

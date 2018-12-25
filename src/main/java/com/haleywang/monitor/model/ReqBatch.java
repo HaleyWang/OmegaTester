@@ -21,6 +21,10 @@ public class ReqBatch implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	public static enum Status {
+		RUNNING
+	}
+
 	@Id
 	@GeneratedValue(generator= "JDBC")
 	private Long batchId;
@@ -30,6 +34,7 @@ public class ReqBatch implements Serializable {
 	private Long envSettingId;
 
 	private Long groupId;
+	private Long version;
 
 	private Long createdById;
 	private Long modifiedById;
@@ -41,7 +46,7 @@ public class ReqBatch implements Serializable {
 
 	private String timeExpression;
 
-	private String statuts;
+	private String status;
 
 	private Date createdOn;
 

@@ -17,7 +17,7 @@ public interface BaseService<T> {
 
 	//Example example
 	List<T> findAll(Example example, RowBounds rowBounds);
-
+	List<T> findAll(Example example);
 
 	T findOne(T model);
 

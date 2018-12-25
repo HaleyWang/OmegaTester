@@ -13,6 +13,7 @@ import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.ReqGroupService;
 import com.haleywang.monitor.utils.AESUtil;
 import org.apache.ibatis.session.SqlSession;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,8 +35,7 @@ public class ReqBatchServiceImpl extends BaseServiceImpl<ReqBatch> implements
 		initRepository();
 	}
 
-	@Resource
-	public void initRepository() {
+	private void initRepository() {
 		ReqBatchRepository reqBatchRepository = getMapper(ReqBatchRepository.class);
 		//this.reqBatchRepository = reqBatchRepository;
 		this.reqGroupService = new ReqGroupServiceImpl();
@@ -46,6 +46,9 @@ public class ReqBatchServiceImpl extends BaseServiceImpl<ReqBatch> implements
 	@Override
 	public ReqBatch save(ReqBatch model) {
 		Long createdBy = model.getCreatedById();
+		if(model.getVersion() == null) {
+			model.setVersion(0L);
+		}
 
 		model = super.save(model);
 		try {
@@ -56,6 +59,16 @@ public class ReqBatchServiceImpl extends BaseServiceImpl<ReqBatch> implements
 		}
 		
 		return model;
+	}
+
+	public int updateByVersion(ReqBatch model) {
+		Long createdBy = model.getCreatedById();
+		Long version = model.getVersion();
+
+		Example example = new Example(ReqBatch.class);
+		example.createCriteria().andEqualTo("version", version).andEqualTo("batchId", model.getBatchId());
+		model.setVersion(version+1);
+		return this.mapper.updateByExample(model, example);
 	}
 
 	@Override

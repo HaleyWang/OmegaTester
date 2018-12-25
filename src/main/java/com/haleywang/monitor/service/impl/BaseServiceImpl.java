@@ -51,6 +51,11 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
+	public List<T> findAll(Example example) {
+		return mapper.selectByExample(example);
+	}
+
+	@Override
 	public void delete(T t) {
 		mapper.delete(t);
 	}

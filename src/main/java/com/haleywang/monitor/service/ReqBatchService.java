@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface ReqBatchService extends BaseService<ReqBatch> {
 
-     void update(ReqBatch reqBatch, ReqAccount reqAccount);
-     ReqBatch save(ReqBatch model, ReqAccount reqAccount) ;
+    void update(ReqBatch reqBatch, ReqAccount reqAccount);
 
+    ReqBatch save(ReqBatch model, ReqAccount reqAccount);
+
+    int updateByVersion(ReqBatch model);
 
     void initDb();
 }
