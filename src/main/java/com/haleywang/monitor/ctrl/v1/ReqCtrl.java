@@ -53,9 +53,13 @@ public class ReqCtrl extends BaseCtrl {
     private static final List<String> EXPORT_TYPE = new ArrayList<>();
 
     static {
-        initMyReqReplace();
-        initImportType();
-        initExportType();
+        try {
+            initMyReqReplace();
+            initImportType();
+            initExportType();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void initExportType() {
