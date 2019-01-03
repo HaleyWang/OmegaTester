@@ -275,9 +275,9 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	};
 	$scope.fetchAccountInfo();
 	$scope.importTypes = [];
-	$scope.importObject = {};
+	$scope.importObject = {type : "cURL"};
 	$scope.exportTypes = [];
-	$scope.exportObject = {};
+	$scope.exportObject = {type : "cURL"};
 
 	$scope.fetchImportType = function() {
 
@@ -324,7 +324,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
     		$http({
     			method : 'POST',
-    			url : '/v1/req/exportRequest',
+    			url : '/v1/req/exportRequest?type=' + $scope.exportObject.type,
     			data : $scope.currentReqTabData.meta.request
     		}).success(function(res) {
     			log(res);

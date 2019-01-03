@@ -76,7 +76,7 @@ public class CurlConverter implements ReqConverter {
             sb.append(" -H ").append("'").append(entry.getKey()).append(": ").append(entry.getValue()).append(" \\");
         }
 
-        if(myRequest.getBody() != null) {
+        if(StringUtils.isNotBlank(myRequest.getBody())) {
             sb.append(" -d ").append("'").append(myRequest.getBody()).append("'");
         }
         return sb.toString();
