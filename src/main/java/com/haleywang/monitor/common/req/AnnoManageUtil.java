@@ -35,11 +35,11 @@ public final class AnnoManageUtil {
             if ("file".equals(protocol)) {
                 String filePath = null;
                 try { 
-                    filePath = URLDecoder.decode(url.getFile(), "UTF-8"); 
+                    filePath = URLDecoder.decode(url.getPath(), "UTF-8");
                 } catch (UnsupportedEncodingException e) { 
                     e.printStackTrace(); 
                 } 
-                filePath = filePath.substring(1); 
+                //filePath = filePath.substring(1);
                 getFilePathClasses(packageName, filePath, classList, annotation); 
             } 
         } 
