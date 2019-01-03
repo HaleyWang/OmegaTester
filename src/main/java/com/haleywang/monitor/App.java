@@ -1,6 +1,6 @@
 package com.haleywang.monitor;
 
-import com.haleywang.monitor.mvc.Server;
+import com.haleywang.monitor.common.mvc.Server;
 import com.haleywang.monitor.schedule.CronScheduleHelper;
 
 public class App {

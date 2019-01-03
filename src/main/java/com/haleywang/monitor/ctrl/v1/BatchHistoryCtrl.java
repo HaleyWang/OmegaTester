@@ -2,7 +2,7 @@ package com.haleywang.monitor.ctrl.v1;
 
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.model.ReqBatchHistory;
-import com.haleywang.monitor.mvc.BaseCtrl;
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqBatchHistoryService;
 import com.haleywang.monitor.service.impl.ReqBatchHistoryServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;

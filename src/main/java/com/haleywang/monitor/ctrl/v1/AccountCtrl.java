@@ -3,7 +3,7 @@ package com.haleywang.monitor.ctrl.v1;
 import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.mvc.BaseCtrl;
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.service.impl.ReqAccountServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;

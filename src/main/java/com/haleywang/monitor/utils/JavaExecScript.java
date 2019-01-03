@@ -2,20 +2,17 @@ package com.haleywang.monitor.utils;
 
 import com.haleywang.monitor.common.ReqException;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.Arrays;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import com.haleywang.monitor.utils.http.HttpTool;
+import com.haleywang.monitor.common.req.HttpTool;
 
 public class JavaExecScript {
 

@@ -6,7 +6,7 @@ import com.haleywang.monitor.model.ReqBatch;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
-import com.haleywang.monitor.mvc.BaseCtrl;
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import tk.mybatis.mapper.entity.Example;
 

@@ -4,24 +4,35 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.Msg;
+import com.haleywang.monitor.common.req.AnnoManageUtil;
+import com.haleywang.monitor.common.req.ConverterBuilder;
+import com.haleywang.monitor.common.req.MyRequestExportAnnotation;
+import com.haleywang.monitor.common.req.MyRequestImportAnnotation;
+import com.haleywang.monitor.dto.MyRequest;
 import com.haleywang.monitor.dto.ResultStatus;
+import com.haleywang.monitor.dto.TypeValuePair;
 import com.haleywang.monitor.dto.UnirestRes;
 import com.haleywang.monitor.model.ReqAccount;
 import com.haleywang.monitor.model.ReqGroup;
 import com.haleywang.monitor.model.ReqInfo;
-import com.haleywang.monitor.mvc.BaseCtrl;
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqGroupService;
 import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.impl.ReqGroupServiceImpl;
 import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;
+import com.haleywang.monitor.utils.AnnotationUtils;
+import com.haleywang.monitor.utils.FileTool;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.utils.UrlUtils;
 import com.mashape.unirest.http.HttpMethod;
 import com.mashape.unirest.http.exceptions.UnirestException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,27 +49,57 @@ public class ReqCtrl extends BaseCtrl {
 
     private static final Map<Pattern, String> REPLACE_PATTERN_MAP = new HashMap<>();
 
+    private static final List<String> IMPORT_TYPE = new ArrayList<>();
+    private static final List<String> EXPORT_TYPE = new ArrayList<>();
+
     static {
-        //TODO
-        ImmutableMap.Builder<String, String> mapBuilder = new ImmutableMap.Builder<>();
-        mapBuilder.putAll(ImmutableMap.of("delete", "DELETE", "post", "POST", "put", "PUT", "get", "GET"))
-                .put("requestHeader", "headers")
-                .put("a", "apiKey")
-                .put("Y5...", "{{apiKey}}")
-                .put("requestData", "body");
-        Map<String, String> map = mapBuilder.build();
+        initMyReqReplace();
+        initImportType();
+        initExportType();
+    }
 
-        for (Map.Entry<String, String> es : map.entrySet()) {
+    private static void initExportType() {
+        String pName = "com.haleywang.monitor.common.req";
+        List<Class<?>> res = AnnoManageUtil.scan(pName, MyRequestExportAnnotation.class);
+        for (Class c : res) {
+            Annotation ann = AnnotationUtils.findAnnotation(c, MyRequestExportAnnotation.class);
+            String aName = (String) AnnotationUtils.getValue(ann, "name");
+            EXPORT_TYPE.add(aName);
+        }
+    }
 
-            REPLACE_PATTERN_MAP.put(Pattern.compile("\"" + es.getKey() + "\"", Pattern.CASE_INSENSITIVE),
-                    "\"" + es.getValue() + "\"");
+    private static void initImportType() {
+        String pName = "com.haleywang.monitor.common.req";
+        List<Class<?>> res = AnnoManageUtil.scan(pName, MyRequestImportAnnotation.class);
+        for (Class c : res) {
+            Annotation ann = AnnotationUtils.findAnnotation(c, MyRequestImportAnnotation.class);
+            String aName = (String) AnnotationUtils.getValue(ann, "name");
+            IMPORT_TYPE.add(aName);
+        }
+    }
+
+    private static void initMyReqReplace() {
+        try {
+            String test = FileTool.read("conf/myrequest-replace.json");
+
+            TypeReference<HashMap<String, String>> t = new TypeReference<HashMap<String, String>>() {
+            };
+            Map<String, String> map = JsonUtils.fromJson(test, t);
+
+            for (Map.Entry<String, String> es : map.entrySet()) {
+
+                REPLACE_PATTERN_MAP.put(Pattern.compile("\"" + es.getKey() + "\"", Pattern.CASE_INSENSITIVE),
+                        "\"" + es.getValue() + "\"");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     public String format() {
 
         String body = StringUtils.defaultString(getBodyParams(), "");
-        if(body.indexOf("{") < 0) {
+        if (body.indexOf("{") < 0) {
             body = "{}";
         }
 
@@ -68,7 +109,6 @@ public class ReqCtrl extends BaseCtrl {
         for (Map.Entry<Pattern, String> es : REPLACE_PATTERN_MAP.entrySet()) {
             result = es.getKey().matcher(result).replaceAll(es.getValue());
         }
-
 
         TypeReference<HashMap<String, Object>> t = new TypeReference<HashMap<String, Object>>() {
 
@@ -80,11 +120,11 @@ public class ReqCtrl extends BaseCtrl {
         dataMap.putIfAbsent("headers", new HashMap<String, String>());
         dataMap.putIfAbsent("body", "");
 
-        if(StringUtils.isBlank(dataMap.getOrDefault("name", "")+"")) {
-            dataMap.put("name", UrlUtils.getPath(dataMap.getOrDefault("url","")+""));
+        if (StringUtils.isBlank(dataMap.getOrDefault("name", "") + "")) {
+            dataMap.put("name", UrlUtils.getPath(dataMap.getOrDefault("url", "") + ""));
         }
 
-        if(dataMap.get("headers") instanceof String) {
+        if (dataMap.get("headers") instanceof String) {
             dataMap.put("headers", new HashMap<String, String>());
         }
         result = JsonUtils.toJson(dataMap);
@@ -166,6 +206,39 @@ public class ReqCtrl extends BaseCtrl {
         requestInfoService.update(ri, acc);
         res.setData(ri);
 
+        return JsonUtils.toJson(res);
+    }
+
+    public String importType() {
+        ResultStatus<List<String>> res = new ResultStatus<>();
+        res.setData(IMPORT_TYPE);
+        return JsonUtils.toJson(res);
+    }
+
+    public String exportType() {
+        ResultStatus<List<String>> res = new ResultStatus<>();
+        res.setData(EXPORT_TYPE);
+        return JsonUtils.toJson(res);
+    }
+
+    public String importRequest() {
+        TypeValuePair ri = getBodyParams(TypeValuePair.class);
+        MyRequest data = new ConverterBuilder().build(ri.getType()).toMyRequest(ri.getValue());
+
+        ResultStatus<String> res = new ResultStatus<>();
+        res.setData(JsonUtils.toJson(data));
+        return JsonUtils.toJson(res);
+    }
+
+    public String exportRequest() {
+        String type = getUrlParam("type");
+        MyRequest myRequest = getBodyParams(MyRequest.class);
+
+        String data = new ConverterBuilder().build(type)
+                .fromMyRequest(myRequest);
+
+        ResultStatus<String> res = new ResultStatus<>();
+        res.setData(data);
         return JsonUtils.toJson(res);
     }
 
@@ -296,7 +369,6 @@ public class ReqCtrl extends BaseCtrl {
         //todo check userid
         requestInfoService.deleteByPrimaryKey(id);
 
-
         return JsonUtils.toJson(res);
 
     }
@@ -316,38 +388,6 @@ public class ReqCtrl extends BaseCtrl {
 
         return JsonUtils.toJson(res);
     }
-
-	/*
-	//findReqTaskHistory
-	@RequestMapping(value = "/history" , method = RequestMethod.GET)
-	public ResponseEntity<List<ReqTaskHistory>> findReqTaskHistory(HttpServletRequest request,HisType hisType) {
-		System.out.println(" ====> ");
-
-		if (hisType == null) {
-			hisType = HisType.manual;
-		}
-
-		 List<ReqTaskHistory> ll = requestInfoService
-				.findReqTaskHistory(AccoutHelper.getCurrentAccout(request), hisType);
-
-		return new ResponseEntity<>(ll, null, HttpStatus.OK);
-	}
-
-	//req/history
-	@RequestMapping( value = "/history/detail", method = RequestMethod.GET)
-	public ResponseEntity<ReqTaskHistory> findHistoryDetail(Long id, HttpServletRequest request) {
-		System.out.println(" ====> ");
-
-		ReqTaskHistory res = requestInfoService.findHistoryDetail(AccoutHelper.getCurrentAccout(request), id);
-
-		ReqInfo ri = requestInfoService
-				.detail(res.getReq().getId(), AccoutHelper.getCurrentAccout(request));
-
-		res.setReq(ri);
-
-		return new ResponseEntity<>(res, null, HttpStatus.OK);
-	}
-	*/
 
     public String groupAdd() throws IOException {
 
@@ -401,7 +441,6 @@ public class ReqCtrl extends BaseCtrl {
             return JsonUtils.toJson(res.of(Msg.NOT_ALLOWED));
         }
         reqGroupService.delete(rg);
-
 
         return JsonUtils.toJson(res);
 

@@ -4,7 +4,7 @@ import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.model.ReqAccount;
 import com.haleywang.monitor.model.ReqInfo;
 import com.haleywang.monitor.model.ReqTaskHistory;
-import com.haleywang.monitor.mvc.BaseCtrl;
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;

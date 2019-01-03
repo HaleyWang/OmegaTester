@@ -1,7 +1,7 @@
 package com.haleywang.monitor.ctrl.v1;
 
 import com.haleywang.db.Blog;
-import com.haleywang.monitor.mvc.BaseCtrl;
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.utils.JsonUtils;
 
 import java.util.*;

@@ -257,7 +257,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		})
 	};
 	
-	$scope.fectchAccountInfo = function() {
+	$scope.fetchAccountInfo = function() {
 
 		$http({
 			method : 'GET',
@@ -273,7 +273,66 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			}
 		})
 	};
-	$scope.fectchAccountInfo();
+	$scope.fetchAccountInfo();
+	$scope.importTypes = [];
+	$scope.importObject = {};
+	$scope.exportTypes = [];
+	$scope.exportObject = {};
+
+	$scope.fetchImportType = function() {
+
+    		$http({
+    			method : 'GET',
+    			url : '/v1/req/importType'
+    		}).success(function(res) {
+    		    log('fetchImportType');
+    			log(res);
+    			$scope.importTypes = res.data;
+    		})
+    	};
+    $scope.fetchImportType();
+
+    $scope.fetchExportType = function() {
+
+        		$http({
+        			method : 'GET',
+        			url : '/v1/req/exportType'
+        		}).success(function(res) {
+        		    log('fetchImportType');
+        			log(res);
+        			$scope.exportTypes = res.data;
+        		})
+        	};
+    $scope.fetchExportType();
+
+
+	$scope.importRequest = function() {
+
+		$http({
+			method : 'POST',
+			url : '/v1/req/importRequest',
+			data : $scope.importObject
+		}).success(function(res) {
+			log(res);
+			$scope.currentReqTabData.meta.request = res.data;
+
+		})
+	};
+	$scope.exportRequestData = "";
+
+	$scope.exportRequest = function() {
+
+    		$http({
+    			method : 'POST',
+    			url : '/v1/req/exportRequest',
+    			data : $scope.currentReqTabData.meta.request
+    		}).success(function(res) {
+    			log(res);
+    			$scope.exportRequestData = res.data;
+
+    		})
+    	};
+
 
 	$scope.register = function() {
 

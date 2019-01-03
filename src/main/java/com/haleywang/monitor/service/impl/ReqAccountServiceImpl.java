@@ -1,21 +1,19 @@
 package com.haleywang.monitor.service.impl;
 
-import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Resource;
-
 import com.haleywang.monitor.common.ReqException;
+import com.haleywang.monitor.utils.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.haleywang.monitor.dao.ReqAccountRepository;
 import com.haleywang.monitor.dto.ResultStatus;
-import com.haleywang.monitor.interceptor.login.LoginCookieEncrypt;
+import com.haleywang.monitor.common.login.LoginCookieEncrypt;
 import com.haleywang.monitor.model.ReqAccount;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.utils.AESUtil;
 import com.haleywang.monitor.utils.Md5Utils;
-import org.apache.ibatis.session.SqlSession;
 import tk.mybatis.mapper.entity.Example;
 
 public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implements ReqAccountService {
@@ -73,7 +71,14 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 
 		Example example = new Example(ReqAccount.class);
 		example.createCriteria().andEqualTo("email", email).andEqualTo("password", passwordMD5);
-		ReqAccount a = reqAccountRepository.selectOneByExample(example);
+		List<ReqAccount> list = reqAccountRepository.selectByExample(example);
+
+		if (CollectionUtils.isEmpty(list)) {
+			res.setCode(1002+"");
+			return res;
+		}
+
+		ReqAccount a = list.get(0);
 		if (a == null) {
 			res.setCode(1002+"");
 			return res;
