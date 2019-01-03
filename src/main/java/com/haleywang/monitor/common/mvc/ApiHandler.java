@@ -39,6 +39,7 @@ public class ApiHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
+        boolean success = false;
         try {
             String uri = he.getRequestURI().getPath();
             //final Headers headers = he.getResponseHeaders();
@@ -49,7 +50,7 @@ public class ApiHandler implements HttpHandler {
             String[] paths = uri.split("/");
             if (paths.length < 4) {
                 response404(he);
-                return;
+                throw new ReqException("404");
             }
 
             if (paths[2].startsWith("public")) {
@@ -62,17 +63,17 @@ public class ApiHandler implements HttpHandler {
 
             BaseCtrl ctrl = CtrlFactory.of(paths[2]);
             ctrl.doService(he);
-            DBUtils.closeSession(true);
+            success = true;
 
         } catch (NoSuchMethodException e) {
             response404(he);
             LOG.error("ApiHandler NoSuchMethodException", e);
-            DBUtils.closeSession(false);
         } catch (Exception e) {
             response500(he, e);
             LOG.error("ApiHandler Exception", e);
-            DBUtils.closeSession(false);
         } finally {
+            DBUtils.closeSession(success);
+
             he.close();
         }
     }
