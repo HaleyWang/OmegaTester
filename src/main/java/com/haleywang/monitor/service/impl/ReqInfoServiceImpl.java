@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Preconditions;
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.dao.ReqGroupRepository;
 import com.haleywang.monitor.dao.ReqInfoRepository;
@@ -37,9 +38,11 @@ import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.common.req.HttpRequestItem;
 import com.haleywang.monitor.common.req.HttpUtils;
 import com.haleywang.monitor.common.req.ReqInfoHelper;
+import com.mashape.unirest.http.HttpMethod;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tk.mybatis.mapper.entity.Example;
@@ -195,7 +198,20 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		} else {
 			ri.setUpdatedOn(new Date());
 		}
+
+		String requestJsonData = parseRequestData(ri);
+
 		Map<String, String> metaMap = ri.getMeta();
+
+		JSONObject reqJsonObject = new JSONObject(requestJsonData);
+
+		String method = JsonUtils.val(reqJsonObject, "method", "GET");
+		String reqUrl = reqJsonObject.get("url") + "";
+
+		ri.setMethod(HttpMethod.valueOf(StringUtils.upperCase(method)));
+		ri.setUrl(reqUrl);
+
+
         if(ri.getId() == null) {
             ri = super.save(ri);
         }else {
@@ -287,6 +303,15 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
 		String preReqResultStr =  runPreRequestScript(ri, envString);
 
+		String requestMeta = parseRequestData(ri);
+		ri.getMeta().put("request", requestMeta);
+
+
+		HashMap map = JsonUtils.fromJson(requestMeta, HashMap.class);
+		ri.setUrl(map.getOrDefault("url", "").toString());
+		Preconditions.checkArgument(StringUtils.isNotBlank(ri.getUrl()), "Url should not be empty");
+
+
 		HttpRequestItem reqItem = ReqInfoHelper.parse(ri, envString, preReqResultStr);
 
 		LOG.info("send req: " + JsonUtils.toJson(reqItem));
@@ -325,7 +350,16 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		return result;
 	}
 
-    private void removeOldHistory(ReqInfo ri, ReqAccount currentAccout, HisType hisType) {
+	private String parseRequestData(ReqInfo ri) {
+		String requestMeta = ri.getMeta().get("request");
+		requestMeta = StringUtils.defaultIfBlank(requestMeta, "{}").trim();
+		if(requestMeta.indexOf("var") == 0) {
+			requestMeta = JsonUtils.toJson(JavaExecScript.returnJson(requestMeta, "req"));
+		}
+		return requestMeta;
+	}
+
+	private void removeOldHistory(ReqInfo ri, ReqAccount currentAccout, HisType hisType) {
         int max = 100;
 
 		Example reqTaskHistoryExample = new Example(ReqTaskHistory.class);

@@ -1,0 +1,12 @@
+var a =`
+<req>
+<p name="aa`" />
+
+</req>
+`;
+
+var req ={
+
+body: a
+
+};

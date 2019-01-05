@@ -20,10 +20,7 @@ import com.haleywang.monitor.service.ReqGroupService;
 import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.impl.ReqGroupServiceImpl;
 import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;
-import com.haleywang.monitor.utils.AnnotationUtils;
-import com.haleywang.monitor.utils.FileTool;
-import com.haleywang.monitor.utils.JsonUtils;
-import com.haleywang.monitor.utils.UrlUtils;
+import com.haleywang.monitor.utils.*;
 import com.mashape.unirest.http.HttpMethod;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -106,7 +103,10 @@ public class ReqCtrl extends BaseCtrl {
 
     public String format() {
 
-        String body = StringUtils.defaultString(getBodyParams(), "");
+        String body = StringUtils.defaultString(getBodyParams(), "").trim();
+        if(body.indexOf("var") == 0) {
+            return body;
+        }
         if (body.indexOf("{") < 0) {
             body = "{}";
         }
@@ -145,27 +145,6 @@ public class ReqCtrl extends BaseCtrl {
         return JsonUtils.toJson(res.of(Msg.OK, "1"));
     }
 
-    public String version2() {
-        try {
-            TimeUnit.SECONDS.sleep(20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ResultStatus<String> res = new ResultStatus<>();
-        return JsonUtils.toJson(res.of(Msg.OK, "1"));
-    }
-
-    public String version3() {
-        try {
-            TimeUnit.SECONDS.sleep(30);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        ResultStatus<String> res = new ResultStatus<>();
-        return JsonUtils.toJson(res.of(Msg.OK, "1"));
-    }
-
     public String add() throws IOException {
 
         ReqInfo ri = getBodyParams(ReqInfo.class);
@@ -189,20 +168,11 @@ public class ReqCtrl extends BaseCtrl {
         checkNotNull(ri);
         ReqAccount acc = currentAccount();
 
-        Map<String, String> meta = ri.getMeta();
-        String requestData = meta.get("request");
-
-        JSONObject reqJsonObject = new JSONObject(requestData);
-
-        String method = JsonUtils.val(reqJsonObject, "method", "GET");
-        String reqUrl = reqJsonObject.get("url") + "";
-
         ResultStatus<ReqInfo> res = new ResultStatus<>();
+
 
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();
 
-        ri.setMethod(HttpMethod.valueOf(StringUtils.upperCase(method)));
-        ri.setUrl(reqUrl);
 
         if (ri.getId() != null) {
             ReqInfo ri1 = requestInfoService.findOne(ri.getId());
@@ -254,10 +224,6 @@ public class ReqCtrl extends BaseCtrl {
     public String send() throws IOException, UnirestException {
 
         ReqInfo ri = getBodyParams(ReqInfo.class);
-        String requestMeta = ri.getMeta().getOrDefault("request", "{}");
-        HashMap map = JsonUtils.fromJson(requestMeta, HashMap.class);
-        ri.setUrl(map.getOrDefault("url", "").toString());
-        Preconditions.checkArgument(StringUtils.isNotBlank(ri.getUrl()), "Url should not be empty");
 
         ReqAccount acc = currentAccount();
         ResultStatus<UnirestRes<String>> res = new ResultStatus<>();

@@ -72,6 +72,8 @@
     <script src="js/ace-builds-master/src-noconflict/ext-beautify.js" type="text/javascript" charset="utf-8"></script>
 
     <script src="js/angular.min.js"></script>
+
+
     <script type="text/javascript" src="js/angular-ui-tree/angular-ui-tree.js"></script>
 
 
@@ -267,11 +269,17 @@
 
         <div id="sidebar">
             <div id="header" class="clearfix">
-                <input type="text" ng-change="onReqSearchTextChange()"
+                <input ng-show="collectionsOrHistory" type="text"
+                       ng-change="onReqSearchTextChange()"
 
                        ng-model="query"
-                        class="form-control"
+                       class="form-control"
                        placeholder="Search...">
+                <input ng-hide="collectionsOrHistory" type="text"
+
+                      ng-model="queryHistory"
+                      class="form-control"
+                      placeholder="Search...">
             </div>
             <div id="sidebar-sections" class="clearfix">
                 <div id="history-options" class="section-options">
@@ -312,7 +320,7 @@
                         <ul id="history-items" class="clearfix">
 
 
-                            <li ng-repeat="tab in reqHistoryList track by $index "
+                            <li ng-repeat="tab in reqHistoryList | filter: {req: {url: queryHistory}}"
                                 data-idx="{{$index}}" role="presentation"
                                 class="{{tab.active}}"><a class="a-tab"
                                                           data-ng-click="onClickHistoryItem(tab)" href="#home"

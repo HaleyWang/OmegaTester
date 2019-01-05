@@ -6,6 +6,7 @@ import org.junit.Test;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import java.io.IOException;
 
 public class JavaExecScriptTest {
 	
@@ -49,7 +50,9 @@ public class JavaExecScriptTest {
 
 	}
 
-	public static class Persion {
+
+
+    public static class Persion {
 		private String name;
 
 		public void setName(String name) {
@@ -61,6 +64,20 @@ public class JavaExecScriptTest {
 			return name + ":" + msg;
 		}
 
+	}
+
+	@Test
+	public void returnJson() throws IOException {
+
+		String txt = FileTool.readInSamePkg(this.getClass(), "testjs.txt");
+
+		Object o1 = JavaExecScript.returnJson(txt, "req");
+		Assert.assertNotNull(o1);
+		Assert.assertTrue(JsonUtils.toJson(o1).contains("<req>"));
+
+
+		Object o = JavaExecScript.returnJson("var req = {a:{b:1}};", "req");
+		Assert.assertEquals("{\"a\":{\"b\":1}}", JsonUtils.toJson(o));
 	}
 
 }

@@ -47,7 +47,15 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
         }
         log($scope.currentReqTabData.meta.request);
 
-        var reqData = JSON.parse($scope.currentReqTabData.meta.request);
+        var reqTextData = $scope.currentReqTabData.meta.request.trim();
+
+        var reqData = null;
+        if(reqTextData.indexOf("var") == 0) {
+            reqData = eval("(function(){" + reqTextData + " ; return req;})()");
+        }else {
+            reqData = JSON.parse($scope.currentReqTabData.meta.request);
+        }
+
         $scope.currentReqTabData.name = reqData.name;
 		$scope.currentReqTabData.method = reqData.method;
 		$scope.currentReqTabData.url = reqData.url;

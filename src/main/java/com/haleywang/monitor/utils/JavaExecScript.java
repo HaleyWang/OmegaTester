@@ -1,12 +1,15 @@
 package com.haleywang.monitor.utils;
 
 import com.haleywang.monitor.common.ReqException;
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -14,6 +17,8 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import com.haleywang.monitor.common.req.HttpTool;
 
+
+//TODO use NashornScriptEngineFactory
 public class JavaExecScript {
 
 
@@ -75,6 +80,64 @@ public class JavaExecScript {
 
         }
     }
+
+    private final static Pattern PATTERN_BACK_QUOTE = Pattern.compile("`[\\s\\n]*;");
+    public static int lastIndexOfRegex(String str, Pattern pattern)
+    {
+        Matcher matcher = pattern.matcher(str);
+
+        // Default to the NOT_FOUND constant
+        int lastIndex = -1;
+
+        // Search for the given pattern
+        while (matcher.find())
+        {
+            lastIndex = matcher.start();
+        }
+
+        return lastIndex;
+    }
+
+    private final static Pattern PATTERN_VAR_NAME = Pattern.compile("var\\s+(\\w+)\\s+");
+
+    public static Object returnJson(String txt , String jsonVariableName) {
+
+        int lastIndex = txt.lastIndexOf("`;") + 2;
+
+        String left = txt.substring(0, lastIndex);
+
+        String right = txt.substring(lastIndex);
+
+        left =  left.replaceAll("=\\s*`", "='");
+        left =  left.replaceAll("`[\\s\\n]*;", "';");
+        left = left.replaceAll("\\n", " ");
+
+        String script = left + right;
+
+
+        Matcher matcher = PATTERN_VAR_NAME.matcher(script);
+        String varName = jsonVariableName;
+        if(jsonVariableName == null && matcher.find()) {
+            varName = matcher.group(1);
+        }
+
+        String functionScript = "function say() { " + script + " ; return "+ varName +"; }" ;
+
+        //ScriptEngine se = new NashornScriptEngineFactory().getScriptEngine("--language=es6");
+
+
+        ScriptEngineManager sem = new ScriptEngineManager();
+        ScriptEngine se = sem.getEngineByName("javascript");
+        try {
+            se.eval(functionScript);
+            Invocable inv2 = (Invocable) se;
+            return inv2.invokeFunction("say", null);
+        } catch (Exception e) {
+            throw new ReqException(e.getMessage(), e);
+        }
+    }
+
+
 
     /**
      * 运行JS基本函数
