@@ -46,6 +46,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by haley on 2018/8/18.
  */
 public class ReqCtrl extends BaseCtrl {
+    public static void main(String[] args) {
+        new ReqCtrl();
+    }
 
 
     private static final Map<Pattern, String> REPLACE_PATTERN_MAP = new HashMap<>();

@@ -3,6 +3,7 @@ package com.haleywang.monitor.common.req;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.file.DirectoryStream;
@@ -33,15 +34,13 @@ public final class AnnoManageUtil {
             String protocol = url.getProtocol();
 
             if ("file".equals(protocol)) {
-                String filePath = null;
-                try { 
-                    filePath = URLDecoder.decode(url.getPath(), "UTF-8");
-                } catch (UnsupportedEncodingException e) { 
-                    e.printStackTrace(); 
-                } 
-                //filePath = filePath.substring(1);
-                getFilePathClasses(packageName, filePath, classList, annotation); 
-            } 
+                try {
+                    String filePath = Paths.get(url.toURI()).toFile().getPath();
+                    getFilePathClasses(packageName, filePath, classList, annotation);
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
         } 
         return classList; 
     } 
