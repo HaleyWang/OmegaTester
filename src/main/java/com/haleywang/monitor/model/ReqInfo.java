@@ -85,6 +85,7 @@ public class ReqInfo implements Serializable, ReqGroupItem {
     
     @Transient
     private Map<String, String> meta = new HashMap<>();
+    private int caseIndex;
 
 
 	public void setReqGroup(ReqGroup reqGroup) {

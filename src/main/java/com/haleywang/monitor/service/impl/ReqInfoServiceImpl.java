@@ -208,6 +208,8 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		String method = JsonUtils.val(reqJsonObject, "method", "GET");
 		String reqUrl = reqJsonObject.get("url") + "";
 
+		ri.setName(reqJsonObject.get("name")+"");
+
 		ri.setMethod(HttpMethod.valueOf(StringUtils.upperCase(method)));
 		ri.setUrl(reqUrl);
 
@@ -304,7 +306,9 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		String preReqResultStr =  runPreRequestScript(ri, envString);
 
 		String requestMeta = parseRequestData(ri);
-		ri.getMeta().put("request", requestMeta);
+		ri.getMeta().put("requestJson", requestMeta);
+		String casesData = parseCasesData(ri);
+		ri.getMeta().put("casesJson", casesData);
 
 
 		HashMap map = JsonUtils.fromJson(requestMeta, HashMap.class);
@@ -348,6 +352,15 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         removeOldHistory(ri, currentAccout, hisType);
 
 		return result;
+	}
+
+	private String parseCasesData(ReqInfo ri) {
+		String requestMeta = ri.getMeta().get("cases");
+		requestMeta = StringUtils.defaultIfBlank(requestMeta, "{}").trim();
+		if(requestMeta.indexOf("var") == 0) {
+			requestMeta = JsonUtils.toJson(JavaExecScript.returnJson(requestMeta, "cases"));
+		}
+		return requestMeta;
 	}
 
 	private String parseRequestData(ReqInfo ri) {
@@ -400,7 +413,8 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
     private String runPreRequestScript(ReqInfo ri, ReqSetting envString) {
 		Map<String, String> riMeta = ri.getMeta();
-		String preRequestScriptCode = riMeta.get(DataType.PRE_REQUEST_SCRIPT.toString());
+		String key = DataType.PRE_REQUEST_SCRIPT.name();
+		String preRequestScriptCode = riMeta.getOrDefault(key.toLowerCase(), riMeta.get(key));
 
         if(preRequestScriptCode == null) {
             return null;
@@ -420,7 +434,8 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		//ReqMeta testScriptRM = reqMetaRepository.findByDataTypeAndReqIn(DataType.testScript, ri);
 
 		Map<String, String> riMeta = ri.getMeta();
-		String code = riMeta.get(DataType.TEST_SCRIPT.name());
+		String key = DataType.TEST_SCRIPT.name();
+		String code = riMeta.getOrDefault(key.toLowerCase(), riMeta.get(key));
 		System.out.println(code);
 
 		String res = JavaExecScript.jsRunTestCode(code, response, preReqResultStr);

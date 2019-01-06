@@ -12,7 +12,7 @@ public class HttpTool {
     public String send(String preReqData, String envString) {
 
         try {
-            HttpRequestItem reqItem = ReqInfoHelper.getHttpRequestItem(preReqData, envString, null);
+            HttpRequestItem reqItem = ReqInfoHelper.getHttpRequestItem(preReqData, envString, null,0,null);
 
             UnirestRes<String> result = new UnirestRes<String>(
                     HttpUtils.send(reqItem));

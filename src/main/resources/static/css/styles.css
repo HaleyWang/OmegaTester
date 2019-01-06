@@ -21,6 +21,48 @@ padding-left: 6px;
 padding: 4px 10px;
 }
 
+.mynavbar {
+   height:30px;
+   min-height:30px;
+   max-height:30px;
+}
+
+.mynavbar .navbar-brand {
+    height:30px;
+    padding: 5px 15px;
+}
+
+.mynavbar a,
+.mynavbar .navbar {
+    height:30px;
+
+}
+
+.mynavbar .nav>li>a{
+    padding: 5px;
+
+}
+
+.dropdown-menu1 {
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
 
 .center {
 
@@ -1700,7 +1742,7 @@ height
 
 .split-box {
 	position: absolute;
-	top: 48px;
+	top: 30px;
 	bottom: 0px;
 	left: 0;
 	right: 0;
@@ -1720,7 +1762,7 @@ height
 
 .response-box {
     height: 100%;
-        padding: 15px;
+    padding: 8px;
 }
 
 .response-box .tab-content {
@@ -2120,7 +2162,7 @@ background: #ddd;
 }
 
 #main .panel-heading {
-	padding: 0px 15px;
+	padding: 0px 8px;
 }
 
 #c {

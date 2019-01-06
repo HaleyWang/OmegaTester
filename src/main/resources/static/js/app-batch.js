@@ -28,12 +28,12 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 		    console.log("fectSettingList", res);
 
 		    $scope.settingList = res.data;
-		    $scope.fectchBatchs();
+		    $scope.fetchBatchs();
 		});
 	};
 	$scope.fectSettingList();
 
-	$scope.fectchAccountInfo = function() {
+	$scope.fetchAccountInfo = function() {
 
 		$http({
 			method : 'GET',
@@ -41,25 +41,25 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 		}).success(function(res) {
 			console.log(res);
 			if (res.data.accountId) {
-				// $scope.fectchReqList();
+				// $scope.fetchReqList();
 				$scope.currentAccount = res.data;
 			}
 		})
 	};
-	$scope.fectchAccountInfo();
+	$scope.fetchAccountInfo();
 
-	$scope.fectchGroups = function() {
+	$scope.fetchGroups = function() {
 
 		$http({
 			method : 'GET',
 			url : '/v1/req/groupList'
 		}).success(function(res) {
 			console.log(res);
-				// $scope.fectchReqList();
+				// $scope.fetchReqList();
 				$scope.groupList = res.data;
 		})
 	};
-	$scope.fectchGroups();
+	$scope.fetchGroups();
 
 	$scope.newBatchObj = {
 
@@ -76,21 +76,21 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 			data : $scope.newBatchObj,
 		}).success(function(res) {
 			console.log(res);
-			$scope.fectchBatchs();
+			$scope.fetchBatchs();
 
 
 		})
 	};
 
 
-	$scope.fectchBatchs = function() {
+	$scope.fetchBatchs = function() {
 
 		$http({
 			method : 'GET',
 			url : '/v1/batch/list'
 		}).success(function(res) {
 			console.log(res);
-			// $scope.fectchReqList();
+			// $scope.fetchReqList();
 			var batchList = res.data;
 			var activeBatchId = localStorage.activeBatchId;
             if(!activeBatchId) {
@@ -135,7 +135,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
     			data : $scope.currentEditBatch,
     		}).success(function(res) {
     			console.log(res);
-    			$scope.fectchBatchs();
+    			$scope.fetchBatchs();
 
 
     		})
@@ -152,7 +152,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 			}
 		}).success(function(res) {
 			console.log(res);
-			$scope.fectchBatchs();
+			$scope.fetchBatchs();
 
 		})
 	};
@@ -168,7 +168,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 			}
 		}).success(function(res) {
 			console.log(res);
-			$scope.fectchBatchs();
+			$scope.fetchBatchs();
 
 		})
 	};

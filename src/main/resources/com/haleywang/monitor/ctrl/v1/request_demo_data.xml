@@ -1,0 +1,116 @@
+<req_datas>
+
+
+    <req_data>
+        <req>
+            <![CDATA[
+
+            var body =`<req>
+                <id txt="abc"/>
+                <name txt="{{name}}" />
+                <date txt="{{date_now}}" />
+            </req>`;
+
+            var req = {
+                "headers": {},
+                "method": "POST",
+                "name": "demo xml 1",
+                "body": body,
+
+                "url": "{{host}}/v1/demo/comment"
+            }
+
+            ]]>
+        </req>
+        <case>
+            <![CDATA[
+            var cases = [
+                {"name": "case1", "id" : "1"},
+                {"name": "case2", "id" : "2"},
+                {"name": "case3", "id" : "3"}
+
+            ]
+
+            ]]>
+        </case>
+        <pre_script>
+            <![CDATA[
+
+            $preReqResult.date_now = new Date();
+
+            ]]>
+
+        </pre_script>
+        <test_script>
+            <![CDATA[
+
+var response = JSON.parse($response);
+
+$assertThat("status should be 200", response.status,200);
+
+$assertThat("body should contain case", response.body, "case", function(actual, expect) {
+    return actual.indexOf(expect) >= 0;
+});
+
+            ]]>
+
+        </test_script>
+
+    </req_data>
+
+    <req_data>
+        <req>
+            <![CDATA[
+
+
+
+            {
+                "headers": {},
+                "method": "POST",
+                "name": "demo xml",
+                "body": "{{name}}",
+
+                "url": "http://localhost:8000/v1/demo/comment"
+            }
+
+            ]]>
+        </req>
+        <case>
+            <![CDATA[
+
+            [
+                {"name": "case1", "id" : "1"},
+                {"name": "case2", "id" : "2"},
+                {"name": "case3", "id" : "3"}
+
+            ]
+
+            ]]>
+        </case>
+        <pre_script>
+            <![CDATA[
+
+
+
+            ]]>
+
+        </pre_script>
+        <test_script>
+            <![CDATA[
+
+
+        var response = JSON.parse($response);
+
+        $assertThat("status should be 200", response.status,200);
+
+
+            ]]>
+
+        </test_script>
+
+    </req_data>
+
+
+
+
+</req_datas>

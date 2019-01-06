@@ -257,7 +257,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		}).success(function(res) {
 			log(res);
 			if(res.data.accountId) {
-				// $scope.fectchReqList();
+				// $scope.fetchReqList();
 				// $scope.currentAccount = res.data.data;
 				// $(".at-login-modal-sm").removeClass("in");
 				window.location.reload();
@@ -273,7 +273,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		}).success(function(res) {
 			log(res);
 			if(res.data && res.data.accountId) {
-				$scope.fectchReqList();
+				$scope.fetchReqList();
 				$scope.currentAccount = res.data;
 			}else {
 				//pop up login
@@ -354,21 +354,74 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		}).success(function(res) {
 			log(res);
 			$scope.loginModel.email = $scope.registerModel.email;
-			$scope.fectchReqList();
+			$scope.fetchReqList();
 		})
 	};
-	
-	$scope.fectchReqMethods = function() {
 
-		$http.get("/v1/req/methods").success(function(res) {
+
+	$scope.testClick = function() {
+
+    		alert(1);
+
+    	}
+
+    $scope.showReqSettings = false;
+    $scope.toggleShowReqSettings = function() {
+        console.log(123);
+
+            $scope.showReqSettings  = !$scope.showReqSettings ;
+
+    };
+
+    $scope.clickReqExItem = function(item) {
+        if(!$scope.currentReqTabData.meta) {
+            $scope.currentReqTabData.meta = {};
+        }
+        $scope.currentReqTabData.meta.request = item.value;
+
+    };
+
+    $scope.clickCaseExItem = function(item) {
+            if(!$scope.currentReqTabData.meta) {
+                $scope.currentReqTabData.meta = {};
+            }
+            $scope.currentReqTabData.meta.cases = item.value;
+
+    };
+
+    $scope.clickPreScriptExItem = function(item) {
+            if(!$scope.currentReqTabData.meta) {
+                $scope.currentReqTabData.meta = {};
+            }
+            $scope.currentReqTabData.meta.pre_request_script = item.value;
+
+    };
+
+    $scope.clickTestExItem = function(item) {
+            if(!$scope.currentReqTabData.meta) {
+                $scope.currentReqTabData.meta = {};
+            }
+            $scope.currentReqTabData.meta.test_script = item.value;
+
+    };
+
+
+
+
+
+	$scope.configs = {};
+	$scope.fecthReqMethods = function() {
+
+		$http.get("/v1/config/list").success(function(res) {
 			log(res);
-			$scope.reqMethods = res.data;
+			$scope.reqMethods = res.data.methods;
+			$scope.configs = res.data;
 		});
 
 	}
-	$scope.fectchReqMethods();
+	$scope.fecthReqMethods();
 
-	$scope.fectchReqList = function() {
+	$scope.fetchReqList = function() {
 
 		$http.get("/v1/req/list").success(function(res) {
 			log(res);
@@ -420,7 +473,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	
 	
 	
-	$scope.fectchReqList();
+	$scope.fetchReqList();
 
 	$scope.newReqTabModel = function() {
 		log("====>");
@@ -444,7 +497,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		$scope.newReqTabModel();
 	}
 
-	$scope.fectchGroupList = function() {
+	$scope.fetchGroupList = function() {
 		$http.get("/v1/req/groupList").success(function(res) {
 			log(res);
 			if(res.data == "need login.") {
@@ -453,9 +506,10 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			$scope.groupList = res.data;
 		});
 	}
-	$scope.fectchGroupList();
+	$scope.fetchGroupList();
 	
 	$scope.reqSave = function() {
+	    changeReqTabsStorage($scope.reqTabs);
 
 		$http({
 			method : 'POST',
@@ -463,7 +517,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			data : $scope.currentReqTabData
 		}).success(function(res) {
 			log(res);
-			$scope.fectchReqList();
+			$scope.fetchReqList();
 		});
 	};
 	
@@ -494,7 +548,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			data : newReqObj,
 		}).success(function(res) {
 			log(res);
-			$scope.fectchReqList();
+			$scope.fetchReqList();
 
 			callback && callback(res);
 		})
@@ -543,7 +597,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		}).success(function(res) {
 			log(res);
 			if(isReqGroup) {
-			    $scope.fectchReqList();
+			    $scope.fetchReqList();
 			    return;
 			}
 			for(var i in $scope.reqList) {
@@ -654,7 +708,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			var idx = $scope.getCurrentReqTab();
 		}
 		var id = $scope.mytree.currentNode.id;
-		$scope.fectchcurrentReqTabDetail(id, function() {
+		$scope.fetchcurrentReqTabDetail(id, function() {
 			$scope.onReqTabsChange();
 
 		});
@@ -674,7 +728,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
             var idx = $scope.getCurrentReqTab();
         }
         var id = node.id;
-        $scope.fectchcurrentReqTabDetail(id, function() {
+        $scope.fetchcurrentReqTabDetail(id, function() {
             $scope.onReqTabsChange();
 
         });
@@ -765,7 +819,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		});
 	};
 	
-	$scope.fectchcurrentReqTabDetail = function(id, callback) {
+	$scope.fetchcurrentReqTabDetail = function(id, callback) {
 
 	    if(!id) {
 	        callback && callback(null);
@@ -891,7 +945,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		log("clickReqTab", reqTab);
 
 		if(!reqTab.meta || !reqTab.meta.request) {
-			$scope.fectchcurrentReqTabDetail(reqTab.id);
+			$scope.fetchcurrentReqTabDetail(reqTab.id);
 		}
 	};
 	
@@ -1209,7 +1263,7 @@ function resizeEditors() {
 		})
 		Split(['#c', '#d'], {
           direction: 'vertical',
-          sizes: [50, 50],
+          sizes: [55, 45],
           gutterSize: 8,
           cursor: 'row-resize',
           onDragStart : function() {

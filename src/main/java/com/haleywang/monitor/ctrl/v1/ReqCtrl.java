@@ -320,15 +320,7 @@ public class ReqCtrl extends BaseCtrl {
 
     }
 
-    //RequestMapping( value = "/methods", method = RequestMethod.GET)
-    public String methods() {
-        System.out.println(" ====> methods");
-        ResultStatus<HttpMethod[]> res = new ResultStatus<>();
 
-        HttpMethod[] values = HttpMethod.values();
-
-        return JsonUtils.toJson(res.ofData(values));
-    }
 
     //RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String delete() throws IOException {

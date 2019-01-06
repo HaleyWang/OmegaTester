@@ -2,15 +2,14 @@ package com.haleywang.monitor.common.req;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 import com.haleywang.monitor.model.ReqInfo;
 import com.haleywang.monitor.model.ReqSetting;
+import com.haleywang.monitor.utils.CollectionUtils;
 import com.haleywang.monitor.utils.JsonUtils;
 
 import com.haleywang.monitor.utils.TemplateUtils;
@@ -26,17 +25,21 @@ public class ReqInfoHelper {
 			throws MalformedURLException {
 
 		Map<String, String>  meta = ri.getMeta();
-		String request = meta.get("request");
+		String request = meta.getOrDefault("requestJson", meta.get("request"));
 		Preconditions.checkNotNull(request, "request should not be null, reqInfo id:" + ri.getId());
 
 
 		String envJson = envStrring != null ? envStrring.getContent() : "";
 
+		int caseIndex = ri.getCaseIndex();
 
-		return getHttpRequestItem(request, envJson, preReqResultStr);
+		String casesStr = meta.getOrDefault("casesJson", meta.get("cases"));
+
+
+		return getHttpRequestItem(request, envJson, casesStr,  caseIndex, preReqResultStr);
 	}
 
-	public static HttpRequestItem getHttpRequestItem(String request, String envJson, String preReqResultStr) throws MalformedURLException {
+	public static HttpRequestItem getHttpRequestItem(String request, String envJson,String casesStr, int caseIndex, String preReqResultStr) throws MalformedURLException {
 
 		Preconditions.checkNotNull(request, "request should not be null");
 
@@ -51,6 +54,18 @@ public class ReqInfoHelper {
             if(envMap != null) {
                 map.putAll(envMap);
             }
+		}
+
+		if(StringUtils.isNotBlank(casesStr)) {
+
+			TypeReference<HashMap> t = new TypeReference<HashMap>() {
+			};
+
+			HashMap<String, Object> caseDataMaps = JsonUtils.fromJson(casesStr, t);
+			Object obj = caseDataMaps.get(caseIndex+"");
+			if(obj instanceof Map) {
+				map.putAll((Map)obj);
+			}
 		}
 
 		if(StringUtils.isNotBlank(preReqResultStr)) {

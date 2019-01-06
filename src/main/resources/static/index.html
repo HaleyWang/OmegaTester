@@ -180,7 +180,7 @@
 </script>
 
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top mynavbar">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed"
@@ -468,10 +468,10 @@
                         </div>
 
 
-                        <div class="js-max-box req-box " ng-class="reqMaxBox" >
+                        <div class="js-max-box req-box " ng-class="reqMaxBox"  >
 
                             <!-- Nav tabs -->
-                            <ul class="nav nav-tabs req-data-tab" role="tablist">
+                            <ul class="nav nav-tabs req-data-tab" role="tablist" >
                                 <li data-idx="0" role="presentation" class="active"><a
                                         data-ng-dblclick="reqTabDblclick()"
                                         href="#req_data" aria-controls="home" role="tab"
@@ -495,24 +495,102 @@
                                                                         data-toggle="tab">Test</a>
                                 </li>
 
-                                <div class="box-format" >
-                                    <a
-                                       href="#importModal" data-toggle="modal"
-                                       data-backdrop="static" data-keyboard="true"
-                                    >Import</a>
-                                    <a
-                                       href="#exportModal" data-toggle="modal"
-                                       data-backdrop="static" data-keyboard="true"
-                                    >Export</a>
-                                    <a href="##" ng-click="formatReqData()">Format</a>
-                                </div>
+
+
+
                             </ul>
+
+
 
 
                             <!-- Tab panes -->
                             <div class="tab-content req-body-content
 " >
-                                <div role="tabpanel" class="tab-pane active" id="req_data">
+                                <div role="tabpanel" class="tab-pane active" id="req_data" style="position: relative;">
+
+                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; " >
+
+                                        <a href="##" ng-click="formatReqData()">Format</a>
+
+
+
+                                        <div class="dropdown" style="display:inline-block">
+                                            <button
+                                                    data-ng-click="toggleShowReqSettings()"
+                                                    class="btn btn-default btn-xs " type="button"
+                                            >
+                                                <span class="caret"></span>
+                                            </button>
+
+                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
+                                                 data-ng-show="showReqSettings"
+                                                 style="  overflow: scroll;height: 200px;    width: 200px;">
+
+                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                            <h4 class="panel-title">
+                                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                    Actions
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="">
+                                                                <ul class="list-group">
+                                                                    <li
+                                                                            class="list-group-item">
+                                                                        <a
+                                                                                href="#importModal" data-toggle="modal"
+                                                                                data-backdrop="static" data-keyboard="true"
+                                                                        >Import</a>
+                                                                    </li>
+
+                                                                    <li
+                                                                            class="list-group-item">
+
+                                                                        <a
+                                                                                href="#exportModal" data-toggle="modal"
+                                                                                data-backdrop="static" data-keyboard="true"
+                                                                        >Export</a>
+                                                                    </li>
+                                                                </ul>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                    Request examples
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                            <div class="">
+
+                                                                <ul class="list-group">
+                                                                    <li data-ng-repeat="reqExConf in configs.reqExamples"
+                                                                        data-ng-click="clickReqExItem(reqExConf)"
+                                                                        class="list-group-item">Example {{reqExConf.id}}
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
 
 
 
@@ -524,23 +602,213 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="req_script">
 
+                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; " >
+
+
+                                        <div class="dropdown" style="display:inline-block">
+                                            <button
+                                                    data-ng-click="toggleShowReqSettings()"
+                                                    class="btn btn-default btn-xs " type="button"
+                                            >
+                                                <span class="caret"></span>
+                                            </button>
+
+                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
+                                                 data-ng-show="showReqSettings"
+                                                 style="  overflow: scroll;height: 200px;    width: 200px;">
+
+                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                            <h4 class="panel-title">
+                                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                    PreScript Examples
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="">
+
+                                                                <ul class="list-group">
+                                                                    <li data-ng-repeat="item in configs.preScriptExamples"
+                                                                        data-ng-click="clickPreScriptExItem(item)"
+                                                                        class="list-group-item">Example {{item.id}}
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                    Other
+
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                            <div class="panel-body">
+
+                                                                Coming soon.
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
 
                                     <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
                                           data-ng-show="showAce"
-                                         ng-model="currentReqTabData.meta.preRequestScript"
+                                         ng-model="currentReqTabData.meta.pre_request_script"
                                     ></div>
 
 
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="req_test">
 
+                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; " >
+
+
+                                        <div class="dropdown" style="display:inline-block">
+                                            <button
+                                                    data-ng-click="toggleShowReqSettings()"
+                                                    class="btn btn-default btn-xs " type="button"
+                                            >
+                                                <span class="caret"></span>
+                                            </button>
+
+                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
+                                                 data-ng-show="showReqSettings"
+                                                 style="  overflow: scroll;height: 200px;    width: 200px;">
+
+                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                            <h4 class="panel-title">
+                                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                    Test Examples
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="">
+
+                                                                <ul class="list-group">
+                                                                    <li data-ng-repeat="item in configs.testScriptExamples"
+                                                                        data-ng-click="clickTestExItem(item)"
+                                                                        class="list-group-item">Example {{item.id}}
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                    Other
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                            <div class="panel-body">
+
+                                                                Coming soon.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                     <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
                                           data-ng-show="showAce"
-                                         ng-model="currentReqTabData.meta.testScript"
+                                         ng-model="currentReqTabData.meta.test_script"
                                     ></div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="cases">
 
+                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; " >
+
+
+                                        <div class="dropdown" style="display:inline-block">
+                                            <button
+                                                    data-ng-click="toggleShowReqSettings()"
+                                                    class="btn btn-default btn-xs " type="button"
+                                            >
+                                                <span class="caret"></span>
+                                            </button>
+
+                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
+                                                 data-ng-show="showReqSettings"
+                                                 style="  overflow: scroll;height: 200px;    width: 200px;">
+
+                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                            <h4 class="panel-title">
+                                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                    Cases Examples
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="">
+
+                                                                <ul class="list-group">
+                                                                    <li data-ng-repeat="item in configs.caseExamples"
+                                                                        data-ng-click="clickCaseExItem(item)"
+                                                                        class="list-group-item">Example {{item.id}}
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                    Other
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                            <div class="panel-body">
+
+                                                                Coming soon.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
 
                                     <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
                                           data-ng-show="showAce"

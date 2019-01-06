@@ -25,10 +25,8 @@ public class DemoCtrl extends BaseCtrl {
 
         String body = StringUtils.defaultString(getBodyParams(), "");
 
-
-
         ResultStatus<String> res = new ResultStatus<>();
-        return JsonUtils.toJson(res.of(Msg.OK, "1"));
+        return JsonUtils.toJson(res.of(Msg.OK, "you input is "+ body));
     }
 
 
