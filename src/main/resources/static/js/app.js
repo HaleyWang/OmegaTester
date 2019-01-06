@@ -933,6 +933,9 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	};
 
 	$scope.clickReqTab = function(tab) {
+	    if(!tab) {
+	        return;
+	    }
 		for ( var i in $scope.reqTabs) {
 			var t = $scope.reqTabs[i];
 			t.active = "";
@@ -982,9 +985,11 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			}
 		}
 
+		if($scope.reqTabs.length == 0) {
+		    $scope.newReqTabModel();
+		}
 
 		$scope.clickReqTab($scope.reqTabs[activeId]);
-
 	};
 
 	$scope.formatReqData = function() {
