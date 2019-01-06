@@ -2,9 +2,12 @@
 
 ## Run from the sources.
 Prerequisites:
+
 JDK 8
+
 Maven > 3.2.1
-Your favorite IDE
+
+Lombok plugin for your IDE
 
 ```
 cd OmegaTester
