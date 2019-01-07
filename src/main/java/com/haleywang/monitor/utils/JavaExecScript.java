@@ -110,7 +110,7 @@ public class JavaExecScript {
 
         left =  left.replaceAll("=\\s*`", "='");
         left =  left.replaceAll("`[\\s\\n]*;", "';");
-        left = left.replaceAll("\\n", " ");
+        left = left.replaceAll("\\r|\\n", " ");
 
         String script = left + right;
 
