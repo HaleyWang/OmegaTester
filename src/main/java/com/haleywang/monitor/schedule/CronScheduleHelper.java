@@ -1,29 +1,19 @@
 package com.haleywang.monitor.schedule;
 
 import com.haleywang.db.DBUtils;
-import com.haleywang.monitor.App;
-import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.model.ReqBatch;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
-import com.haleywang.monitor.service.impl.ReqJobService;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.impl.matchers.GroupMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tk.mybatis.mapper.entity.Example;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by haley on 2018/12/5.
