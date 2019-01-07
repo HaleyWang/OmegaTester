@@ -19,10 +19,4 @@ public class CronUtils {
         return getNextValidTimeAfter(cronExpression, new Date());
     }
 
-    public static Long getNextValidSeconds(Job job) throws ParseException {
-        Date latTime = job.getLastTime() != null ? job.getLastTime() : new Date();
-        Date nextTime = getNextValidTimeAfter(job.getCronExpression(), latTime);
-        job.setLastTime(nextTime);
-        return (nextTime.getTime() - latTime.getTime()) / 1000;
-    }
 }

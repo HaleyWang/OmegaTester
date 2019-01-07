@@ -1,66 +1,57 @@
 package com.haleywang.monitor.schedule;
 
+import com.haleywang.monitor.App;
+import com.haleywang.monitor.service.impl.ReqJobService;
 import com.haleywang.monitor.utils.DateUtils;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import lombok.Data;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.net.MalformedURLException;
 import java.util.Date;
 
 /**
  * Created by haley on 2018/12/5.
  */
-public abstract class SimpleJob implements Job {
+@Data
+public class SimpleJob implements Job {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleJob.class);
 
 
 
-    private String cronExpression;
-    private String id;
-    private long timeout;
-    private Date lastTime;
 
 
-    public SimpleJob() {}
+    /**
+     * <p>
+     * Called by the <code>{@link org.quartz.Scheduler}</code> when a
+     * <code>{@link org.quartz.Trigger}</code> fires that is associated with
+     * the <code>Job</code>.
+     * </p>
+     *
+     * @throws JobExecutionException if there is an exception while executing the job.
+     */
+    public void execute(JobExecutionContext context)
+            throws JobExecutionException {
 
-    public SimpleJob(String id, long timeout, String cronExpression) {
-        this.setId(id);
-        this.setTimeout(timeout);
-        this.setCronExpression(cronExpression);
+        // Say Hello to the World and display the date/time
+        LOG.info(" #########  Hello World! - " + new Date());
+
+        String id = context.getJobDetail().getKey().getName();
+
+        ReqJobService reqJobService = new ReqJobService();
+        try {
+            reqJobService.runBatch(Long.parseLong(id));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    @Override
-    public Date getLastTime() {
-        return DateUtils.copy(lastTime);
-    }
-
-    @Override
-    public void setLastTime(Date lastTime) {
-        this.lastTime = DateUtils.copy(lastTime);
-
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public long getTimeout() {
-        return timeout;
-    }
-
-    @Override
-    public void setTimeout(long timeout) {
-        this.timeout = timeout;
-    }
-
-    public String getCronExpression() {
-        return cronExpression;
-    }
-
-    public void setCronExpression(String cronExpression) {
-        this.cronExpression = cronExpression;
-    }
 }

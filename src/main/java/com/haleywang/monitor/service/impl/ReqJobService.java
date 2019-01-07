@@ -1,6 +1,8 @@
 package com.haleywang.monitor.service.impl;
 
+import com.haleywang.db.DBUtils;
 import com.haleywang.db.mapper.Sort;
+import com.haleywang.monitor.common.mvc.ApiHandler;
 import com.haleywang.monitor.dao.*;
 import com.haleywang.monitor.dto.UnirestRes;
 import com.haleywang.monitor.model.*;
@@ -20,149 +22,153 @@ import java.util.List;
 
 public class ReqJobService extends BaseServiceImpl<ReqBatch> {
 
-	static int REQBATCHHISTORY_MAX_SIZE_PER_BATCH_ID = 100;
-	
-	@Resource
-	private ReqInfoService requestInfoService;
-	
-	@Resource
-	ReqBatchService reqBatchService;
-	
-	@Resource
-	private ReqBatchHistoryService reqBatchHistoryService;
+    static int REQBATCHHISTORY_MAX_SIZE_PER_BATCH_ID = 100;
 
-	@Resource
-	ReqBatchHistoryRepository reqBatchHistoryRepository;
+    @Resource
+    private ReqInfoService requestInfoService;
 
-	ReqAccountService reqAccountService;
+    @Resource
+    ReqBatchService reqBatchService;
 
-	public ReqJobService() {
-		ReqBatchRepository requestInfoRepository = getMapper(ReqBatchRepository.class);
-		this.reqBatchHistoryRepository = getMapper(ReqBatchHistoryRepository.class);
-		this.mapper = (requestInfoRepository);
+    @Resource
+    private ReqBatchHistoryService reqBatchHistoryService;
 
-		this.requestInfoService = new ReqInfoServiceImpl();
-		this.reqBatchService = new ReqBatchServiceImpl();
-		this.reqBatchHistoryService = new ReqBatchHistoryServiceImpl();
-		this.reqAccountService = new ReqAccountServiceImpl();
-	}
+    @Resource
+    ReqBatchHistoryRepository reqBatchHistoryRepository;
 
+    ReqAccountService reqAccountService;
+
+    public ReqJobService() {
+        ReqBatchRepository requestInfoRepository = getMapper(ReqBatchRepository.class);
+        this.reqBatchHistoryRepository = getMapper(ReqBatchHistoryRepository.class);
+        this.mapper = (requestInfoRepository);
+
+        this.requestInfoService = new ReqInfoServiceImpl();
+        this.reqBatchService = new ReqBatchServiceImpl();
+        this.reqBatchHistoryService = new ReqBatchHistoryServiceImpl();
+        this.reqAccountService = new ReqAccountServiceImpl();
+    }
 
 
     private static final Logger LOG = LoggerFactory.getLogger(ReqJobService.class);
 
     public void hello() {
-    	LOG.info("Hello World!");
+        LOG.info("Hello World!");
     }
-    
+
     public void execute() {
-    	LOG.info("Hello World!");
+        LOG.info("Hello World!");
     }
 
 
-	public void runBatch( Long batchId) throws MalformedURLException, UnirestException {
+    public void runBatch(Long batchId) throws MalformedURLException, UnirestException {
+        try {
 
-		ReqBatch batch = reqBatchService.findOne(batchId);
-		if(!BooleanUtils.isTrue(batch.getEnable())) {
-			return;
-		}
-		if(ReqBatch.Status.RUNNING.name().equals(batch.getStatus())) {
-			return;
-		}
-
-		batch.setStatus(ReqBatch.Status.RUNNING.name());
-		int num = reqBatchService.updateByVersion(batch);
-		if(num <= 0) {
-			return;
-		}
-
-		try {
-			doRunBatch(batch);
-		}finally {
-			ReqBatch batchObj = reqBatchService.findOne(batchId);
-			batchObj.setStatus("");
-			reqBatchService.update(batchObj);
-		}
-	}
-
-	private void doRunBatch( ReqBatch batch ) throws MalformedURLException, UnirestException {
+            ReqBatch batch = reqBatchService.findOne(batchId);
+            if (!BooleanUtils.isTrue(batch.getEnable())) {
+                return;
+            }
+            //TODO check wait timeout
+            if (ReqBatch.Status.RUNNING.name().equals(batch.getStatus())) {
+                return;
+            }
 
 
+            batch.setStatus(ReqBatch.Status.RUNNING.name());
+            int num = reqBatchService.updateByVersion(batch);
+            if (num <= 0) {
+                return;
+            }
 
 
-		ReqBatchHistory reqBatchHistory = new ReqBatchHistory();
-		reqBatchHistory.setBatchId(batch.getBatchId());
-		//TODO save batch history
+            try {
+                doRunBatch(batch);
+            } finally {
+                ReqBatch batchObj = reqBatchService.findOne(batchId);
+                batchObj.setStatus("");
+                reqBatchService.update(batchObj);
+            }
+        } finally {
+            DBUtils.closeSession(true);
+        }
+    }
+
+    private void doRunBatch(ReqBatch batch) throws MalformedURLException, UnirestException {
 
 
-		//split batch to tasks
-		Long reqGroupId = batch.getGroupId();
-		if(reqGroupId == null) {
-			return;
-		}
-		List<ReqInfo> ll = requestInfoService.listRequestInfoByReqGroup(reqGroupId);
-		ReqBatchHistory.Statuts statuts = ReqBatchHistory.Statuts.PROCESSING;
+        ReqBatchHistory reqBatchHistory = new ReqBatchHistory();
+        reqBatchHistory.setBatchId(batch.getBatchId());
+        //TODO save batch history
 
-		reqBatchHistory.setTotal(ll.size());
-		reqBatchHistory.setBatchStartDate(new Date());
-		reqBatchHistory = reqBatchHistoryService.save(reqBatchHistory );
 
-		long t = System.currentTimeMillis();
-		for (ReqInfo ri : ll) {
-			Long batchHistoryId = reqBatchHistory.getBatchHistoryId();
-			ReqBatchHistory reqBatchHistoryDB = reqBatchHistoryService.findOne(reqBatchHistory);
-			if(reqBatchHistoryDB == null ) {
-				LOG.warn("ReqBatchHistory can not find batch by BatchHistoryId:" + batchHistoryId);
-				break;
-			}
-			reqBatchHistory = reqBatchHistoryDB;
-			if(reqBatchHistory.getStatuts() == ReqBatchHistory.Statuts.CANCELLED) {
-				LOG.warn("Batch cancelled BatchHistoryId:" + batchHistoryId);
-				statuts = ReqBatchHistory.Statuts.CANCELLED;
-				break;
-			}
-			ReqAccount account = reqAccountService.findOne(batch.getCreatedById());
-			ri = requestInfoService.detail(ri.getId(), account);
-			UnirestRes<String> res = requestInfoService.send(ri, account,
-					batchHistoryId, null);
-			if(res.getTestSuccess() == null || res.getTestSuccess()) {
-				reqBatchHistory.setSuccessNum(reqBatchHistory.getSuccessNum() + 1);
-			}
+        //split batch to tasks
+        Long reqGroupId = batch.getGroupId();
+        if (reqGroupId == null) {
+            return;
+        }
+        List<ReqInfo> ll = requestInfoService.listRequestInfoByReqGroup(reqGroupId);
+        ReqBatchHistory.Statuts statuts = ReqBatchHistory.Statuts.PROCESSING;
 
-			if(reqBatchHistory.getBatchHistoryId() ==null) {
-				reqBatchHistoryService.save(reqBatchHistory );
-			}else {
-				reqBatchHistoryService.update(reqBatchHistory );
-			}
-		}
-		reqBatchHistory.setCostTime(System.currentTimeMillis() -t);
+        reqBatchHistory.setTotal(ll.size());
+        reqBatchHistory.setBatchStartDate(new Date());
+        reqBatchHistory = reqBatchHistoryService.save(reqBatchHistory);
 
-		if(reqBatchHistory.getSuccessNum() == reqBatchHistory.getTotal()) {
-			statuts = ReqBatchHistory.Statuts.COMPLETED;
-		}else {
-			statuts = ReqBatchHistory.Statuts.ERROR;
-		}
-		reqBatchHistory.setStatuts(statuts);
+        long t = System.currentTimeMillis();
+        for (ReqInfo ri : ll) {
+            Long batchHistoryId = reqBatchHistory.getBatchHistoryId();
+            ReqBatchHistory reqBatchHistoryDB = reqBatchHistoryService.findOne(reqBatchHistory);
+            if (reqBatchHistoryDB == null) {
+                LOG.warn("ReqBatchHistory can not find batch by BatchHistoryId:" + batchHistoryId);
+                break;
+            }
+            reqBatchHistory = reqBatchHistoryDB;
+            if (reqBatchHistory.getStatuts() == ReqBatchHistory.Statuts.CANCELLED) {
+                LOG.warn("Batch cancelled BatchHistoryId:" + batchHistoryId);
+                statuts = ReqBatchHistory.Statuts.CANCELLED;
+                break;
+            }
+            ReqAccount account = reqAccountService.findOne(batch.getCreatedById());
+            ri = requestInfoService.detail(ri.getId(), account);
+            UnirestRes<String> res = requestInfoService.send(ri, account,
+                    batchHistoryId, null);
+            if (res.getTestSuccess() == null || res.getTestSuccess()) {
+                reqBatchHistory.setSuccessNum(reqBatchHistory.getSuccessNum() + 1);
+            }
 
-		if(reqBatchHistory.getBatchHistoryId() != null) {
-			reqBatchHistoryService.update(reqBatchHistory );
-		}else {
-			reqBatchHistoryService.save(reqBatchHistory );
-		}
+            if (reqBatchHistory.getBatchHistoryId() == null) {
+                reqBatchHistoryService.save(reqBatchHistory);
+            } else {
+                reqBatchHistoryService.update(reqBatchHistory);
+            }
+        }
+        reqBatchHistory.setCostTime(System.currentTimeMillis() - t);
 
-		//TODO
-		//removeOldReqBatchHistory(scheduleJob.getBatchId(), ReqBatchHistory.Statuts.completed);
-		//removeOldReqBatchHistory(scheduleJob.getBatchId(), ReqBatchHistory.Statuts.error);
-	}
+        if (reqBatchHistory.getSuccessNum() == reqBatchHistory.getTotal()) {
+            statuts = ReqBatchHistory.Statuts.COMPLETED;
+        } else {
+            statuts = ReqBatchHistory.Statuts.ERROR;
+        }
+        reqBatchHistory.setStatuts(statuts);
 
-	private void removeOldReqBatchHistory( Long batchId, ReqBatchHistory.Statuts statuts)  {
+        if (reqBatchHistory.getBatchHistoryId() != null) {
+            reqBatchHistoryService.update(reqBatchHistory);
+        } else {
+            reqBatchHistoryService.save(reqBatchHistory);
+        }
 
-		Sort sort =  Sort.of( "batchHistoryId", false);
-		List<ReqBatchHistory> list = reqBatchHistoryRepository.findByBatchIdAndStatuts(batchId, statuts, sort);
+        //TODO
+        //removeOldReqBatchHistory(scheduleJob.getBatchId(), ReqBatchHistory.Statuts.completed);
+        //removeOldReqBatchHistory(scheduleJob.getBatchId(), ReqBatchHistory.Statuts.error);
+    }
 
-		for(int i = REQBATCHHISTORY_MAX_SIZE_PER_BATCH_ID -1, n = list.size(); i < n ; i++ ) {
-			//reqBatchHistoryService.delete(list.get(i).getBatchHistoryId());
-		}
-	}
+    private void removeOldReqBatchHistory(Long batchId, ReqBatchHistory.Statuts statuts) {
+
+        Sort sort = Sort.of("batchHistoryId", false);
+        List<ReqBatchHistory> list = reqBatchHistoryRepository.findByBatchIdAndStatuts(batchId, statuts, sort);
+
+        for (int i = REQBATCHHISTORY_MAX_SIZE_PER_BATCH_ID - 1, n = list.size(); i < n; i++) {
+            //reqBatchHistoryService.delete(list.get(i).getBatchHistoryId());
+        }
+    }
 
 }

@@ -76,11 +76,7 @@
 			<version>4.0.6</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.23.1</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.mybatis</groupId>

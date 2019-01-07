@@ -115,6 +115,6 @@ public class ReqBatchServiceImpl extends BaseServiceImpl<ReqBatch> implements
 	@Override
 	public void update(ReqBatch reqBatch, ReqAccount reqAccount) {
 		super.update(reqBatch);
-		CronScheduleHelper.addSchedule(reqBatch);
+		CronScheduleHelper.putSchedule(reqBatch);
 	}
 }

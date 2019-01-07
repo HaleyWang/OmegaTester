@@ -20,42 +20,6 @@ public class WorkerTest {
 
     }
 
-    public static void main(String[] args) {
 
-
-
-        ListeningExecutorService listeningExecutorService = MoreExecutors
-                .listeningDecorator(Executors.newCachedThreadPool());
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
-
-
-        Job job = new SimpleJob() {
-            @Override
-            public void run() {
-                System.out.println("Now begin: " + new Date());
-                try {
-                    for (int  i = 1; i <= 5; i++) {
-                        Thread.sleep(1000);
-                        System.out.println("looping." + i);
-                    }
-                } catch (InterruptedException e) {
-                    System.out.println("Interrupted");
-                }
-                System.out.println("Now end: " + new Date());
-            }
-        };
-        Runnable listener = new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("job done ...");
-
-            }
-        };
-
-
-        Worker worker = new Worker(listeningExecutorService, scheduledExecutorService, job, listener);
-        scheduledExecutorService.scheduleAtFixedRate(worker, 0, 2, TimeUnit.SECONDS);
-
-    }
 
 }
