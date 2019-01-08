@@ -319,11 +319,15 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		HttpRequestItem reqItem = ReqInfoHelper.parse(ri, envString, preReqResultStr);
 
 		LOG.info("send req: " + JsonUtils.toJson(reqItem));
+		long begin = new Date().getTime();
 		UnirestRes<String> result = new UnirestRes<String>(
 				HttpUtils.send(reqItem));
+		long end = new Date().getTime();
+		result.setBegin(begin);
+		result.setEnd(end);
 		String jsonRes = JsonUtils.toJson(result);
 		LOG.info("req response: " + jsonRes);
-		
+
 		
 		String testResults = runTestRespone(ri, jsonRes, preReqResultStr);
 		result.setTestResult(testResults);

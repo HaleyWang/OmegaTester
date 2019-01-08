@@ -6,9 +6,12 @@ import com.haleywang.monitor.AppContext;
 import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.common.login.LoginCookieDecrypt;
+import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.model.ReqAccount;
+import com.haleywang.monitor.model.ReqBatchHistory;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.service.impl.ReqAccountServiceImpl;
+import com.haleywang.monitor.utils.JsonUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -83,16 +86,20 @@ public class ApiHandler implements HttpHandler {
         if(e instanceof InvocationTargetException) {
             result = ((InvocationTargetException) e).getTargetException().getMessage();
         }
-        String es = "{\"msg\": \""+result+"\"}";
-
         int status = STATUS_500;
-        responseData(he, es, status);
+
+        ResultStatus rs = new ResultStatus().ofMsg(result);
+        JsonUtils.toJson(rs);
+
+        responseData(he, JsonUtils.toJson(rs), status);
     }
 
     private void response404(HttpExchange he) {
         String result = "not found";
         int status = STATUS_404;
-        responseData(he, result, status);
+
+        ResultStatus rs = new ResultStatus().ofMsg(result);
+        responseData(he, JsonUtils.toJson(rs), status);
     }
 
     private void responseData(HttpExchange he, String result, int status) {

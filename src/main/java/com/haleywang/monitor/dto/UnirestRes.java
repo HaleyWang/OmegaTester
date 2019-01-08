@@ -5,7 +5,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.mashape.unirest.http.HttpResponse;
+import lombok.Data;
 
+@Data
 public class UnirestRes<T>  {
 
 	@JsonIgnore
@@ -14,6 +16,10 @@ public class UnirestRes<T>  {
 	String testResult;
 	
 	Boolean testSuccess;
+
+	private long begin;
+	private long end;
+
 
 	public UnirestRes(HttpResponse<T> res) {
 		super();
@@ -66,4 +72,10 @@ public class UnirestRes<T>  {
 	public void setTestResult(String testResult) {
 		this.testResult = testResult;
 	}
+
+
+	public long getSpent_time() {
+		return end - begin;
+	}
+
 }

@@ -56,7 +56,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 	public ResultStatus<Pair<String, ReqAccount>> login(String email, String pass) {
 		ResultStatus<Pair<String, ReqAccount>> res = new ResultStatus<>();
 		if(email == null || pass == null) {
-			res.setCode(1005+"");
+			res.ofCode(1005+"");
 			return res;
 		}
 		
@@ -74,13 +74,13 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		List<ReqAccount> list = reqAccountRepository.selectByExample(example);
 
 		if (CollectionUtils.isEmpty(list)) {
-			res.setCode(1002+"");
+			res.ofCode(1002+"");
 			return res;
 		}
 
 		ReqAccount a = list.get(0);
 		if (a == null) {
-			res.setCode(1002+"");
+			res.ofCode(1002+"");
 			return res;
 		}
 		
@@ -105,7 +105,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 
 		ReqAccount a = reqAccountRepository.findByEmail(email);
 		if (a == null) {
-			res.setCode(1003+"");
+			res.ofCode(1003+"");
 			return res;
 		}
 
@@ -128,7 +128,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		}
 		ReqAccount a = reqAccountRepository.findByEmailAndToken(email, token);
 		if (a == null) {
-			res.setCode(1004+"");
+			res.ofCode(1004+"");
 			return res;
 		}
 

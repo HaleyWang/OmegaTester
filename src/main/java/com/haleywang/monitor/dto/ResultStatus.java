@@ -1,32 +1,28 @@
 package com.haleywang.monitor.dto;
 
+
+import lombok.Data;
+
+@Data
 public class ResultStatus<T> {
-	
-	
-	
+
+
+	private T data;
+
+	private ResponseMeta meta;
+
+
 	public ResultStatus(T data) {
 		super();
 		this.data = data;
 	}
 	
-	public ResultStatus() {}
+	public ResultStatus() {
+		meta = new ResponseMeta();
+	}
 
 
-	String code;
-	String msg;
-	T data;
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-	public String getMsg() {
-		return msg;
-	}
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
+
 	public T getData() {
 		return data;
 	}
@@ -36,18 +32,28 @@ public class ResultStatus<T> {
 
 
 	public ResultStatus of(String code) {
-		this.code = code;
+		meta.code = code;
 		return this;
 	}
 
 	public ResultStatus of(String code, T result) {
-		this.code = code;
+		meta.code = code;
 		this.data = result;
 		return this;
 	}
 
 	public ResultStatus ofData(T result) {
 		this.data = result;
+		return this;
+	}
+
+	public ResultStatus ofCode(String s) {
+		meta.setCode(s);
+		return this;
+	}
+
+	public ResultStatus ofMsg(String msg) {
+		meta.setMsg(msg);
 		return this;
 	}
 }

@@ -1,14 +1,13 @@
 var app = angular.module('TodoApp', [ 'angularTreeview', 'ui.ace', 'ui.tree' ]);
 
 function log() {
-    console.log.apply(this, arguments);
+    //console.log.apply(this, arguments);
 }
 var editors =   [];
 
 app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 	$scope.reqTabs = [];
-
 
 	$scope.groupEditObj = {};
 
@@ -59,10 +58,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
         $scope.currentReqTabData.name = reqData.name;
 		$scope.currentReqTabData.method = reqData.method;
 		$scope.currentReqTabData.url = reqData.url;
-
-
-		console.log(reqData.method);
-
 
 		$scope.currentReqTabData.swaggerId = reqData.swaggerId;
         //description
@@ -322,6 +317,9 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			data : $scope.importObject
 		}).success(function(res) {
 			log(res);
+			if(!$scope.currentReqTabData.meta) {
+			    $scope.currentReqTabData.meta = {};
+			}
 			$scope.currentReqTabData.meta.request = res.data;
 
 		})
@@ -367,10 +365,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
     $scope.showReqSettings = false;
     $scope.toggleShowReqSettings = function() {
-        console.log(123);
 
-            $scope.showReqSettings  = !$scope.showReqSettings ;
-
+         $scope.showReqSettings  = !$scope.showReqSettings ;
     };
 
     $scope.clickReqExItem = function(item) {
@@ -429,8 +425,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			var result = res.data;
 			fillEachReqCollapsed({children: result}, $scope.navCollapseRecords);
 
-			console.log('/v1/req/list', result);
-			
 			$scope.reqList = result;
 		});
 
@@ -534,12 +528,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	$scope.addReq = function(newReqObj1, callback) {
 
 		var newReqObj = $.extend({}, newReqObj1);
-		console.log(123);
-
-
-		// var idx = $scope.getCurrentReqTabIdx();
-		// $scope.currentReqTabData = res.data;
-		// $scope.reqTabs[idx]
 
 		delete newReqObj.id;
 		$http({
@@ -688,7 +676,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 	$scope.onClickHistoryItem = function(his) {
 
-		var id = his.historyId;
+		var id = his.taskHistoryId;
 		$scope.fectReqHistoryDetail(id, function() {
 			$scope.onReqTabsChange();
 
@@ -717,7 +705,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
     $scope.clickReqItem = function(node) {
 
-        console.log("click", node);
+        log("click", node);
 
         if(node.id == node.groupId) {
             return;
@@ -900,19 +888,21 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
             //res.data.testResult =
             
 			currentReqTabData.response = res.data;
-			currentReqTabData.responseMeta = res._meta;
+			currentReqTabData.responseMeta = res.meta;
 			// $scope.currentReqTabData.response.body = "loading";
 
 			log(res);
 
-        }).error(function(data, status, headers, config) {
+        }).error(function(data, status, headersFn, config) {
             log(' error ---');
 
-            currentReqTabData.response = data;
-            currentReqTabData.response .body = data.error + ", " + data.message;
+            if(data && data.meta) {
+                currentReqTabData.response .body = "_Ω_:" + data.meta.msg;
+            }
+            currentReqTabData.response .status = status;
+            currentReqTabData.response .headers = headersFn();
+
 			currentReqTabData.responseMeta = {response_status: status};
-
-
 			
 		}).finally(function() {
 		    log(' finally ---');
@@ -1146,7 +1136,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
          //var _renderer = _editor.renderer;
 
          //$scope.formatCode(_session);
-         console.log(_editor);
+         log(_editor);
 		_editor.$blockScrolling = 'Infinity';
          editors.push(_editor);
      };
@@ -1167,8 +1157,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 		        $scope.treeOptions = {
                     accept: function(sourceNodeScope, destNodesScope, destIndex) {
-                        console.log("accept-->1", sourceNodeScope, destIndex);
-                        console.log("accept-->2", destNodesScope);
+                        log("accept-->1", sourceNodeScope, destIndex);
+                        log("accept-->2", destNodesScope);
 
 
                         var sourceValue = sourceNodeScope.$modelValue.value;
@@ -1176,8 +1166,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
                             return true;
                         }
                         var destValue = destNodesScope.$nodesScope.$modelValue ? destNodesScope.$nodesScope.$modelValue.url : null;
-                        console.log("accept-->3", destNodesScope.$nodesScope);
-
+                        log("accept-->3", destNodesScope.$nodesScope);
 
                         return destValue ? false: true;
                     },
@@ -1188,7 +1177,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
                 modalInstance;
 
                 if(e.dest.nodesScope.node) {
-                console.log("accept-->4", e.dest.nodesScope.node);
+                    log("accept-->4", e.dest.nodesScope.node);
                     if(!e.dest.nodesScope.node.groupId) {
                         return false;
                     }
