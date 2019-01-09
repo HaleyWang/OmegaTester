@@ -1,3 +1,21 @@
+$(function() {
+		Split([ '#a', '#b', '#c' ], {
+			gutterSize : 8,
+			sizes : [ 25, 35, 40 ],
+			//minSize : [ 200, 500 ],
+			cursor : 'col-resize',
+			onDragStart : function() {
+				//$("#main>.panel").hide();
+			},
+			onDragEnd : function() {
+				//$("#main>.panel").show();
+			}
+
+		})
+	});
+
+
+
 var app = angular.module('TodoApp', [ 'angularTreeview' ]);
 
 

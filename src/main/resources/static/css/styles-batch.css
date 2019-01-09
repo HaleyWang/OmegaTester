@@ -1,0 +1,27 @@
+#b, #c {
+	padding: 10px;
+}
+
+#sidebar {
+	padding: 12px;
+}
+
+#sidebar-section-data {
+	padding: 10px 0 0 0;
+}
+
+#sidebar-section-data .list-group {
+	margin: 10px 0 0 0;
+}
+
+.list-group-item.active a {
+
+}
+
+#sidebar-section-data .list-group-item {
+	background-color: transparent;
+}
+
+.batch-history-detail-box .progress {
+        margin-bottom: 8px;
+}

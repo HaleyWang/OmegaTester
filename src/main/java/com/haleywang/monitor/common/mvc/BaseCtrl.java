@@ -10,14 +10,18 @@ import com.haleywang.monitor.utils.JsonUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.apache.ibatis.javassist.NotFoundException;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by haley on 2018/8/17.
@@ -131,9 +135,74 @@ public abstract class BaseCtrl {
         return invokeMethod();
     }
 
-    private Object invokeMethod() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        return this.getClass().getMethod(methodName, new Class[] {}).invoke(this, new Object[] {});
+    private static Set<Class> BASIC_TYPE = new HashSet<>();
+    static {
+        BASIC_TYPE.addAll(Arrays.asList(
+                Byte.class, Short.class, Integer.class, Long.class,
+                Float.class, Double.class, Boolean.class, Character.class
+        ));
     }
+
+    private Object[] getMethodParams(Parameter[] params) {
+        return Arrays.stream(params).map(p -> {
+
+            String name = p.getName();
+
+            String value = getUrlParam(name);
+
+            boolean hasParamBodyAnn = Arrays.stream(p.getDeclaredAnnotations()).anyMatch(annotation -> annotation.annotationType().equals(ParamBody.class));
+
+            Object paramVal = null;
+            if(hasParamBodyAnn) {
+                paramVal = JsonUtils.fromJson(getBodyParams(), p.getType());
+            }
+            else if(BASIC_TYPE.contains(p.getType())) {
+                try {
+                    paramVal = params[0].getType().getConstructor( String.class ).newInstance( value);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }else if (String.class.equals(p.getType())){
+                paramVal = value;
+            }else {
+                paramVal = JsonUtils.fromJson(value, p.getType());
+            }
+            return paramVal;
+
+        }).collect(Collectors.toList()).toArray();
+
+    }
+
+
+    private Object invokeMethod() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        //Object obj = this.getClass().getMethod(methodName, new Class[] {}).invoke(this, new Object[] {});
+
+//        Long id = Long.parseLong(getUrlParam("id"));
+        Method method = Arrays.stream(this.getClass().getDeclaredMethods()).filter(m -> m.getName().equals(methodName)).findFirst().orElse(null);
+        if(method == null) {
+            throw new NoSuchMethodException("methodName:" + methodName);
+        }
+        Parameter[] params = method.getParameters();
+
+        Object[] args = params.length == 0 ? new Object[] {} : getMethodParams(params);
+        Object obj = method.invoke(this, args);
+
+
+        if(obj == null) {
+            return null;
+        }
+        if(obj instanceof String) {
+            return obj;
+        }
+        return JsonUtils.toJson(obj);
+    }
+
 
     static final String URI_PATH = "/";
     static final int SESSION_ID = 12345;

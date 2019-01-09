@@ -76,7 +76,7 @@ public class AccountCtrl extends BaseCtrl {
         return null;
     }
 
-    public String info() {
+    public ResultStatus<ReqAccount> info() {
 
         ReqAccount currentAccount = currentAccount();
         ReqAccount account = new ReqAccount();
@@ -84,7 +84,7 @@ public class AccountCtrl extends BaseCtrl {
         account.setName(currentAccount.getName());
         account.setEmail(currentAccount.getEmail());
         ResultStatus<ReqAccount> res = new ResultStatus<>();
-        return JsonUtils.toJson(res.ofData(account));
+        return res.ofData(account);
     }
 
 }

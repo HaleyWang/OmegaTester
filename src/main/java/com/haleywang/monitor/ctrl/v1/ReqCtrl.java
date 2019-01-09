@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.Msg;
+import com.haleywang.monitor.common.mvc.ParamBody;
 import com.haleywang.monitor.common.req.AnnoManageUtil;
 import com.haleywang.monitor.common.req.ConverterBuilder;
 import com.haleywang.monitor.common.req.MyRequestExportAnnotation;
@@ -221,85 +222,43 @@ public class ReqCtrl extends BaseCtrl {
     }
 
     //@ApiOperation(value="测试接口", notes="测试接口详细描述")
-    public String send() throws IOException, UnirestException {
+    public ResultStatus<UnirestRes<String>> send(@ParamBody ReqInfo ri, String id) throws IOException, UnirestException {
 
-        ReqInfo ri = getBodyParams(ReqInfo.class);
-
-        ReqAccount acc = currentAccount();
-        ResultStatus<UnirestRes<String>> res = new ResultStatus<>();
-
-        ReqInfoService requestInfoService = new ReqInfoServiceImpl();
+        //ReqInfo ri = getBodyParams(ReqInfo.class);
 
         // RequestInfo ri = requestInfoService.findOne(id);
-        UnirestRes<String> result = requestInfoService.send(ri, acc);
+        UnirestRes<String> result = new ReqInfoServiceImpl().send(ri, currentAccount());
 
-        res.setData(result);
-
-        return JsonUtils.toJson(res);
+        return new ResultStatus<>().ofData(result);
     }
 
-    public String list() throws IOException {
-        System.out.println(" ====> list");
+    public ResultStatus<List<ReqGroup>> list() throws IOException {
 
         ReqAccount acc = currentAccount();
-        ResultStatus<List<ReqGroup>> res = new ResultStatus<>();
 
-        ReqInfoService requestInfoService = new ReqInfoServiceImpl();
+        List<ReqGroup> ll = new ReqInfoServiceImpl().listRequestInfoByAccount(acc);
 
-        List<ReqGroup> ll = requestInfoService.listRequestInfoByAccount(acc);
-
-        res.setData(ll);
-
-        return JsonUtils.toJson(res);
+        return new ResultStatus<>().ofData(ll);
     }
 
-    public String tree() throws IOException {
-        System.out.println(" ====> tree");
+    public ResultStatus<List<ReqGroup>> tree() throws IOException {
 
         ReqAccount acc = currentAccount();
-        ResultStatus<List<ReqGroup>> res = new ResultStatus<>();
 
-        ReqInfoService requestInfoService = new ReqInfoServiceImpl();
-        List<ReqGroup> ll = requestInfoService.listRequestInfoByAccount(acc);
+        List<ReqGroup> ll = new ReqInfoServiceImpl().listRequestInfoByAccount(acc);
 
-        res.setData(ll);
-
-        return JsonUtils.toJson(res);
-
+        return new ResultStatus<>().ofData(ll);
     }
 
     //RequestMapping( value = "/list/swagger/data", method = RequestMethod.GET)
-    public String listBySwaggerId() throws IOException {
-        System.out.println(" ====> ");
+    public ResultStatus<List<ReqInfo>> listBySwaggerId() throws IOException {
 
         String swaggerId = getUrlParam("swaggerId");
         checkNotNull(swaggerId);
 
-        ReqAccount acc = currentAccount();
-        ResultStatus<List<ReqInfo>> res = new ResultStatus<>();
+        List<ReqInfo> ll = new ReqInfoServiceImpl().listRequestInfoBySwaggerId(currentAccount(), swaggerId);
 
-        ReqInfoService requestInfoService = new ReqInfoServiceImpl();
-        List<ReqInfo> ll = requestInfoService.listRequestInfoBySwaggerId(acc, swaggerId);
-
-        res.setData(ll);
-        return JsonUtils.toJson(res);
-    }
-
-    //RequestMapping( value = "/detail/swagger/data", method = RequestMethod.GET)
-    public String detail2() throws IOException {
-        System.out.println(" ====> ");
-        Long id = Long.parseLong(getUrlParam("id"));
-        checkNotNull(id);
-
-        ReqAccount acc = currentAccount();
-        ResultStatus<ReqInfo> res = new ResultStatus<>();
-
-        ReqInfoService requestInfoService = new ReqInfoServiceImpl();
-        ReqInfo ri = requestInfoService.detail(id, acc);
-
-        res.setData(ri);
-
-        return JsonUtils.toJson(res);
+        return new ResultStatus<>().ofData(ll);
     }
 
     public String detail() throws IOException {
@@ -317,7 +276,22 @@ public class ReqCtrl extends BaseCtrl {
         res.setData(ri);
 
         return JsonUtils.toJson(res);
+    }
 
+    public String detail1(Long id) throws IOException {
+        System.out.println(" ====> ");
+
+        checkNotNull(id);
+
+        ReqAccount acc = currentAccount();
+        ResultStatus<ReqInfo> res = new ResultStatus<>();
+
+        ReqInfoService requestInfoService = new ReqInfoServiceImpl();
+        ReqInfo ri = requestInfoService.detail(id, acc);
+
+        res.setData(ri);
+
+        return JsonUtils.toJson(res);
     }
 
 
@@ -392,9 +366,6 @@ public class ReqCtrl extends BaseCtrl {
 
         Long id = Long.parseLong(getUrlParam("id"));
 
-        //ReqGroup g = getBodyParams(ReqGroup.class);
-
-        //ReqAccount acc = currentAccount();
         ResultStatus<List<ReqGroup>> res = new ResultStatus<>();
 
         ReqGroupService reqGroupService = new ReqGroupServiceImpl();
