@@ -77,12 +77,14 @@ public class AccountCtrl extends BaseCtrl {
     }
 
     public String info() {
-        System.out.println(" ====> ");
 
         ReqAccount currentAccount = currentAccount();
+        ReqAccount account = new ReqAccount();
+        account.setAccountId(currentAccount.getAccountId());
+        account.setName(currentAccount.getName());
+        account.setEmail(currentAccount.getEmail());
         ResultStatus<ReqAccount> res = new ResultStatus<>();
-
-        return JsonUtils.toJson(res.ofData(currentAccount));
+        return JsonUtils.toJson(res.ofData(account));
     }
 
 }

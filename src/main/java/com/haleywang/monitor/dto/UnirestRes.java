@@ -21,6 +21,10 @@ public class UnirestRes<T>  {
 	private long end;
 
 
+	public UnirestRes() {
+
+	}
+
 	public UnirestRes(HttpResponse<T> res) {
 		super();
 		this.res = res;

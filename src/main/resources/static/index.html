@@ -249,6 +249,13 @@
                 </a>
 
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
+
+                        <li><a
+                               href="#" role="button" aria-haspopup="true"
+                               aria-expanded="false"
+                               data-toggle="modal"
+                               data-target="#myModal_aboutMe"> About me </a></li>
+
                         <li><a id="dLabel" data-target="#" data-ng-click="logout()"
                                href="#" role="button" aria-haspopup="true"
                                aria-expanded="false"> Logout </a></li>
@@ -261,6 +268,7 @@
         </div>
     </div>
 </nav>
+
 
 
 
@@ -931,6 +939,30 @@
         </div>
 
 
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal_aboutMe" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLab_aboutMe">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" >About me</h4>
+            </div>
+            <div class="modal-body">
+                <p>Omega tester</p>
+                <p>Version 0.1</p>
+
+
+            </div>
+
+
+        </div>
     </div>
 </div>
 

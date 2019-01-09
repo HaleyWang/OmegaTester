@@ -146,7 +146,7 @@
 					</ul>
 
 
-					<li ng-show="currentAccount.name"><a id="dLabel"
+					<li ng-show="currentAccount.name"><a
 						data-target="#" href="#" data-toggle="dropdown" role="button"
 						aria-haspopup="true" aria-expanded="false">
 							{{currentAccount.name}} <span class="caret"></span>
@@ -487,12 +487,12 @@
 							placeholder="password" onkeypress="check_values();">
 
 						<div class="buttonwrapper">
-							<button id="loginbtn" ng-click="login()"
+							<button  ng-click="login()"
 								ng-show="loginModel.email && loginModel.pass"
 								class="btn btn-warning loginbutton">
 								<span class="glyphicon glyphicon-hand-right"></span>
 							</button>
-							<span id="lockbtn" ng-hide="loginModel.email && loginModel.pass"
+							<span  ng-hide="loginModel.email && loginModel.pass"
 								class="glyphicon glyphicon-lock lockbutton redborder"></span>
 						</div>
 					</div>
@@ -517,7 +517,7 @@
 			<div class="modal-content loginpanel">
 
 				<div class="">
-					<i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
+					<i id="loading1" class="hidden fa fa-spinner fa-spin bigicon"></i>
 					<h2>
 						<span class="fa fa-quote-left "></span> Sign Up <span
 							class="fa fa-quote-right "></span>
@@ -558,16 +558,16 @@
 
 				<div class="modal-header">
 					<a class="close" data-dismiss="modal"
-					   id="modal-share-collection-close">x</a>
+					   id="modal-share-collection-close1">x</a>
 
 					<h4 class="modal-title">Edit batch</h4>
 				</div>
 
 				<div class="modal-body">
-					<form class="form-horizontal" id="form-add-to-collection">
+					<form class="form-horizontal" id="form-edit-to-collection">
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="new-collection">Batch
+							<label class="col-sm-4 control-label" >Batch
 								name</label>
 
 							<div class="col-sm-8">
@@ -577,7 +577,7 @@
 						</div>
 
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-4 control-label">Groups
+							<label  class="col-sm-4 control-label">Groups
 							</label>
 							<div class="col-sm-8">
 								<select ng-model="currentEditBatch.groupId"
@@ -586,14 +586,17 @@
 
 									<option value="">Select</option>
 
-									<option ng-repeat="gr in groupList " value="{{gr.groupId}}">{{gr.name}}</option>
+									<option ng-repeat="gr in groupList "
+
+											ng-selected="gr.groupId==currentEditBatch.groupId"
+											value="{{gr.groupId}}">{{gr.name}}</option>
 
 								</select>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-4 control-label">Env
+							<label  class="col-sm-4 control-label">Env
 							</label>
 							<div class="col-sm-8">
 								<select ng-model="currentEditBatch.envSettingId"
@@ -602,19 +605,23 @@
 
 									<option value="">Select</option>
 
-									<option ng-repeat="setting in settingList " ng-show="{{setting.type == 'ENV'}}" value="{{setting.id}}">{{setting.name}}</option>
+									<option ng-repeat="setting in settingList "
+
+											ng-selected="setting.id==currentEditBatch.envSettingId"
+
+											ng-show="{{setting.type == 'ENV'}}" value="{{setting.id}}">{{setting.name}}</option>
 
 								</select>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="new-collection">Time
+							<label class="col-sm-4 control-label" >Time
 								Expression </label>
 
 							<div class="col-sm-8">
 								<input ng-model="currentEditBatch.timeExpression" type="text"
-									   class="form-control" id="new-request-name1" />
+									   class="form-control"  />
 								<p>
 									<code>0 0/5 * * * ?</code>
 									//every 5 minutes
@@ -629,7 +636,7 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="new-collection">Request
+							<label class="col-sm-4 control-label" >Request
 								description</label>
 
 							<div class="col-sm-8">
@@ -669,22 +676,22 @@
 					<form class="form-horizontal" id="form-add-to-collection">
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="new-collection">Batch
+							<label class="col-sm-4 control-label" >Batch
 								name</label>
 
 							<div class="col-sm-8">
 								<input ng-model="newBatchObj.name" type="text"
-									class="form-control" id="new-request-name" />
+									class="form-control"  />
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-4 control-label">Groups
+							<label  class="col-sm-4 control-label">Groups
 							</label>
 							<div class="col-sm-8">
 								<select ng-model="newBatchObj.groupId"
 									name="select-collection" class="form-control"
-									id="select-collection1">
+									id="select-groupId-collection1">
 
 									<option value="">Select</option>
 
@@ -695,12 +702,12 @@
 						</div>
 						
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-4 control-label">Env
+							<label  class="col-sm-4 control-label">Env
 							</label>
 							<div class="col-sm-8">
 								<select ng-model="newBatchObj.envSettingId"
 									name="select-collection" class="form-control"
-									id="select-collection">
+									>
 
 									<option value="">Select</option>
 
@@ -711,12 +718,12 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="new-collection">Time
+							<label class="col-sm-4 control-label" >Time
 								Expression </label>
 
 							<div class="col-sm-8">
 								<input ng-model="newBatchObj.timeExpression" type="text"
-									class="form-control" id="new-request-name1" />
+									class="form-control"  />
 								<p>
 									<code>0 0/5 * * * ?</code>
 									//every 5 minutes
@@ -731,12 +738,12 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="new-collection">Request
+							<label class="col-sm-4 control-label" >Request
 								description</label>
 
 							<div class="col-sm-8">
 								<textarea ng-model="newBatchObj.description"
-									class="form-control" id="new-request-description"></textarea>
+									class="form-control" ></textarea>
 							</div>
 						</div>
 					</form>

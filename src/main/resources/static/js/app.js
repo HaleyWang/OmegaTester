@@ -272,7 +272,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 				$scope.currentAccount = res.data;
 			}else {
 				//pop up login
-				$("#btn-login").click();
+				$(".at-login-modal-sm").modal("show");
 			}
 		})
 	};
@@ -900,7 +900,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
                 currentReqTabData.response .body = "_Ω_:" + data.meta.msg;
             }
             currentReqTabData.response .status = status;
-            currentReqTabData.response .headers = headersFn();
 
 			currentReqTabData.responseMeta = {response_status: status};
 			

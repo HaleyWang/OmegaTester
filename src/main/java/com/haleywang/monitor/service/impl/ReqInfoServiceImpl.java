@@ -39,6 +39,7 @@ import com.haleywang.monitor.common.req.HttpRequestItem;
 import com.haleywang.monitor.common.req.HttpUtils;
 import com.haleywang.monitor.common.req.ReqInfoHelper;
 import com.mashape.unirest.http.HttpMethod;
+import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -320,8 +321,11 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
 		LOG.info("send req: " + JsonUtils.toJson(reqItem));
 		long begin = new Date().getTime();
-		UnirestRes<String> result = new UnirestRes<String>(
-				HttpUtils.send(reqItem));
+		UnirestRes<String> result = new UnirestRes<String>();
+
+		HttpResponse<String> res = HttpUtils.send(reqItem);
+		result.setRes(res);
+
 		long end = new Date().getTime();
 		result.setBegin(begin);
 		result.setEnd(end);

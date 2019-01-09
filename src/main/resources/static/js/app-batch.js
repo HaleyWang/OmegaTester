@@ -28,7 +28,8 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 		    console.log("fectSettingList", res);
 
 		    $scope.settingList = res.data;
-		    $scope.fetchBatchs();
+		    $scope.fetchGroups();
+
 		});
 	};
 	$scope.fectSettingList();
@@ -56,10 +57,11 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 		}).success(function(res) {
 			console.log(res);
 				// $scope.fetchReqList();
-				$scope.groupList = res.data;
+			$scope.groupList = res.data;
+			$scope.fetchBatchs();
+
 		})
 	};
-	$scope.fetchGroups();
 
 	$scope.newBatchObj = {
 
@@ -109,8 +111,11 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
                 }else {
                     item.active = "";
                 }
+
+                item.reqGroup = _.find($scope.groupList, function(o){ return o.id == item.groupId; });
+
 				//$scope.settingList
-				item.envSetting = _.filter($scope.settingList, function(o){ return o.id == item.envSettingId; });
+				item.envSetting = _.find($scope.settingList, function(o){ return o.id == item.envSettingId; });
 			}
 
 			$scope.batchList = batchList;

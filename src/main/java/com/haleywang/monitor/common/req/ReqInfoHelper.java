@@ -62,7 +62,8 @@ public class ReqInfoHelper {
 			};
 
 			HashMap<String, Object> caseDataMaps = JsonUtils.fromJson(casesStr, t);
-			Object obj = caseDataMaps.get(caseIndex+"");
+
+			Object obj = Optional.ofNullable(caseDataMaps).orElse(new HashMap<>()).get(caseIndex+"");
 			if(obj instanceof Map) {
 				map.putAll((Map)obj);
 			}
@@ -241,9 +242,9 @@ public class ReqInfoHelper {
 
 		String host = str.substring(0, str.indexOf(url.getHost()))
 				+ subUrl.substring(0, subUrl.indexOf("/"));
-		String psth = subUrl.substring(subUrl.indexOf("/"));
+		String path = subUrl.substring(subUrl.indexOf("/"));
 
-		return new String[] { host, psth };
+		return new String[] { host, path };
 	}
 
 }
