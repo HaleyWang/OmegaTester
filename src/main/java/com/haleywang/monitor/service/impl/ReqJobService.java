@@ -122,6 +122,9 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
                 break;
             }
             reqBatchHistory = reqBatchHistoryDB;
+            if(reqBatchHistory.getTotal() == 0) {
+                reqBatchHistory.setTotal(ll.size());
+            }
             if (reqBatchHistory.getStatuts() == ReqBatchHistory.Statuts.CANCELLED) {
                 LOG.warn("Batch cancelled BatchHistoryId:" + batchHistoryId);
                 statuts = ReqBatchHistory.Statuts.CANCELLED;

@@ -268,13 +268,15 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		}).success(function(res) {
 			log(res);
 			if(res.data && res.data.accountId) {
-				$scope.fetchReqList();
 				$scope.currentAccount = res.data;
+				$scope.fetchReqList();
 			}else {
 				//pop up login
 				$(".at-login-modal-sm").modal("show");
 			}
-		})
+        }).error(function(data, status, headersFn, config) {
+            $(".at-login-modal-sm").modal("show");
+        });
 	};
 	$scope.fetchAccountInfo();
 	$scope.importTypes = [];

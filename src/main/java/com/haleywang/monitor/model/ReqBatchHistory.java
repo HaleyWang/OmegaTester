@@ -36,10 +36,10 @@ public class ReqBatchHistory implements Serializable {
     
     private Statuts statuts;
     
-    private int successNum;
-    private int total;
+    private Integer successNum = 0;
+    private Integer total = 0;
     
-    private long costTime;
+    private Long costTime = 0L;
 
 
 
