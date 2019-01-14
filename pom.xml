@@ -16,7 +16,7 @@
 		<java.version>1.8</java.version>
 		<springfox.version>2.6.1</springfox.version>
 		<slf4j>1.7.21</slf4j>
-        <jackson>2.9.7</jackson>
+        <jackson>2.9.8</jackson>
 
 		<exec.mainClass>com.haleywang.monitor.App</exec.mainClass>
 	</properties>
