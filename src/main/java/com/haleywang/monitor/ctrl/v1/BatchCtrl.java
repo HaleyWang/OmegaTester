@@ -31,7 +31,7 @@ public class BatchCtrl extends BaseCtrl {
     }
 
     //
-    public String update() throws IOException, UnirestException {
+    public ResultStatus<List<ReqBatch>> update() throws IOException, UnirestException {
         ReqBatch reqBatch = getBodyParams(ReqBatch.class);
 
         ResultStatus<List<ReqBatch>> res = new ResultStatus<>();
@@ -44,7 +44,7 @@ public class BatchCtrl extends BaseCtrl {
 
         service.update(reqBatch, currentAccount());
 
-        return JsonUtils.toJson(res.of(Msg.OK));
+        return res.of(Msg.OK);
     }
 
     public String list() throws IOException, UnirestException {

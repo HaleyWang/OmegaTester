@@ -7,7 +7,7 @@
 }
 
 #sidebar-section-data {
-	padding: 10px 0 0 0;
+	padding: 10px;
 }
 
 #sidebar-section-data .list-group {
@@ -24,4 +24,15 @@
 
 .batch-history-detail-box .progress {
         margin-bottom: 8px;
+}
+
+.batch-sidebar .sidebar-section-data {
+    padding:8px;
+
+
+}
+
+
+.list-batch .enable-false {
+    background-color: #aaa !important;
 }

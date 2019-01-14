@@ -672,16 +672,15 @@ list-style: none;
 }
 
 #sidebar-section-data {
-	margin-bottom: 50px;
+	margin: 0;
+	overflow-x: auto;
+	position: absolute;
+    top: 100px;
+    right:0;
+    left:0;
+    bottom:0;
 }
 
-#sidebar-section-data ul {
-	margin-left: -10px;
-}
-
-#sidebar-sections .pills {
-	margin-left: -4px;
-}
 
 #sidebar-sections .pills .active .a {
 	background-color: #333;
@@ -726,7 +725,7 @@ list-style: none;
 }
 
 #sidebar-section-collections {
-	
+		width: 100%;
 }
 
 #request-actions {
@@ -1733,8 +1732,7 @@ height
 	bottom: 0;
 	left: 0;
 	right: 0;
-	overflow-y: scroll;
-	overflow-x: hidden;
+	overflow: hidden;
 	bottom: 0;
 	left: 0;
 	right: 0;

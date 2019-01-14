@@ -126,7 +126,7 @@
 	<div class="container-fluid split-box">
 		<div id="a" class="split split-horizontal">
 
-			<div id="sidebar">
+			<div id="sidebar" class="batch-sidebar">
 				<div id="header" class="clearfix hide"></div>
 				<div id="sidebar-sections" class="clearfix">
 					<div id="history-options" class="section-options">
@@ -148,7 +148,7 @@
 							href="#sidebar-section-collections" data-id="collections"
 							data-toggle="tab">Batch</a></li>
 					</ul>
-					<div id="sidebar-section-data">
+					<div id="sidebar-section-data" class="sidebar-section-data">
 						<div ng-hide="batchOrHistory" class="tab-pane"
 							id="sidebar-section-history">
 							<ul id="history-items" class="clearfix">
@@ -180,25 +180,6 @@
 							id="sidebar-section-collections">
 
 
-							<div class="row">
-								<div class="col-md-10">
-									<input type="text" ng-model="batchReqGroupName"
-										class="form-control ng-pristine ng-untouched ng-valid"
-										placeholder="Search...">
-
-								</div>
-								<div class="col-md-2" style="padding: 6px;">
-									<a href="#modal-add-batch" data-toggle="modal"
-										data-backdrop="static" data-keyboard="true">Add</a>
-								</div>
-							</div>
-							
-							<style>
-							.list-batch .enable-false {
-								background-color: #aaa !important;
-							}
-							
-							</style>
 
 							<ul class="list-group list-batch">
 
@@ -257,7 +238,23 @@
 						</div>
 					</div>
 				</div>
-				<div id="sidebar-filler"></div>
+				<div id="sidebar-filler">
+
+
+
+					<div class="row">
+						<div class="col-md-10">
+							<input type="text" ng-model="batchReqGroupName"
+								   class="form-control ng-pristine ng-untouched ng-valid"
+								   placeholder="Search...">
+
+						</div>
+						<div class="col-md-2" style="padding: 6px;">
+							<a href="#modal-add-batch" data-toggle="modal"
+							   data-backdrop="static" data-keyboard="true">Add</a>
+						</div>
+					</div>
+				</div>
 			</div>
 
 		</div>

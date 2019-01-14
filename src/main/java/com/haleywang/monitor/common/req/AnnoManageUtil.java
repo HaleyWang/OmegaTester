@@ -15,7 +15,9 @@ import java.util.Enumeration;
 import java.util.List;
 
 
-public final class AnnoManageUtil { 
+public final class AnnoManageUtil {
+
+
 
     public static List<Class<?>> scan(String packageName, Class<? extends Annotation> annotation) {
         List<Class<?>> classList = new ArrayList<Class<?>>(); 
@@ -59,7 +61,10 @@ public final class AnnoManageUtil {
         for (Path path : stream) { 
             String fileName = String.valueOf(path.getFileName()); 
             String className = fileName.substring(0, fileName.length() - 6); 
-            Class<?> classes = null; 
+            Class<?> classes = null;
+            if (fileName == null || !fileName.endsWith(".class")) {
+                continue;
+            }
             try { 
                 classes = Thread.currentThread().getContextClassLoader().loadClass(packageName + "." + className); 
             } catch (ClassNotFoundException e) { 
