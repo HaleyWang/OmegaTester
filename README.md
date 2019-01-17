@@ -1,5 +1,13 @@
 # OmegaTester
 
+## Run from jar
+
+```
+cd OmegaTester/target
+java -jar omegatester-0.1.jar
+```
+
+
 ## Run from the sources.
 Prerequisites:
 
@@ -23,7 +31,7 @@ mvn exec:java -Dexec.args="8080"
 
 ```
 
-Run form the main method.
+## Run form the main method.
 Open com.haleywang.monitor.App, and run the main method.
 
 # TODO list

@@ -29,13 +29,18 @@ public class StaticResourcesHandler implements HttpHandler {
     public void handle(HttpExchange t) throws IOException {
         String root = PathUtils.getRoot();
         URI uri = t.getRequestURI();
-        System.out.println("looking for: " + root + uri.getPath());
         String path = uri.getPath();
         if("/".equals(path)) {
             path = "/index.html";
         }
-        String filePath = root + "static" + path;
+        String rootPath = root.endsWith("/") ? root : root +"/";
+        String filePath = rootPath + "static" + path;
+
+
+
         filePath = filePath.replaceAll("//", "/");
+        System.out.println("looking for path: " + filePath);
+
         File file = new File(filePath).getCanonicalFile();
 
         if (!file.isFile()) {

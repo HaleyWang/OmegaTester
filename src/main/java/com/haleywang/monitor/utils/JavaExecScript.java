@@ -159,12 +159,11 @@ public class JavaExecScript {
     static String lib = "";
     static ScriptEngine se = null;
     static {
-        String file = "/static/js/underscore-min.js";
-        URL url = JavaExecScript.class.getResource(file);
-
+        String filePath = PathUtils.getRoot() + "/static/js/underscore-min.js";
+        filePath = filePath.replaceAll("//", "/").replaceAll("test-classes", "classes");
 
         try {
-            lib = FileUtils.readFileToString(new File(url.getPath()), "utf-8");
+            lib = FileUtils.readFileToString(new File(filePath), "utf-8");
             ScriptEngineManager sem = new ScriptEngineManager();
             se = sem.getEngineByName("javascript");
             se.eval(lib);

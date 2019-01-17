@@ -48,9 +48,10 @@ public class DBUtils {
 
 
                     String path = PathUtils.getRoot();
+                    path = path.replace("test-classes/", "");
                     path = path.replace("classes/", "");
                     path = path.replace("target/", "");
-                    System.out.println(path);
+                    System.out.println("------->>>>  " + path);
 
                     /*
                     String driver = "org.sqlite.JDBC";
