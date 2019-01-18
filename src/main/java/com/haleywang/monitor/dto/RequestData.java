@@ -2,7 +2,7 @@ package com.haleywang.monitor.dto;
 
 import java.util.List;
 
-import com.mashape.unirest.http.HttpMethod;
+import com.haleywang.monitor.common.req.HttpMethod;
 
 public class RequestData {
 	private String url;

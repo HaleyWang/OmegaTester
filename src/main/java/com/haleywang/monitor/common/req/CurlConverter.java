@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.haleywang.monitor.dto.MyRequest;
-import com.mashape.unirest.http.HttpMethod;
 
 @MyRequestExportAnnotation(name = "cURL")
 @MyRequestImportAnnotation(name = "cURL")

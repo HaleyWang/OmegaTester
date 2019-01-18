@@ -7,7 +7,6 @@ import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import tk.mybatis.mapper.entity.Example;
 
 import java.io.IOException;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class BatchCtrl extends BaseCtrl {
 
-    public String add() throws IOException, UnirestException {
+    public String add() throws IOException {
         ReqBatch reqBatch = getBodyParams(ReqBatch.class);
 
         ResultStatus<List<ReqBatch>> res = new ResultStatus<>();
@@ -31,7 +30,7 @@ public class BatchCtrl extends BaseCtrl {
     }
 
     //
-    public ResultStatus<List<ReqBatch>> update() throws IOException, UnirestException {
+    public ResultStatus<List<ReqBatch>> update() throws IOException {
         ReqBatch reqBatch = getBodyParams(ReqBatch.class);
 
         ResultStatus<List<ReqBatch>> res = new ResultStatus<>();
@@ -47,7 +46,7 @@ public class BatchCtrl extends BaseCtrl {
         return res.of(Msg.OK);
     }
 
-    public String list() throws IOException, UnirestException {
+    public String list() throws IOException {
         ResultStatus<List<ReqBatch>> res = new ResultStatus<>();
 
         ReqBatchService service = new ReqBatchServiceImpl();

@@ -22,8 +22,6 @@ import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.impl.ReqGroupServiceImpl;
 import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;
 import com.haleywang.monitor.utils.*;
-import com.mashape.unirest.http.HttpMethod;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -222,12 +220,12 @@ public class ReqCtrl extends BaseCtrl {
     }
 
     //@ApiOperation(value="测试接口", notes="测试接口详细描述")
-    public ResultStatus<UnirestRes<String>> send(@ParamBody ReqInfo ri, String id) throws IOException, UnirestException {
+    public ResultStatus<UnirestRes> send(@ParamBody ReqInfo ri, String id) throws IOException {
 
         //ReqInfo ri = getBodyParams(ReqInfo.class);
 
         // RequestInfo ri = requestInfoService.findOne(id);
-        UnirestRes<String> result = new ReqInfoServiceImpl().send(ri, currentAccount());
+        UnirestRes result = new ReqInfoServiceImpl().send(ri, currentAccount());
 
         return new ResultStatus<>().ofData(result);
     }

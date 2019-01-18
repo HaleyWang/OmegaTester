@@ -1,9 +1,10 @@
 package com.haleywang.monitor.dto;
 
-import com.mashape.unirest.http.HttpMethod;
 import lombok.Data;
 
 import java.util.List;
+
+import com.haleywang.monitor.common.req.HttpMethod;
 
 @Data
 public class ConfigDto {

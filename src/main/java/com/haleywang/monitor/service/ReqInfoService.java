@@ -1,5 +1,6 @@
 package com.haleywang.monitor.service;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -10,8 +11,6 @@ import com.haleywang.monitor.model.ReqInfo;
 import com.haleywang.monitor.model.ReqSetting;
 import com.haleywang.monitor.model.ReqTaskHistory;
 import com.haleywang.monitor.model.ReqTaskHistory.HisType;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 public interface ReqInfoService extends BaseService<ReqInfo> {
 
@@ -27,9 +26,10 @@ public interface ReqInfoService extends BaseService<ReqInfo> {
 
 	ReqInfo detail(Long id, ReqAccount acc);
 
-	public UnirestRes<String> send(ReqInfo ri, ReqAccount currentAccout, Long batchHistoryId, ReqSetting envStrring) throws UnirestException, MalformedURLException;
+	public UnirestRes send(ReqInfo ri, ReqAccount currentAccout, Long batchHistoryId, ReqSetting envStrring)
+			throws IOException;
 
-	public UnirestRes<String> send(ReqInfo ri, ReqAccount currentAccout) throws UnirestException, MalformedURLException;
+	public UnirestRes send(ReqInfo ri, ReqAccount currentAccout) throws IOException;
 
 	List<ReqTaskHistory> findReqTaskHistory(ReqAccount currentAccout,
 			HisType hisType);

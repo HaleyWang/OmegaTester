@@ -2,7 +2,6 @@ package com.haleywang.monitor.service.impl;
 
 import com.haleywang.db.DBUtils;
 import com.haleywang.db.mapper.Sort;
-import com.haleywang.monitor.common.mvc.ApiHandler;
 import com.haleywang.monitor.dao.*;
 import com.haleywang.monitor.dto.UnirestRes;
 import com.haleywang.monitor.model.*;
@@ -10,12 +9,12 @@ import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.service.ReqBatchHistoryService;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.ReqInfoService;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +60,7 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
     }
 
 
-    public void runBatch(Long batchId) throws MalformedURLException, UnirestException {
+    public void runBatch(Long batchId) throws MalformedURLException {
         try {
 
             ReqBatch batch = reqBatchService.findOne(batchId);
@@ -93,7 +92,7 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
         }
     }
 
-    private void doRunBatch(ReqBatch batch) throws MalformedURLException, UnirestException {
+    private void doRunBatch(ReqBatch batch) throws MalformedURLException {
 
 
         ReqBatchHistory reqBatchHistory = new ReqBatchHistory();
@@ -132,8 +131,14 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
             }
             ReqAccount account = reqAccountService.findOne(batch.getCreatedById());
             ri = requestInfoService.detail(ri.getId(), account);
-            UnirestRes<String> res = requestInfoService.send(ri, account,
-                    batchHistoryId, null);
+            UnirestRes res = null;
+            try {
+                res = requestInfoService.send(ri, account,
+                        batchHistoryId, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+                continue;
+            }
             if (res.getTestSuccess() == null || res.getTestSuccess()) {
                 reqBatchHistory.setSuccessNum(reqBatchHistory.getSuccessNum() + 1);
             }

@@ -2,7 +2,7 @@ package com.haleywang.monitor.dto;
 
 import java.util.Map;
 
-import com.mashape.unirest.http.HttpMethod;
+import com.haleywang.monitor.common.req.HttpMethod;
 import lombok.Data;
 
 @Data

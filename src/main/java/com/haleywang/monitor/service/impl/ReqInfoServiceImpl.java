@@ -1,5 +1,6 @@
 package com.haleywang.monitor.service.impl;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,9 +10,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
 import com.haleywang.monitor.common.ReqException;
+import com.haleywang.monitor.common.req.HttpMethod;
 import com.haleywang.monitor.dao.ReqGroupRepository;
 import com.haleywang.monitor.dao.ReqInfoRepository;
 import com.haleywang.monitor.dao.ReqMetaRepository;
@@ -38,14 +41,13 @@ import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.common.req.HttpRequestItem;
 import com.haleywang.monitor.common.req.HttpUtils;
 import com.haleywang.monitor.common.req.ReqInfoHelper;
-import com.mashape.unirest.http.HttpMethod;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import okhttp3.Response;
 import tk.mybatis.mapper.entity.Example;
 
 public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
@@ -288,15 +290,15 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 	}
 
 	@Override
-	public UnirestRes<String> send(ReqInfo ri, ReqAccount currentAccout)
-			throws UnirestException, MalformedURLException {
+	public UnirestRes send(ReqInfo ri, ReqAccount currentAccout)
+			throws IOException {
 
 		return send(ri, currentAccout, null, null);
 	}
 
 	@Override
-	public UnirestRes<String> send(ReqInfo ri, ReqAccount currentAccout,
-								   Long batchHistoryId, ReqSetting envString) throws UnirestException, MalformedURLException {
+	public UnirestRes send(ReqInfo ri, ReqAccount currentAccout,
+								   Long batchHistoryId, ReqSetting envString) throws IOException {
 
 		if(envString == null ) {
 			if( currentAccout != null) {
@@ -321,11 +323,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
 		LOG.info("send req: " + JsonUtils.toJson(reqItem));
 		long begin = new Date().getTime();
-		UnirestRes<String> result = new UnirestRes<String>();
-
-		HttpResponse<String> res = HttpUtils.send(reqItem);
-		result.setRes(res);
-
+		UnirestRes result = HttpUtils.send(reqItem);
 		long end = new Date().getTime();
 		result.setBegin(begin);
 		result.setEnd(end);

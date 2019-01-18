@@ -6,7 +6,6 @@ import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqBatchHistoryService;
 import com.haleywang.monitor.service.impl.ReqBatchHistoryServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 public class BatchHistoryCtrl extends BaseCtrl {
 
 
-    public String list() throws IOException, UnirestException {
+    public String list() throws IOException {
 
         Long batchId = Long.parseLong(getUrlParam("batchId"));
 

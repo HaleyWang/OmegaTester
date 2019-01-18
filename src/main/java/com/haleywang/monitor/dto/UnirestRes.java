@@ -1,17 +1,18 @@
 package com.haleywang.monitor.dto;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.haleywang.monitor.utils.JsonUtils;
-import com.mashape.unirest.http.HttpResponse;
 import lombok.Data;
+import okhttp3.Response;
 
 @Data
-public class UnirestRes<T>  {
+public class UnirestRes  {
 
 	@JsonIgnore
-	HttpResponse<T> res;
+	Response res;
 
 	String testResult;
 	
@@ -19,23 +20,25 @@ public class UnirestRes<T>  {
 
 	private long begin;
 	private long end;
+	private String body;
 
 
 	public UnirestRes() {
 
 	}
 
-	public UnirestRes(HttpResponse<T> res) {
-		super();
+	public UnirestRes withRes(Response res) throws IOException {
 		this.res = res;
+		body = res.body().string();
+		return this;
 	}
 	
 	public int getStatus() {
-		return res.getStatus();
+		return res.code();
 	}
 
 	public String getStatusText() {
-		return res.getStatusText();
+		return res.code()+"";
 	}
 
 	public Boolean getTestSuccess() {
@@ -52,21 +55,21 @@ public class UnirestRes<T>  {
 	 */
 	public String getHeaders() {
 		//return FormatUtil.formatJson(JsonUtils.toJson(res.getHeaders()));
-		return JsonUtils.toJson(res.getHeaders());
+		return JsonUtils.toJson(res.headers().toMultimap());
 	}
 
 
-	public Map<String, Object> toMap () {
+	public Map<String, Object> toMap () throws IOException {
 		Map<String, Object> map = new HashMap<>();
 
-		map.put("statusCode" , res.getStatus());
-		map.put("statusCode" , res.getBody());
+		map.put("statusCode" , res.code());
+		map.put("body" , body);
 
 		return map;
     }
 
-	public T getBody() {
-		return res.getBody();
+	public String getBody() {
+		return body;
 	}
 
 	public String getTestResult() {

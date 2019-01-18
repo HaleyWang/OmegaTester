@@ -9,8 +9,6 @@ import com.haleywang.monitor.utils.CollectionUtils;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.ibatis.javassist.NotFoundException;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -207,18 +205,6 @@ public abstract class BaseCtrl {
     static final String URI_PATH = "/";
     static final int SESSION_ID = 12345;
 
-    public final void addCookie(BasicClientCookie cookies) {
-        addCookie(Arrays.asList(cookies));
-    }
-
-    public final void addCookie(List<BasicClientCookie> cookies) {
-        Map<String, String> cookiesMap = new HashMap<>();
-        for (BasicClientCookie cookie : cookies) {
-            cookiesMap.put(cookie.getName(), cookie.getValue());
-        }
-
-        addCookie(cookiesMap);
-    }
 
     public final void addCookie(Map<String, String> cookies) {
 

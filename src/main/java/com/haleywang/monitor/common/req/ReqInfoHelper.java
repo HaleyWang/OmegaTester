@@ -14,7 +14,6 @@ import com.haleywang.monitor.utils.JsonUtils;
 
 import com.haleywang.monitor.utils.TemplateUtils;
 import com.haleywang.monitor.utils.UrlUtils;
-import com.mashape.unirest.http.HttpMethod;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;

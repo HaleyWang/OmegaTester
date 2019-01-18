@@ -11,10 +11,14 @@ public class PathUtils {
     }
 
     public static String getRoot() {
+        String res = "";
         if(isStartupFromJar(PathUtils.class)) {
-            return new File("").getAbsolutePath();
+            res =  new File("").getAbsolutePath();
 
+        }else {
+            res = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         }
-        return Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        res = res.replace("target/test-classes", "target/classes");
+        return res;
     }
 }

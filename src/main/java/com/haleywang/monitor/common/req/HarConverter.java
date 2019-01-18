@@ -14,7 +14,6 @@ import com.haleywang.monitor.dto.Har;
 import com.haleywang.monitor.dto.MyRequest;
 import com.haleywang.monitor.dto.NameValue;
 import com.haleywang.monitor.utils.JsonUtils;
-import com.mashape.unirest.http.HttpMethod;
 
 @MyRequestImportAnnotation(name = "HAR")
 public class HarConverter implements ReqConverter {

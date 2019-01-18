@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Consts;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;

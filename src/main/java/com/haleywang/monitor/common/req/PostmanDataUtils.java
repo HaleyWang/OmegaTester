@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import com.mashape.unirest.http.HttpMethod;
 import org.apache.commons.lang3.StringUtils;
 
 public class PostmanDataUtils {

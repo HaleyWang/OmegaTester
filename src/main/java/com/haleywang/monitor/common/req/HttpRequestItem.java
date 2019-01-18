@@ -3,7 +3,6 @@ package com.haleywang.monitor.common.req;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mashape.unirest.http.HttpMethod;
 import lombok.Data;
 
 @Data

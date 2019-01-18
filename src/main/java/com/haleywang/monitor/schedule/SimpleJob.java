@@ -1,18 +1,16 @@
 package com.haleywang.monitor.schedule;
 
-import com.haleywang.monitor.App;
-import com.haleywang.monitor.service.impl.ReqJobService;
-import com.haleywang.monitor.utils.DateUtils;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import lombok.Data;
+import java.net.MalformedURLException;
+import java.util.Date;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-import java.util.Date;
+import com.haleywang.monitor.service.impl.ReqJobService;
+import lombok.Data;
 
 /**
  * Created by haley on 2018/12/5.
@@ -47,8 +45,6 @@ public class SimpleJob implements Job {
         try {
             reqJobService.runBatch(Long.parseLong(id));
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (UnirestException e) {
             e.printStackTrace();
         }
 

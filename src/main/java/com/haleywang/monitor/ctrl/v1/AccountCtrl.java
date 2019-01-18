@@ -1,5 +1,6 @@
 package com.haleywang.monitor.ctrl.v1;
 
+import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.model.ReqAccount;
@@ -9,7 +10,6 @@ import com.haleywang.monitor.service.impl.ReqAccountServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.utils.UrlUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.http.impl.cookie.BasicClientCookie;
 
 import java.io.IOException;
 import java.util.Map;
@@ -39,9 +39,7 @@ public class AccountCtrl extends BaseCtrl {
 
         ResultStatus<Pair<String, ReqAccount>> res = reqAccountService.login(email, pass);
 
-        BasicClientCookie coo = new BasicClientCookie(Constants.LOGIN_COOKIE, res.getData().getLeft());
-        coo.setPath("/");
-        addCookie(coo);
+        addCookie(ImmutableMap.of(Constants.LOGIN_COOKIE, res.getData().getLeft()));
 
         ResultStatus<ReqAccount> result = new ResultStatus<>();
         return JsonUtils.toJson(result.ofData(res.getData().getRight()));
@@ -49,9 +47,7 @@ public class AccountCtrl extends BaseCtrl {
 
     public String publicLogout() {
 
-        BasicClientCookie coo = new BasicClientCookie(Constants.LOGIN_COOKIE, "");
-        coo.setPath("/");
-        addCookie(coo);
+        addCookie(ImmutableMap.of(Constants.LOGIN_COOKIE, ""));
 
         ResultStatus<String> res = new ResultStatus<>();
 

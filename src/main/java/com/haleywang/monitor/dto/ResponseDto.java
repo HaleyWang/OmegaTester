@@ -1,7 +1,6 @@
 package com.haleywang.monitor.dto;
 
 
-import org.apache.http.HttpStatus;
 
 /**
  * Created by haley on 2017/7/20.

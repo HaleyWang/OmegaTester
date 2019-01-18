@@ -2,12 +2,12 @@ package com.haleywang.monitor.ctrl.v1;
 
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
+import com.haleywang.monitor.common.req.HttpMethod;
 import com.haleywang.monitor.dto.ConfigDto;
 import com.haleywang.monitor.dto.IdValuePair;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.utils.FileTool;
 import com.haleywang.monitor.utils.JsonUtils;
-import com.mashape.unirest.http.HttpMethod;
 import org.dom4j.*;
 
 import javax.xml.bind.*;
