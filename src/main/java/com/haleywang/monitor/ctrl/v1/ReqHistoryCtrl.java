@@ -1,5 +1,6 @@
 package com.haleywang.monitor.ctrl.v1;
 
+import com.google.common.base.Preconditions;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.model.ReqAccount;
 import com.haleywang.monitor.model.ReqInfo;
@@ -14,6 +15,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import java.io.IOException;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by haley on 2018/8/18.
  */
@@ -26,7 +29,7 @@ public class ReqHistoryCtrl extends BaseCtrl {
                 .valueOf(StringUtils.upperCase(getUrlParam("hisType", "manual")));
         Long batchHistoryId = NumberUtils.createLong(getUrlParam("batchHistoryId"));
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
         ResultStatus<List<ReqTaskHistory>> res = new ResultStatus<>();
 
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();
@@ -49,8 +52,9 @@ public class ReqHistoryCtrl extends BaseCtrl {
         System.out.println(" ====> ");
 
         Long id = Long.parseLong(getUrlParam("id"));
+        checkNotNull(id, "Parameter id must be not null");
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
         ResultStatus<ReqTaskHistory> res = new ResultStatus<>();
 
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();

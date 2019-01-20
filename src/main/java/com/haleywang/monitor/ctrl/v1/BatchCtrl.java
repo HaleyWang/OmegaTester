@@ -24,7 +24,7 @@ public class BatchCtrl extends BaseCtrl {
         ResultStatus<List<ReqBatch>> res = new ResultStatus<>();
 
         ReqBatchService service = new ReqBatchServiceImpl();
-        service.save(reqBatch, currentAccount());
+        service.save(reqBatch, currentAccountAndCheck());
 
         return JsonUtils.toJson(res.of(Msg.OK));
     }
@@ -38,7 +38,7 @@ public class BatchCtrl extends BaseCtrl {
         ReqBatchService service = new ReqBatchServiceImpl();
         ReqBatch reqBatchDb =  service.findOne(reqBatch.getBatchId());
         reqBatch.setCreatedById(reqBatchDb.getCreatedById());
-        reqBatch.setModifiedById(currentAccount().getAccountId());
+        reqBatch.setModifiedById(currentAccountAndCheck().getAccountId());
         reqBatch.setUpdatedOn(new Date());
 
         service.update(reqBatch, currentAccount());

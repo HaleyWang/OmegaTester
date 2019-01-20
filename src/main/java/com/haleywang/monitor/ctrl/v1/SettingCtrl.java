@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by haley on 2018/8/18.
  */
@@ -21,7 +23,7 @@ public class SettingCtrl extends BaseCtrl {
     public String save() throws IOException {
         ReqSetting ri = getBodyParams(ReqSetting.class);
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
 
         ResultStatus<ReqSetting> res = new ResultStatus<>();
 
@@ -56,7 +58,7 @@ public class SettingCtrl extends BaseCtrl {
 
         ReqSetting ri = getBodyParams(ReqSetting.class);
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
         ri.setOnwer(acc.getAccountId());
 
         ResultStatus<ReqSetting> res = new ResultStatus<>();
@@ -87,7 +89,7 @@ public class SettingCtrl extends BaseCtrl {
 
         ReqSetting ri = getBodyParams(ReqSetting.class);
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
 
         ResultStatus<ReqSetting> res = new ResultStatus<>();
 
@@ -117,7 +119,7 @@ public class SettingCtrl extends BaseCtrl {
 
         ReqSettingService reqSettingService = new ReqSettingServiceImpl();
 
-        List<ReqSetting> ll = reqSettingService.findByOnwer(currentAccount().getAccountId());
+        List<ReqSetting> ll = reqSettingService.findByOnwer(currentAccountAndCheck().getAccountId());
 
         res.setData(ll);
 
@@ -130,8 +132,9 @@ public class SettingCtrl extends BaseCtrl {
         System.out.println(" ====> delete");
 
         Long id = Long.parseLong(getUrlParam("id"));
+        checkNotNull(id, "Parameter id must be not null");
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
 
         ResultStatus<List<ReqSetting>> res = new ResultStatus<>();
 

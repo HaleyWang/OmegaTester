@@ -56,6 +56,17 @@ padding: 4px 10px;
 
 }
 
+.mynavbar .container-fluid {
+    background:#222;
+}
+
+.mynavbar .navbar-toggle {
+    padding: 2px;
+    margin-top: 5px;
+    margin-right: 15px;
+    margin-bottom: 0;
+}
+
 .dropdown-menu1 {
     position: absolute;
     top: 100%;
@@ -551,7 +562,7 @@ li .right {
 }
 
 #request-url {
-	margin-top: 8px;
+	padding: 8px 0 0 0;
 	margin-bottom: 0px;
 }
 
@@ -1763,12 +1774,12 @@ height
     margin-left: auto;
 }
 
-#main .panel {
+.req-panel {
 	margin: 0px;
-	border: 1px solid #ddd;
+	border: none;
     border-radius: 0;
     border-top: 0;
-	height: calc(100% - 30px);
+	height: calc(100% - 33px);
 }
 
 .response-box {

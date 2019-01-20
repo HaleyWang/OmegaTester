@@ -148,7 +148,7 @@ public class ReqCtrl extends BaseCtrl {
 
         ReqInfo ri = getBodyParams(ReqInfo.class);
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
 
         ResultStatus<ReqInfo> res = new ResultStatus<>();
 
@@ -165,7 +165,7 @@ public class ReqCtrl extends BaseCtrl {
         // RequestInfo ri = requestInfoService.findOne(id);
         ReqInfo ri = getBodyParams(ReqInfo.class);
         checkNotNull(ri);
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
 
         ResultStatus<ReqInfo> res = new ResultStatus<>();
 
@@ -225,14 +225,14 @@ public class ReqCtrl extends BaseCtrl {
         //ReqInfo ri = getBodyParams(ReqInfo.class);
 
         // RequestInfo ri = requestInfoService.findOne(id);
-        UnirestRes result = new ReqInfoServiceImpl().send(ri, currentAccount());
+        UnirestRes result = new ReqInfoServiceImpl().send(ri, currentAccountAndCheck());
 
         return new ResultStatus<>().ofData(result);
     }
 
     public ResultStatus<List<ReqGroup>> list() throws IOException {
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
 
         List<ReqGroup> ll = new ReqInfoServiceImpl().listRequestInfoByAccount(acc);
 
@@ -241,7 +241,7 @@ public class ReqCtrl extends BaseCtrl {
 
     public ResultStatus<List<ReqGroup>> tree() throws IOException {
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
 
         List<ReqGroup> ll = new ReqInfoServiceImpl().listRequestInfoByAccount(acc);
 
@@ -254,7 +254,7 @@ public class ReqCtrl extends BaseCtrl {
         String swaggerId = getUrlParam("swaggerId");
         checkNotNull(swaggerId);
 
-        List<ReqInfo> ll = new ReqInfoServiceImpl().listRequestInfoBySwaggerId(currentAccount(), swaggerId);
+        List<ReqInfo> ll = new ReqInfoServiceImpl().listRequestInfoBySwaggerId(currentAccountAndCheck(), swaggerId);
 
         return new ResultStatus<>().ofData(ll);
     }
@@ -263,9 +263,9 @@ public class ReqCtrl extends BaseCtrl {
         System.out.println(" ====> ");
 
         Long id = Long.parseLong(getUrlParam("id"));
-        checkNotNull(id);
+        checkNotNull(id, "Parameter id must be not null");
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
         ResultStatus<ReqInfo> res = new ResultStatus<>();
 
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();
@@ -279,9 +279,9 @@ public class ReqCtrl extends BaseCtrl {
     public String detail1(Long id) throws IOException {
         System.out.println(" ====> ");
 
-        checkNotNull(id);
+        checkNotNull(id, "Parameter id must be not null");
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
         ResultStatus<ReqInfo> res = new ResultStatus<>();
 
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();
@@ -315,7 +315,7 @@ public class ReqCtrl extends BaseCtrl {
     public String groupList() throws IOException {
         System.out.println(" ====> ");
 
-        ReqAccount acc = currentAccount();
+        ReqAccount acc = currentAccountAndCheck();
         ResultStatus<List<ReqGroup>> res = new ResultStatus<>();
 
         ReqGroupService reqGroupService = new ReqGroupServiceImpl();

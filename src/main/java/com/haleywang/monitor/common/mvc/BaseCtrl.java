@@ -1,6 +1,7 @@
 package com.haleywang.monitor.common.mvc;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.common.ReqException;
@@ -319,6 +320,12 @@ public abstract class BaseCtrl {
 
     public ReqAccount currentAccount() {
         return (ReqAccount) getReqAttribute(Constants.CURRENT_ACCOUNT);
+    }
+
+    public ReqAccount currentAccountAndCheck() {
+        ReqAccount acc = currentAccount();
+        Preconditions.checkNotNull(acc, "Current account must be not null");
+        return acc;
     }
 
     public void clearAccount() {

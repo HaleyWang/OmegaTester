@@ -74,7 +74,7 @@ public class AccountCtrl extends BaseCtrl {
 
     public ResultStatus<ReqAccount> info() {
 
-        ReqAccount currentAccount = currentAccount();
+        ReqAccount currentAccount = currentAccountAndCheck();
         ReqAccount account = new ReqAccount();
         account.setAccountId(currentAccount.getAccountId());
         account.setName(currentAccount.getName());

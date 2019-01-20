@@ -11,11 +11,9 @@ java -jar omegatester-0.1.jar
 ## Run from the sources.
 Prerequisites:
 
-JDK 8
-
-Maven > 3.2.1
-
-Lombok plugin for your IDE
+- JDK 8
+- Maven > 3.2.1
+- Lombok plugin for your IDE
 
 ```
 cd OmegaTester
@@ -35,14 +33,9 @@ mvn exec:java -Dexec.args="8080"
 Open com.haleywang.monitor.App, and run the main method.
 
 # TODO list
-```
-1. Add test cases before pre test tab.
-2. Add requestData(urlPrams & postBody) as controller parameter.
-3. Runner page.
-4. Add test demo script.
-5. Drag request name to sort.
+1. Drag request name to sort.
+2. Save request into current group.
 
-```
 
 
 
