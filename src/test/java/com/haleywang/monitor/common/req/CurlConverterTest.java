@@ -17,7 +17,7 @@ public class CurlConverterTest {
     @Test
     public void toMyRequest() throws IOException {
 
-        String input = FileTool.readInSamePkg(this.getClass(), "curl.json");
+        String input = FileTool.readInSamePkg(this.getClass(), "curl.json", true);
         System.out.println(input);
 
         MyRequest a = new CurlConverter().toMyRequest(input);

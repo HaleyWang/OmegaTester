@@ -17,9 +17,7 @@ public class HarConverterTest {
     @Test
     public void toMyRequests() throws IOException {
 
-        String path = this.getClass().getResource("").getPath().toString();
-
-        String harJson = FileTool.readInSamePkg(HarConverterTest.class, "har.json");
+        String harJson = FileTool.readInSamePkg(HarConverterTest.class, "har.json", true);
         MyRequest a = new HarConverter().toMyRequest(harJson);
         Assert.assertNotNull(a);
 

@@ -10,4 +10,12 @@ public class ReqCtrlTest {
     public void format() {
         System.out.println(new ReqCtrl());
     }
+
+
+    @Test
+    public void remove() {
+        System.out.println(new ReqCtrl());
+    }
+
+
 }

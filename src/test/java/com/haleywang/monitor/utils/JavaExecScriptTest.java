@@ -69,7 +69,7 @@ public class JavaExecScriptTest {
 	@Test
 	public void returnJson() throws IOException {
 
-		String txt = FileTool.readInSamePkg(this.getClass(), "testjs.txt");
+		String txt = FileTool.readInSamePkg(this.getClass(), "testjs.txt", true);
 
 		Object o1 = JavaExecScript.returnJson(txt, "req");
 		Assert.assertNotNull(o1);

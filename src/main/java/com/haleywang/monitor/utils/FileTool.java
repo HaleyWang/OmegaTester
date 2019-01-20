@@ -12,7 +12,14 @@ import org.apache.commons.io.IOUtils;
 public class FileTool {
 
     public static String readInSamePkg(Class cls, String fileName) throws IOException {
-        String path = cls.getResource("").getPath().replace("test-classes", "classes");
+        return readInSamePkg(cls, fileName, false);
+    }
+
+    public static String readInSamePkg(Class cls, String fileName, boolean forTest) throws IOException {
+        String path = cls.getResource("").getPath();
+        if(!forTest) {
+            path = path.replace("test-classes", "classes");
+        }
 
         if(PathUtils.isStartupFromJar(cls)) {
             System.out.println(path);
