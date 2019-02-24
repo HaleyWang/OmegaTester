@@ -218,13 +218,13 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 
 	$scope.loginModel = {
-		email : 'a@a.com',
-		pass : '123456'
+		email : localStorage.myEmail,
+		pass : ''
 	};
 	$scope.registerModel = {
-		name : 'aa',
-		email : 'a@a.com',
-		pass : '123456'
+		name : '',
+		email : '',
+		pass : ''
 	};
 
 	$scope.currentAccount = {};
@@ -252,6 +252,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		}).success(function(res) {
 			log(res);
 			if(res.data.accountId) {
+			    localStorage.myEmail = res.data.email;
 				// $scope.fetchReqList();
 				// $scope.currentAccount = res.data.data;
 				// $(".at-login-modal-sm").removeClass("in");
@@ -353,8 +354,11 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			}
 		}).success(function(res) {
 			log(res);
-			$scope.loginModel.email = $scope.registerModel.email;
-			$scope.fetchReqList();
+			if(res.data.accountId) {
+			    localStorage.myEmail = res.data.email;
+			    window.location.reload();
+			}
+
 		})
 	};
 
@@ -570,7 +574,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		var url = '/v1/req/delete';
 		var isReqGroup = node.group;
         if(isReqGroup) {
-            url = '/v1/req/group/delete'
+            url = '/v1/req/groupDelete'
         }
 
 		$http({
@@ -602,7 +606,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 		$http({
 			method : 'POST',
-			url : '/v1/req/group/update',
+			url : '/v1/req/groupUpdate',
 			data : {groupId: node.groupId, name: $scope.groupEditObj.name},
 		}).success(function(res) {
 			log(res);

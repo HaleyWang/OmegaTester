@@ -18,6 +18,9 @@ public class LoginCookieDecrypt {
 	}
 
 	public Long getAccountId() {
+		if(loginCookieOuterEncryptVal == null) {
+			return null;
+		}
 		try {
 			String str = AESUtil.decrypt(loginCookieOuterEncryptVal, AESUtil.ENCRYPTION_COMM_KEY);
 	
@@ -34,7 +37,11 @@ public class LoginCookieDecrypt {
 	}
 
 	public String getEmail(ReqAccount acc) {
-		if(acc == null){
+		if(acc == null || loginCookieOuterEncryptVal == null){
+			return null;
+		}
+
+		if (acc.getAccountId() == null) {
 			return null;
 		}
 		try {
