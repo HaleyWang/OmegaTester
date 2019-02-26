@@ -16,6 +16,7 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +25,10 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class ApiHandler implements HttpHandler {
@@ -56,7 +59,10 @@ public class ApiHandler implements HttpHandler {
                 throw new ReqException("404");
             }
 
-            if (paths[2].startsWith("public")) {
+            String ctrlName = paths[2];
+            String methodName = paths[3];
+
+            if (methodName.startsWith("public")) {
                 he.setAttribute("public", "1");
             } else {
                 he.setAttribute("public", "0");
@@ -64,7 +70,7 @@ public class ApiHandler implements HttpHandler {
 
             filter(he);
 
-            BaseCtrl ctrl = CtrlFactory.of(paths[2]);
+            BaseCtrl ctrl = CtrlFactory.of(ctrlName);
             ctrl.doService(he);
             success = true;
 
@@ -128,20 +134,18 @@ public class ApiHandler implements HttpHandler {
         //ReqAccount res = reqAccountService.findOne(id);
         //t.setAttribute(Constants.CURRENT_ACCOUNT, res);
 
+        if ("1".equals(t.getAttribute("public"))) {
+            return ;
+        }
+
         parseCurrentUser(reqAccountService, t);
 
     }
 
     private static ReqAccount parseCurrentUser(ReqAccountService reqAccountService, HttpExchange t) {
-        if ("1".equals(t.getAttribute("public"))) {
-            return null;
-        }
 
-        List<String> cookies = t.getRequestHeaders().get("Cookie");
+        List<String> cookies = Optional.ofNullable(t.getRequestHeaders()).map(it -> it.get("Cookie")).orElse(new ArrayList<>());
 
-        if (cookies == null) {
-            return null;
-        }
         String loginCookieVal = null;
         for (String coo : cookies) {
 
@@ -151,9 +155,6 @@ public class ApiHandler implements HttpHandler {
                 loginCookieVal = cooMap.get(Constants.LOGIN_COOKIE);
                 break;
             }
-        }
-        if (loginCookieVal == null || "".endsWith(loginCookieVal)) {
-            return null;
         }
 
         LoginCookieDecrypt loginCookieDecrypt = new LoginCookieDecrypt(loginCookieVal);
@@ -166,9 +167,7 @@ public class ApiHandler implements HttpHandler {
         if (email == null) {
             return null;
         }
-        if (acc.getAccountId() == null) {
-            return null;
-        }
+
         //request.setAttribute(Constants.CURRENT_ACCOUNT, acc);
         AppContext.setAccountId(acc.getAccountId());
         //ReqAccount res = reqAccountService.findOne(id);

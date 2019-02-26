@@ -2,9 +2,15 @@ package com.haleywang.monitor.ctrl.v1;
 
 import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.Constants;
+import com.haleywang.monitor.common.mvc.ParamBody;
+import com.haleywang.monitor.dto.ChangePasswordDto;
+import com.haleywang.monitor.dto.EmailPasswordPair;
+import com.haleywang.monitor.dto.NewAccountDto;
+import com.haleywang.monitor.dto.ResetPasswordDto;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.model.ReqAccount;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
+import com.haleywang.monitor.model.ReqInfo;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.service.impl.ReqAccountServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
@@ -54,19 +60,36 @@ public class AccountCtrl extends BaseCtrl {
         return JsonUtils.toJson(res);
     }
 
-    public String changePassword() {
+    public ResultStatus resetSuperAdminPassword(@ParamBody ResetPasswordDto dto) {
         //String token;
         //String pass;
         //String email;
 
         //TODO
-        return null;
+        return new ReqAccountServiceImpl().resetSuperAdminPassword(dto);
     }
 
-    public String forgotPassword() {
+    public ResultStatus resetPassword(@ParamBody ResetPasswordDto dto) {
         //String token;
         //String pass;
         //String email;
+
+        //TODO
+        return new ReqAccountServiceImpl().resetPassword(dto);
+    }
+
+    public ResultStatus changePassword(@ParamBody ChangePasswordDto dto) {
+        //String token;
+        //String pass;
+        //String email;
+        return new ReqAccountServiceImpl().changePassword(dto);
+    }
+
+    public String create(@ParamBody NewAccountDto dto) {
+        ReqAccountService reqAccountService = new ReqAccountServiceImpl();
+
+        ResultStatus<ReqAccount> res = reqAccountService.register(dto);
+
 
         //TODO
         return null;

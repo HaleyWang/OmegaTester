@@ -3,8 +3,16 @@ package com.haleywang.monitor.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
+import com.haleywang.monitor.common.NotFoundException;
 import com.haleywang.monitor.common.ReqException;
+import com.haleywang.monitor.dto.ChangePasswordDto;
+import com.haleywang.monitor.dto.NewAccountDto;
+import com.haleywang.monitor.dto.ResetPasswordDto;
 import com.haleywang.monitor.utils.CollectionUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.haleywang.monitor.dao.ReqAccountRepository;
@@ -14,6 +22,7 @@ import com.haleywang.monitor.model.ReqAccount;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.utils.AESUtil;
 import com.haleywang.monitor.utils.Md5Utils;
+import com.haleywang.monitor.utils.StringTool;
 import tk.mybatis.mapper.entity.Example;
 
 public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implements ReqAccountService {
@@ -49,8 +58,11 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		reqAccountRepository.insert(a);
 		res.setData(a);
 
-
-		return res;
+		NewAccountDto dto = new NewAccountDto();
+		dto.setName(name);
+		dto.setEmail(email);
+		dto.setPassword(password);
+		return register(dto);
 	}
 
 	public ResultStatus<Pair<String, ReqAccount>> login(String email, String pass) {
@@ -137,4 +149,94 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		return res;
 	}
 
+	@Override
+	public ResultStatus<ReqAccount> register(NewAccountDto dto) {
+		Preconditions.checkArgument(StringTool.isValidEmail(dto.getEmail()), "Email address is not legal");
+
+		ReqAccount a = new ReqAccount();
+		a.setName(dto.getName());
+		if(StringUtils.isBlank(a.getName())) {
+			a.setName(Splitter.on('@').splitToList(dto.getEmail()).get(0));
+		}
+		a.setEmail(dto.getEmail());
+		a.setAkey(AESUtil.generateKey());
+		String password = null;
+		try {
+			password = Md5Utils.getT4MD5(dto.getPassword());
+		} catch (Exception e) {
+			throw new ReqException(e.getMessage(), e);
+		}
+		a.setPassword(password);
+
+		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+
+		reqAccountRepository.insert(a);
+		res.setData(a);
+
+		return res;
+	}
+
+	@Override
+	public ResultStatus changePassword(ChangePasswordDto dto) {
+
+
+		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+
+		String password = Md5Utils.getT4MD5(dto.getPassword());
+
+		ReqAccount a = reqAccountRepository.findByEmail(dto.getEmail());
+
+		if (a == null) {
+			throw new NotFoundException("Account not found");
+		}
+
+		if(a.getPassword().equals(Md5Utils.getT4MD5(dto.getOldPassword()))) {
+			res.ofCode("1005");
+			return res;
+		}
+
+		a.setPassword(password);
+		reqAccountRepository.updateByPrimaryKey(a);
+		return res;
+	}
+
+	@Override
+	public ResultStatus resetPassword(ResetPasswordDto dto) {
+		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+
+		String password = null;
+		try {
+			password = Md5Utils.getT4MD5(dto.getPassword());
+		} catch (Exception e) {
+			throw new ReqException(e.getMessage(), e);
+		}
+		ReqAccount a = reqAccountRepository.findByEmail(dto.getEmail());
+		if (a == null) {
+			throw new NotFoundException("Account not found");
+		}
+
+		a.setPassword(password);
+		reqAccountRepository.updateByPrimaryKey(a);
+		return res;
+	}
+
+	@Override
+	public ResultStatus resetSuperAdminPassword(ResetPasswordDto dto) {
+		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+
+		String password = null;
+		try {
+			password = Md5Utils.getT4MD5(dto.getPassword());
+		} catch (Exception e) {
+			throw new ReqException(e.getMessage(), e);
+		}
+		ReqAccount a = reqAccountRepository.findByEmail(dto.getEmail());
+		if (a == null) {
+			throw new NotFoundException("Account not found");
+		}
+
+		a.setPassword(password);
+		reqAccountRepository.updateByPrimaryKey(a);
+		return res;
+	}
 }
