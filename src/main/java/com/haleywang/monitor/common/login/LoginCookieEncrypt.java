@@ -2,7 +2,7 @@ package com.haleywang.monitor.common.login;
 
 import java.util.Date;
 
-import com.haleywang.monitor.model.ReqAccount;
+import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.utils.AESUtil;
 
 public class LoginCookieEncrypt {

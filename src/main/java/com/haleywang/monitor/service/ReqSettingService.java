@@ -1,7 +1,6 @@
 package com.haleywang.monitor.service;
 
-import com.haleywang.monitor.model.ReqSetting;
-import org.apache.ibatis.annotations.Select;
+import com.haleywang.monitor.entity.ReqSetting;
 
 import java.util.List;
 

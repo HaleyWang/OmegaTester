@@ -1,16 +1,15 @@
 package com.haleywang.monitor.service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 import com.haleywang.monitor.dto.UnirestRes;
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqGroup;
-import com.haleywang.monitor.model.ReqInfo;
-import com.haleywang.monitor.model.ReqSetting;
-import com.haleywang.monitor.model.ReqTaskHistory;
-import com.haleywang.monitor.model.ReqTaskHistory.HisType;
+import com.haleywang.monitor.entity.ReqAccount;
+import com.haleywang.monitor.entity.ReqGroup;
+import com.haleywang.monitor.entity.ReqInfo;
+import com.haleywang.monitor.entity.ReqSetting;
+import com.haleywang.monitor.entity.ReqTaskHistory;
+import com.haleywang.monitor.entity.ReqTaskHistory.HisType;
 
 public interface ReqInfoService extends BaseService<ReqInfo> {
 

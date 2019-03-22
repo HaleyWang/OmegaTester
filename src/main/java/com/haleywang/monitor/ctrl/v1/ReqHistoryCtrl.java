@@ -1,10 +1,9 @@
 package com.haleywang.monitor.ctrl.v1;
 
-import com.google.common.base.Preconditions;
 import com.haleywang.monitor.dto.ResultStatus;
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqInfo;
-import com.haleywang.monitor.model.ReqTaskHistory;
+import com.haleywang.monitor.entity.ReqAccount;
+import com.haleywang.monitor.entity.ReqInfo;
+import com.haleywang.monitor.entity.ReqTaskHistory;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;

@@ -1,14 +1,12 @@
 package com.haleywang.monitor.service.impl;
 
-import com.haleywang.db.DBUtils;
 import com.haleywang.monitor.dao.ReqAccountRepository;
 import com.haleywang.monitor.dao.ReqGroupRepository;
 import com.haleywang.monitor.dao.ReqRelationRepository;
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqGroup;
-import com.haleywang.monitor.model.ReqRelation;
+import com.haleywang.monitor.entity.ReqAccount;
+import com.haleywang.monitor.entity.ReqGroup;
+import com.haleywang.monitor.entity.ReqRelation;
 import com.haleywang.monitor.service.ReqGroupService;
-import org.apache.ibatis.session.SqlSession;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;

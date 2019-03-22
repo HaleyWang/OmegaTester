@@ -2,14 +2,10 @@ package com.haleywang.monitor.service.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import com.haleywang.db.mapper.Sort;
 import com.haleywang.monitor.dao.ReqBatchHistoryRepository;
-import com.haleywang.monitor.model.ReqBatchHistory;
-import com.haleywang.monitor.model.ReqTaskHistory;
+import com.haleywang.monitor.entity.ReqBatchHistory;
 import com.haleywang.monitor.service.ReqBatchHistoryService;
-import org.apache.ibatis.session.SqlSession;
 import tk.mybatis.mapper.entity.Example;
 
 public class ReqBatchHistoryServiceImpl extends BaseServiceImpl<ReqBatchHistory> implements ReqBatchHistoryService {

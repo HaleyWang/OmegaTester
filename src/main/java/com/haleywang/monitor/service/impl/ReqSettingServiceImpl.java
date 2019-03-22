@@ -1,14 +1,10 @@
 package com.haleywang.monitor.service.impl;
 
-import com.haleywang.db.DBUtils;
 import com.haleywang.monitor.dao.ReqSettingRepository;
-import com.haleywang.monitor.model.ReqRelation;
-import com.haleywang.monitor.model.ReqSetting;
+import com.haleywang.monitor.entity.ReqSetting;
 import com.haleywang.monitor.service.ReqSettingService;
-import org.apache.ibatis.session.SqlSession;
 import tk.mybatis.mapper.entity.Example;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 public class ReqSettingServiceImpl extends BaseServiceImpl<ReqSetting> implements ReqSettingService {

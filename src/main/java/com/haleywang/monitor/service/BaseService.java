@@ -1,6 +1,6 @@
 package com.haleywang.monitor.service;
 
-import com.haleywang.monitor.model.ReqAccount;
+import com.haleywang.monitor.entity.ReqAccount;
 import org.apache.ibatis.session.RowBounds;
 import tk.mybatis.mapper.entity.Example;
 

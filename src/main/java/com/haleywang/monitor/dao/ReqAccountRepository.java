@@ -2,7 +2,7 @@ package com.haleywang.monitor.dao;
 
 import com.haleywang.db.mapper.MyMapper;
 
-import com.haleywang.monitor.model.ReqAccount;
+import com.haleywang.monitor.entity.ReqAccount;
 
 public interface ReqAccountRepository extends MyMapper<ReqAccount> {
 

@@ -1,4 +1,4 @@
-package com.haleywang.monitor.model;
+package com.haleywang.monitor.entity;
 
 import com.haleywang.monitor.utils.DateUtils;
 import lombok.Data;

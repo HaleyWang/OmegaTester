@@ -18,7 +18,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.haleywang.monitor.dao.ReqAccountRepository;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.common.login.LoginCookieEncrypt;
-import com.haleywang.monitor.model.ReqAccount;
+import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.utils.AESUtil;
 import com.haleywang.monitor.utils.Md5Utils;

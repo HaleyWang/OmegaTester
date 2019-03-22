@@ -1,9 +1,7 @@
 package com.haleywang.monitor.dao;
 
 import com.haleywang.db.mapper.MyMapper;
-import com.haleywang.db.mapper.Sort;
-import com.haleywang.monitor.model.ReqGroup;
-import com.haleywang.monitor.model.ReqInfo;
+import com.haleywang.monitor.entity.ReqInfo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;

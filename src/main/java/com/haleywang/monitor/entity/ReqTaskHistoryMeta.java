@@ -1,11 +1,9 @@
-package com.haleywang.monitor.model;
+package com.haleywang.monitor.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;

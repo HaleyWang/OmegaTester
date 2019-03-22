@@ -1,10 +1,8 @@
 package com.haleywang.monitor.service;
 
 
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqBatch;
-
-import java.util.List;
+import com.haleywang.monitor.entity.ReqAccount;
+import com.haleywang.monitor.entity.ReqBatch;
 
 public interface ReqBatchService extends BaseService<ReqBatch> {
 

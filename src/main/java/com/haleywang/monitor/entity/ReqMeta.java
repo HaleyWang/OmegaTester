@@ -1,8 +1,7 @@
-package com.haleywang.monitor.model;
+package com.haleywang.monitor.entity;
 
-import org.apache.ibatis.type.EnumTypeHandler;
 import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.StringTypeHandler;
+
 import tk.mybatis.mapper.annotation.ColumnType;
 
 import javax.persistence.*;

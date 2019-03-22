@@ -4,7 +4,7 @@ import com.haleywang.db.DBUtils;
 import com.haleywang.db.mapper.Sort;
 import com.haleywang.monitor.dao.*;
 import com.haleywang.monitor.dto.UnirestRes;
-import com.haleywang.monitor.model.*;
+import com.haleywang.monitor.entity.*;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.service.ReqBatchHistoryService;
 import com.haleywang.monitor.service.ReqBatchService;

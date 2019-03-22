@@ -1,8 +1,5 @@
 package com.haleywang.monitor.utils;
 
-import com.haleywang.monitor.model.ReqTaskHistory;
-import com.haleywang.monitor.model.ReqTaskHistoryMeta;
-
 import java.util.List;
 
 /**

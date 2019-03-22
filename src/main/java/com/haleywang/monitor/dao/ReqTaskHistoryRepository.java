@@ -4,12 +4,8 @@ import java.util.List;
 
 import com.haleywang.db.mapper.MyMapper;
 
+import com.haleywang.monitor.entity.ReqTaskHistory;
 
-import com.haleywang.db.mapper.Sort;
-import com.haleywang.monitor.dto.UnirestRes;
-import com.haleywang.monitor.model.ReqInfo;
-import com.haleywang.monitor.model.ReqTaskHistory;
-import com.haleywang.monitor.model.ReqTaskHistory.HisType;
 import org.apache.ibatis.annotations.*;
 
 public interface ReqTaskHistoryRepository extends MyMapper<ReqTaskHistory> {

@@ -6,8 +6,8 @@ import com.haleywang.db.DBUtils;
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.dao.ReqAccountRepository;
 import com.haleywang.monitor.dao.ReqBatchRepository;
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqBatch;
+import com.haleywang.monitor.entity.ReqAccount;
+import com.haleywang.monitor.entity.ReqBatch;
 import com.haleywang.monitor.schedule.CronScheduleHelper;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.ReqGroupService;
@@ -20,10 +20,6 @@ import java.util.List;
 
 public class ReqBatchServiceImpl extends BaseServiceImpl<ReqBatch> implements
 		ReqBatchService {
-
-
-	//private ReqBatchRepository reqBatchRepository;
-
 
 	@Resource
 	private ReqGroupService reqGroupService;

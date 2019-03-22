@@ -1,8 +1,6 @@
 package com.haleywang.monitor.ctrl.v1;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.Msg;
 import com.haleywang.monitor.common.mvc.ParamBody;
 import com.haleywang.monitor.common.req.AnnoManageUtil;
@@ -13,9 +11,9 @@ import com.haleywang.monitor.dto.MyRequest;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.dto.TypeValuePair;
 import com.haleywang.monitor.dto.UnirestRes;
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqGroup;
-import com.haleywang.monitor.model.ReqInfo;
+import com.haleywang.monitor.entity.ReqAccount;
+import com.haleywang.monitor.entity.ReqGroup;
+import com.haleywang.monitor.entity.ReqInfo;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqGroupService;
 import com.haleywang.monitor.service.ReqInfoService;
@@ -24,7 +22,6 @@ import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;
 import com.haleywang.monitor.utils.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -33,7 +30,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkNotNull;

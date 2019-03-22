@@ -1,7 +1,6 @@
 package com.haleywang.monitor.service.impl;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,16 +21,16 @@ import com.haleywang.monitor.dao.ReqRelationRepository;
 import com.haleywang.monitor.dao.ReqTaskHistoryMetaRepository;
 import com.haleywang.monitor.dao.ReqTaskHistoryRepository;
 import com.haleywang.monitor.dto.UnirestRes;
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqGroup;
-import com.haleywang.monitor.model.ReqInfo;
-import com.haleywang.monitor.model.ReqMeta;
-import com.haleywang.monitor.model.ReqMeta.DataType;
-import com.haleywang.monitor.model.ReqRelation;
-import com.haleywang.monitor.model.ReqSetting;
-import com.haleywang.monitor.model.ReqTaskHistory;
-import com.haleywang.monitor.model.ReqTaskHistory.HisType;
-import com.haleywang.monitor.model.ReqTaskHistoryMeta;
+import com.haleywang.monitor.entity.ReqAccount;
+import com.haleywang.monitor.entity.ReqGroup;
+import com.haleywang.monitor.entity.ReqInfo;
+import com.haleywang.monitor.entity.ReqMeta;
+import com.haleywang.monitor.entity.ReqMeta.DataType;
+import com.haleywang.monitor.entity.ReqRelation;
+import com.haleywang.monitor.entity.ReqSetting;
+import com.haleywang.monitor.entity.ReqTaskHistory;
+import com.haleywang.monitor.entity.ReqTaskHistory.HisType;
+import com.haleywang.monitor.entity.ReqTaskHistoryMeta;
 import com.haleywang.monitor.service.ReqGroupService;
 import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.ReqSettingService;
@@ -47,7 +46,6 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import okhttp3.Response;
 import tk.mybatis.mapper.entity.Example;
 
 public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements

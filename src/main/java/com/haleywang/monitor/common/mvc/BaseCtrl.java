@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.common.ReqException;
-import com.haleywang.monitor.model.ReqAccount;
+import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.utils.CollectionUtils;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.sun.net.httpserver.Headers;

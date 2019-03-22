@@ -5,29 +5,29 @@ package com.haleywang.db.mapper;
  */
 public class Sort {
 
-    String feild;
+    String field;
     boolean asc;
 
     public static Sort of(String feild) {
         Sort sort = new Sort();
         sort.setAsc(true);
-        sort.setFeild(feild);
+        sort.setField(feild);
         return sort;
     }
 
     public static Sort of(String feild, boolean asc) {
         Sort sort = new Sort();
         sort.setAsc(asc);
-        sort.setFeild(feild);
+        sort.setField(feild);
         return sort;
     }
 
-    public String getFeild() {
-        return feild;
+    public String getField() {
+        return field;
     }
 
-    public void setFeild(String feild) {
-        this.feild = feild;
+    public void setField(String field) {
+        this.field = field;
     }
 
     public boolean isAsc() {

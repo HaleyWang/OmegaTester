@@ -6,10 +6,8 @@ import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-import com.haleywang.monitor.model.ReqInfo;
-import com.haleywang.monitor.model.ReqSetting;
-import com.haleywang.monitor.utils.CollectionUtils;
+import com.haleywang.monitor.entity.ReqInfo;
+import com.haleywang.monitor.entity.ReqSetting;
 import com.haleywang.monitor.utils.JsonUtils;
 
 import com.haleywang.monitor.utils.TemplateUtils;

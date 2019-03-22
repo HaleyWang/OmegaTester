@@ -1,7 +1,7 @@
 package com.haleywang.monitor.common.login;
 
 import com.haleywang.monitor.common.ReqException;
-import com.haleywang.monitor.model.ReqAccount;
+import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.utils.AESUtil;
 
 public class LoginCookieDecrypt {

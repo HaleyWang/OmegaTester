@@ -5,7 +5,7 @@ import java.util.List;
 import com.haleywang.db.mapper.MyMapper;
 
 import com.haleywang.db.mapper.Sort;
-import com.haleywang.monitor.model.ReqBatchHistory;
+import com.haleywang.monitor.entity.ReqBatchHistory;
 
 public interface ReqBatchHistoryRepository extends MyMapper<ReqBatchHistory> {
 

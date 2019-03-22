@@ -2,7 +2,7 @@ package com.haleywang.monitor.ctrl.v1;
 
 import com.haleywang.monitor.common.Msg;
 import com.haleywang.monitor.dto.ResultStatus;
-import com.haleywang.monitor.model.ReqBatch;
+import com.haleywang.monitor.entity.ReqBatch;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;

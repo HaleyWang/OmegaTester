@@ -6,8 +6,7 @@ import com.haleywang.monitor.dto.ChangePasswordDto;
 import com.haleywang.monitor.dto.NewAccountDto;
 import com.haleywang.monitor.dto.ResetPasswordDto;
 import com.haleywang.monitor.dto.ResultStatus;
-import com.haleywang.monitor.dto.ResultStatusStr;
-import com.haleywang.monitor.model.ReqAccount;
+import com.haleywang.monitor.entity.ReqAccount;
 
 public interface ReqAccountService extends BaseService<ReqAccount> {
 

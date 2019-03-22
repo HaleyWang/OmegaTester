@@ -1,7 +1,7 @@
 package com.haleywang.monitor.dao;
 
 import com.haleywang.db.mapper.MyMapper;
-import com.haleywang.monitor.model.ReqBatch;
+import com.haleywang.monitor.entity.ReqBatch;
 
 import java.util.List;
 

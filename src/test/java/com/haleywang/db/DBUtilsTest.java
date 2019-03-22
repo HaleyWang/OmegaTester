@@ -1,27 +1,12 @@
 package com.haleywang.db;
 
-import com.google.common.base.Splitter;
-import com.haleywang.db.mapper.Sort;
-import com.haleywang.monitor.dao.ReqBatchRepository;
-import com.haleywang.monitor.dao.ReqSettingRepository;
-import com.haleywang.monitor.model.ReqBatch;
-import com.haleywang.monitor.model.ReqSetting;
-import com.haleywang.monitor.service.impl.ReqSettingServiceImpl;
-import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import tk.mybatis.mapper.entity.Example;
 
-import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by haley on 2018/12/7.

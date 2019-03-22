@@ -1,4 +1,4 @@
-package com.haleywang.monitor.model;
+package com.haleywang.monitor.entity;
 
 import com.haleywang.monitor.utils.DateUtils;
 import lombok.Data;
@@ -8,12 +8,9 @@ import tk.mybatis.mapper.annotation.ColumnType;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Data
 @Entity

@@ -7,8 +7,7 @@ import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.common.login.LoginCookieDecrypt;
 import com.haleywang.monitor.dto.ResultStatus;
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqBatchHistory;
+import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.service.impl.ReqAccountServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
@@ -16,7 +15,6 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

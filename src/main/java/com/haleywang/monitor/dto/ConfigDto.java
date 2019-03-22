@@ -1,10 +1,9 @@
 package com.haleywang.monitor.dto;
 
-import lombok.Data;
-
 import java.util.List;
 
 import com.haleywang.monitor.common.req.HttpMethod;
+import lombok.Data;
 
 @Data
 public class ConfigDto {

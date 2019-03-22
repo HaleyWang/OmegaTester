@@ -2,8 +2,8 @@ package com.haleywang.monitor.ctrl.v1;
 
 import com.haleywang.monitor.common.Msg;
 import com.haleywang.monitor.dto.ResultStatus;
-import com.haleywang.monitor.model.ReqAccount;
-import com.haleywang.monitor.model.ReqSetting;
+import com.haleywang.monitor.entity.ReqAccount;
+import com.haleywang.monitor.entity.ReqSetting;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqSettingService;
 import com.haleywang.monitor.service.impl.ReqSettingServiceImpl;
