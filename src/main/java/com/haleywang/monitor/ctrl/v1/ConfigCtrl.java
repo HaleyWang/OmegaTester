@@ -1,5 +1,6 @@
 package com.haleywang.monitor.ctrl.v1;
 
+import com.google.common.collect.ImmutableSet;
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.common.req.HttpMethod;
@@ -8,6 +9,7 @@ import com.haleywang.monitor.dto.IdValuePair;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.utils.FileTool;
 import com.haleywang.monitor.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.*;
 
 import javax.xml.bind.*;
@@ -42,44 +44,27 @@ public class ConfigCtrl extends BaseCtrl {
 
         try {
 
-            configDto.setReqExamples(new ArrayList<>());
-            configDto.setCaseExamples(new ArrayList<>());
-            configDto.setPreScriptExamples(new ArrayList<>());
-            configDto.setTestScriptExamples(new ArrayList<>());
+
 
             String reqDemoData = FileTool.readInSamePkg(ConfigCtrl.class, "request_demo_data.xml");
 
             Document reqDemoDataDoc = DocumentHelper. parseText(reqDemoData);
             List<Node> nodes = reqDemoDataDoc.selectNodes("/req_datas/req_data") ;
 
+
+            ImmutableSet<String> exampleGroups = configDto.examplesMap().keySet();
             for(int i = 0 , n = nodes.size(); i < n ; i++) {
                 Node node = nodes.get(i);
 
                 final int idx = i;
 
-                Optional.ofNullable(node.selectSingleNode("req" ))
-                        .map(Node::getStringValue)
-                        .ifPresent( text -> {
-                            configDto.getReqExamples().add(new IdValuePair().of(idx, text));
-                        });
-
-                Optional.ofNullable(node.selectSingleNode("case" ))
-                        .map(Node::getStringValue)
-                        .ifPresent( text -> {
-                            configDto.getCaseExamples().add(new IdValuePair().of(idx, text));
-                        });
-
-                Optional.ofNullable(node.selectSingleNode("pre_script" ))
-                        .map(Node::getStringValue)
-                        .ifPresent( text -> {
-                            configDto.getPreScriptExamples().add(new IdValuePair().of(idx, text));
-                        });
-
-                Optional.ofNullable(node.selectSingleNode("test_script" ))
-                        .map(Node::getStringValue)
-                        .ifPresent( text -> {
-                            configDto.getTestScriptExamples().add(new IdValuePair().of(idx, text));
-                        });
+                for (String exampleCategory : exampleGroups) {
+                    Optional.ofNullable(node.selectSingleNode(exampleCategory))
+                            .map(Node::getStringValue)
+                            .ifPresent( text -> {
+                                configDto.examplesMap().get(exampleCategory).add(new IdValuePair().of(idx, StringUtils.trim(text)));
+                            });
+                }
 
             }
         } catch (DocumentException e ) {

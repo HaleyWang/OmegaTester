@@ -1,17 +1,17 @@
 package com.haleywang.monitor.dto;
 
+import com.google.common.collect.ImmutableMap;
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.req.HttpMethod;
-import lombok.Data;
 
 @Data
 public class ConfigDto {
 
     private HttpMethod[] methods;
-
 
     private List<IdValuePair> reqExamples = new ArrayList<>();
     private List<IdValuePair> caseExamples = new ArrayList<>();
@@ -24,7 +24,8 @@ public class ConfigDto {
                 "req", reqExamples,
                 "case", caseExamples,
                 "pre_script", preScriptExamples,
-                "test_script", testScriptExamples);
+                "test_script", testScriptExamples)
+                ;
 
 
     }

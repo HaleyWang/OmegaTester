@@ -3,40 +3,39 @@
 
     <req_data>
         <req>
-            <![CDATA[
+<![CDATA[
+var body =`<req>
+    <id txt="abc"/>
+    <name txt="{{name}}" />
+    <date txt="{{date_now}}" />
+</req>`;
 
-            var body =`<req>
-                <id txt="abc"/>
-                <name txt="{{name}}" />
-                <date txt="{{date_now}}" />
-            </req>`;
+var req = {
+    "headers": {},
+    "method": "POST",
+    "name": "demo xml 1",
+    "body": body,
 
-            var req = {
-                "headers": {},
-                "method": "POST",
-                "name": "demo xml 1",
-                "body": body,
+    "url": "{{host}}/v1/demo/comment"
+}
 
-                "url": "{{host}}/v1/demo/comment"
-            }
-
-            ]]>
+]]>
         </req>
         <case>
             <![CDATA[
-            var cases = [
-                {"name": "case1", "id" : "1"},
-                {"name": "case2", "id" : "2"},
-                {"name": "case3", "id" : "3"}
+var cases = [
+    {"name": "case1", "id" : "1"},
+    {"name": "case2", "id" : "2"},
+    {"name": "case3", "id" : "3"}
 
-            ]
+]
 
             ]]>
         </case>
         <pre_script>
             <![CDATA[
 
-            $preReqResult.date_now = new Date();
+$preReqResult.date_now = new Date();
 
             ]]>
 
@@ -64,14 +63,14 @@ $assertThat("body should contain case", response.body, "case", function(actual, 
 
 
 
-            {
-                "headers": {},
-                "method": "POST",
-                "name": "demo xml",
-                "body": "{{name}}",
+{
+    "headers": {},
+    "method": "POST",
+    "name": "demo xml",
+    "body": "{{name}}",
 
-                "url": "http://localhost:8000/v1/demo/comment"
-            }
+    "url": "http://localhost:8000/v1/demo/comment"
+}
 
             ]]>
         </req>
@@ -99,9 +98,9 @@ $assertThat("body should contain case", response.body, "case", function(actual, 
             <![CDATA[
 
 
-        var response = JSON.parse($response);
+var response = JSON.parse($response);
 
-        $assertThat("status should be 200", response.status,200);
+$assertThat("status should be 200", response.status,200);
 
 
             ]]>
