@@ -7,7 +7,6 @@ cd OmegaTester/target
 java -jar omegatester-0.1.jar
 ```
 
-
 ## Run from the sources.
 Prerequisites:
 
