@@ -77,6 +77,13 @@
 
 <body ng-app="TodoApp" ng-controller="TodoController">
 
+
+<div style="display:none;">
+	<input id="search-request1" type="text"
+		   class="form-control ng-pristine ng-valid ng-touched"
+		   placeholder="Search..."/>
+</div>
+
 	<nav class="navbar navbar-inverse navbar-fixed-top mynavbar">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -244,9 +251,18 @@
 
 					<div class="row">
 						<div class="col-md-10">
-							<input type="text" ng-model="batchReqGroupName"
+							<input  type="text" ng-model="batchReqGroupName"
+
+									class="form-control ng-pristine ng-untouched ng-valid"
+									placeholder="Search..."
+									autocomplete="nope"
+							/>
+							<input style="position:absolute;z-index:-1;    left: -9000px;"  type="text" ng-model="batchReqGroupName2"
+
 								   class="form-control ng-pristine ng-untouched ng-valid"
-								   placeholder="Search...">
+								   placeholder="Search..."
+								   id="real-username"
+							/>
 
 						</div>
 						<div class="col-md-2" style="padding: 6px;">
@@ -311,12 +327,18 @@
 
 		<div id="c" class="split split-horizontal content batch-detail-split">
 			<div class="panel panel-defaul batch-detail-input">
-				<input type="text" ng-model="reqHistoryName" class="form-control ng-pristine ng-valid ng-touched" placeholder="Search...">
+				<input id="username" style="display:none" type="text" name="fakeusernameremembered">
+				<input id="password" style="display:none" type="password" name="fakepasswordremembered">
+
+
+				<input id="search-request" type="text" ng-model="reqHistoryName"
+					   class="form-control ng-pristine ng-valid ng-touched"
+					   placeholder="Search..." autocomplete="nope"/>
 
 			</div>
 
 			<div class="panel panel-default batch-detail-box">
-
+---》{{reqHistoryName}}
 
 				<div class="batch-detail-list">
 					<ul class="list-group">

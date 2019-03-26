@@ -1,6 +1,7 @@
 package com.haleywang.monitor.service.impl;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -316,17 +317,22 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		ri.setUrl(map.getOrDefault("url", "").toString());
 		Preconditions.checkArgument(StringUtils.isNotBlank(ri.getUrl()), "Url should not be empty");
 
+		String jsonRes = null;
+		UnirestRes result = null;
+		try {
+			HttpRequestItem reqItem = ReqInfoHelper.parse(ri, envString, preReqResultStr);
 
-		HttpRequestItem reqItem = ReqInfoHelper.parse(ri, envString, preReqResultStr);
-
-		LOG.info("send req: " + JsonUtils.toJson(reqItem));
-		long begin = new Date().getTime();
-		UnirestRes result = HttpUtils.send(reqItem);
-		long end = new Date().getTime();
-		result.setBegin(begin);
-		result.setEnd(end);
-		String jsonRes = JsonUtils.toJson(result);
-		LOG.info("req response: " + jsonRes);
+			LOG.info("send req: " + JsonUtils.toJson(reqItem));
+			long begin = new Date().getTime();
+			result = HttpUtils.send(reqItem);
+			long end = new Date().getTime();
+			result.setBegin(begin);
+			result.setEnd(end);
+			jsonRes = JsonUtils.toJson(result);
+			LOG.info("req response: " + jsonRes);
+		}catch (MalformedURLException e) {
+			result = new UnirestRes();
+		}
 
 		
 		String testResults = runTestRespone(ri, jsonRes, preReqResultStr);
@@ -351,7 +357,6 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 		hm.setReqTaskHistory(reqTaskHistory);
 		hm.setTestReport(testResults);
 		reqTaskHistoryMetaRepository.insert(hm);
-
 
         removeOldHistory(ri, currentAccout, hisType);
 

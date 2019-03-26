@@ -22,6 +22,10 @@ public class UnirestRes  {
 	private long end;
 	private String body;
 
+	public static UnirestRes newInstance() {
+		UnirestRes res= new UnirestRes();
+		return res;
+	}
 
 	public UnirestRes() {
 
@@ -34,11 +38,14 @@ public class UnirestRes  {
 	}
 	
 	public int getStatus() {
+		if(res == null) {
+			return 0;
+		}
 		return res.code();
 	}
 
 	public String getStatusText() {
-		return res.code()+"";
+		return getStatus()+"";
 	}
 
 	public Boolean getTestSuccess() {
@@ -55,6 +62,9 @@ public class UnirestRes  {
 	 */
 	public String getHeaders() {
 		//return FormatUtil.formatJson(JsonUtils.toJson(res.getHeaders()));
+		if(res == null) {
+			return null;
+		}
 		return JsonUtils.toJson(res.headers().toMultimap());
 	}
 
@@ -62,7 +72,7 @@ public class UnirestRes  {
 	public Map<String, Object> toMap () throws IOException {
 		Map<String, Object> map = new HashMap<>();
 
-		map.put("statusCode" , res.code());
+		map.put("statusCode" , getStatus());
 		map.put("body" , body);
 
 		return map;
