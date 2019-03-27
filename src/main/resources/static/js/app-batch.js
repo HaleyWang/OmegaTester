@@ -242,7 +242,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 
 	};
 	
-	$scope.onClickbatchHistoryErrorNum = function(batchHistoryItem ) {
+	$scope.onClickBatchHistoryNum = function(batchHistoryItem, isSuccessNum ) {
 		if(!batchHistoryItem) {
 			return;
 		}
@@ -253,16 +253,24 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 		$http.get("/v1/reqHistory/list?batchHistoryId=" + batchHistoryId).success(function(res) {
 			console.log(res);
 			var result = res.data;
-			var errorResults = [];
+			var results = [];
 			if(result != null && result.length > 0) {
 				for(var i = 0, n = result.length; i < n; i++) {
-					if(!result[i].testSuccess) {
-						errorResults.push(result[i]);
-					}
+				    if(isSuccessNum) {
+				       if(result[i].success) {
+                           results.push(result[i]);
+                       }
+                       continue;
+                    }
+
+                    if(!result[i].success) {
+                        results.push(result[i]);
+                    }
+
 				}
 			}
 			
-			$scope.reqHistoryList = errorResults;
+			$scope.reqHistoryList = results;
 		});
 
 	};

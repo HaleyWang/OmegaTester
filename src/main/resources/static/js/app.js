@@ -841,6 +841,9 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	};
 	
 	function beautifyCode(js_source) {
+	    if(!js_source) {
+	        return js_source;
+	    }
 		var tabsize = null;
 		var tabchar = null;
 		var c = "";
@@ -874,6 +877,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 				return;
 			}
+
             res.data.headers = beautifyCode(res.data.headers);
 
             res.data.body = beautifyCode(res.data.body);

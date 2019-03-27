@@ -55,6 +55,13 @@ public class ReqTaskHistory implements Serializable {
         return DateUtils.copy(createdOn);
     }
 
+    public boolean isSuccess() {
+        if("false".equals(testSuccess)) {
+            return false;
+        }
+        return true;
+    }
+
     public void setCreatedOn(Date createdOn) {
         this.createdOn = DateUtils.copy(createdOn);
     }

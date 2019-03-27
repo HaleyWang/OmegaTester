@@ -302,11 +302,11 @@
 						<div class="batch-result-msg">
 
 							<a href="#"
-								ng-click="onClickbatchHistoryTotalNum(batchHistoryItem)"> <span
+								ng-click="onClickBatchHistoryNum(batchHistoryItem, true)"> <span
 								class="label label-success" title="passed">{{batchHistoryItem.successNum}}
 									</span>
 							</a>&nbsp;&nbsp; <a href="#"
-								ng-click="onClickbatchHistoryErrorNum(batchHistoryItem)"> <span
+								ng-click="onClickBatchHistoryNum(batchHistoryItem, false)"> <span
 								class="label label-danger show-{{batchHistoryItem.total -
 									batchHistoryItem.successNum}}" title="failed">{{batchHistoryItem.total -
 									batchHistoryItem.successNum}}  </span>
@@ -349,18 +349,16 @@
 							<div class="col-md-12">
 								<div>{{reqHistory.req.name}}</div>
 								<div>{{reqHistory.req.url}}</div>
-
-
 							</div>
 
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 
-								<div class="hide-{{reqHistory.testSuccess}}">
+								<div class="hide-{{reqHistory.success}}">
 									<span class=" label label-danger">FAILED</span>
 								</div>
-								<div class="hide-{{!reqHistory.testSuccess}} ">
+								<div class="hide-{{!reqHistory.success}} ">
 									<span class="label label-success">PASSED</span>
 								</div>
 
@@ -376,28 +374,28 @@
 
 								<ul class="nav nav-tabs" role="tablist">
 									<li role="presentation" class="active">
-										<a href="#req-data-{{reqHistory.historyId}}" aria-controls="req-data-{{reqHistory.historyId}}" role="tab" data-toggle="tab">Request data</a>
+										<a href="#req-data-{{reqHistory.taskHistoryId}}" aria-controls="req-data-{{reqHistory.taskHistoryId}}" role="tab" data-toggle="tab">Request data</a>
 									</li>
 
 									<li role="presentation" class="">
-										<a href="#res-data-{{reqHistory.historyId}}" aria-controls="res-data-{{reqHistory.historyId}}" role="tab" data-toggle="tab">Resoone data</a>
+										<a href="#res-data-{{reqHistory.taskHistoryId}}" aria-controls="res-data-{{reqHistory.taskHistoryId}}" role="tab" data-toggle="tab">Resoone data</a>
 									</li>
 
 									<li role="presentation" class="">
-										<a href="#test-result-{{reqHistory.historyId}}" aria-controls="test-result-{{reqHistory.historyId}}" role="tab" data-toggle="tab">Test result</a>
+										<a href="#test-result-{{reqHistory.taskHistoryId}}" aria-controls="test-result-{{reqHistory.taskHistoryId}}" role="tab" data-toggle="tab">Test result</a>
 									</li>
 
 
 
 								</ul>
 								<div class="tab-content">
-									<div role="tabpanel" class="tab-pane active" id="req-data-{{reqHistory.historyId}}">
+									<div role="tabpanel" class="tab-pane active" id="req-data-{{reqHistory.taskHistoryId}}">
 										<textarea rows="10" class="form-control " data-ng-model="reqHistory.req.meta.request"></textarea>
 									</div>
-									<div role="tabpanel" class="tab-pane " id="res-data-{{reqHistory.historyId}}">
+									<div role="tabpanel" class="tab-pane " id="res-data-{{reqHistory.taskHistoryId}}">
 										<textarea rows="10" class="form-control " data-ng-model="reqHistory.reqTaskHistoryMeta.content" ></textarea>
 									</div>
-									<div role="tabpanel" class="tab-pane " id="test-result-{{reqHistory.historyId}}">
+									<div role="tabpanel" class="tab-pane " id="test-result-{{reqHistory.taskHistoryId}}">
 										<textarea rows="10" class="form-control " data-ng-model="reqHistory.reqTaskHistoryMeta.testReport"></textarea>
 									</div>
 								</div>
