@@ -5,6 +5,5 @@
   "get": "GET",
   "requestHeader": "headers",
   "a": "apiKey",
-  "a...": "{{apiKey}}",
   "requestData": "body"
 }
