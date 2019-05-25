@@ -1,8 +1,9 @@
 package com.haleywang.monitor.utils;
 
 import com.haleywang.monitor.common.ReqException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -11,9 +12,9 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+@Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UrlUtils {
-
-    private static Logger LOG = LoggerFactory.getLogger(UrlUtils.class);
 
     public static final String UTF_8 = StandardCharsets.UTF_8.name();
 
@@ -21,7 +22,7 @@ public class UrlUtils {
         try {
             return URLEncoder.encode(s, UTF_8);
         } catch (UnsupportedEncodingException e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return s;
     }
@@ -30,7 +31,7 @@ public class UrlUtils {
         try {
             return URLDecoder.decode(s, UTF_8);
         } catch (UnsupportedEncodingException e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return s;
     }

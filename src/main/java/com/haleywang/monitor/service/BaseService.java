@@ -28,4 +28,7 @@ public interface BaseService<T> {
 
 	void deleteByPrimaryKey(Object id) ;
 
+	T saveOrUpdate(T model);
+
+
 }

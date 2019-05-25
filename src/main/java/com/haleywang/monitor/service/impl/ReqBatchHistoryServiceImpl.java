@@ -16,9 +16,8 @@ public class ReqBatchHistoryServiceImpl extends BaseServiceImpl<ReqBatchHistory>
 		initRepository();
 	}
 
-	public void initRepository() {
-		ReqBatchHistoryRepository reqBatchHistoryRepository = getMapper(ReqBatchHistoryRepository.class);
-		this.reqBatchHistoryRepository = reqBatchHistoryRepository;
+	private void initRepository() {
+		this.reqBatchHistoryRepository = getMapper(ReqBatchHistoryRepository.class);
 		this.mapper = (reqBatchHistoryRepository);
 	}
 	
@@ -26,7 +25,6 @@ public class ReqBatchHistoryServiceImpl extends BaseServiceImpl<ReqBatchHistory>
 	public List<ReqBatchHistory> findByBatchId(Long batchId) {
 
 		Example example1 = new Example(ReqBatchHistory.class);
-		//example1.setOrderByClause(" history_id desc ");
 
 		example1.createCriteria().andEqualTo("batchId", batchId);
 
@@ -37,5 +35,6 @@ public class ReqBatchHistoryServiceImpl extends BaseServiceImpl<ReqBatchHistory>
 	public List<ReqBatchHistory> findByBatchId(Long batchId, Sort sort) {
 		return reqBatchHistoryRepository.findByBatchId(batchId, sort);
 	}
+
 
 }

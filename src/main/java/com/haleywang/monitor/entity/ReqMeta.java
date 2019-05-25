@@ -1,11 +1,21 @@
 package com.haleywang.monitor.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 
 import tk.mybatis.mapper.annotation.ColumnType;
 
 import javax.persistence.*;
 
+
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 public class ReqMeta {
 	
@@ -32,31 +42,9 @@ public class ReqMeta {
 			typeHandler = DataTypeEnumTypeHandler.class)
 	private DataType dataType;
 
-	public Long getReqId() {
-		return reqId;
-	}
-
-	public void setReqId(Long reqId) {
-		this.reqId = reqId;
-	}
-
 	@Lob
 	@ColumnType(jdbcType = JdbcType.CLOB)
 	private String data;
-
-	public Long getMetaId() {
-		return metaId;
-	}
-
-	public void setMetaId(Long metaId) {
-		this.metaId = metaId;
-	}
-
-	
-
-	public ReqInfo getReq() {
-		return req;
-	}
 
 	public void setReq(ReqInfo req) {
 		if(req != null) {
@@ -66,21 +54,5 @@ public class ReqMeta {
 		this.req = req;
 	}
 
-	public DataType getDataType() {
-		return dataType;
-	}
 
-	public void setDataType(DataType dataType) {
-		this.dataType = dataType;
-	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
-	}
-
-	
 }

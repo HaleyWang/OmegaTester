@@ -1,17 +1,14 @@
 package com.haleywang.monitor.ctrl.v1;
 
-import com.haleywang.monitor.common.Msg;
+import com.haleywang.monitor.common.mvc.BaseCtrl;
+import com.haleywang.monitor.common.mvc.ParamBody;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.entity.ReqSetting;
-import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqSettingService;
 import com.haleywang.monitor.service.impl.ReqSettingServiceImpl;
-import com.haleywang.monitor.utils.JsonUtils;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -20,137 +17,39 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class SettingCtrl extends BaseCtrl {
 
-    public String save() throws IOException {
-        ReqSetting ri = getBodyParams(ReqSetting.class);
+    public ResultStatus<ReqSetting> save(@ParamBody ReqSetting ri) {
 
         ReqAccount acc = currentAccountAndCheck();
-
-        ResultStatus<ReqSetting> res = new ResultStatus<>();
-
-        ReqSettingService reqSettingService = new ReqSettingServiceImpl();
-
-        if (ri.getId() != null) {
-            ReqSetting ri1 = reqSettingService.findOne(ri.getId());
-            if (ri1 == null) {
-                return JsonUtils.toJson(res.of(Msg.NOT_FOUND));
-            }
-            //if (Objects.equals(ri1.getOnwer() , acc.getAccountId()) ) {
-            //    return JsonUtils.toJson(res.of(Msg.NOT_ALLOWED));
-            //}
-
-            if (ri.getId() != null) {
-                reqSettingService.update(ri);
-
-            } else {
-                reqSettingService.save(ri);
-            }
-
-            return JsonUtils.toJson(res);
-        }
-
-        ri.setOnwer(acc.getAccountId());
-        reqSettingService.save(ri);
-
-        return JsonUtils.toJson(res);
+        return new ReqSettingServiceImpl().saveSetting(ri, acc);
     }
 
-    public String add() throws IOException {
-
-        ReqSetting ri = getBodyParams(ReqSetting.class);
+    public ResultStatus<ReqSetting> add(@ParamBody ReqSetting ri)  {
 
         ReqAccount acc = currentAccountAndCheck();
         ri.setOnwer(acc.getAccountId());
 
-        ResultStatus<ReqSetting> res = new ResultStatus<>();
-
-        ReqSettingService reqSettingService = new ReqSettingServiceImpl();
-
-        if (ri.getId() != null) {
-            ReqSetting ri1 = reqSettingService.findOne(ri.getId());
-            if (ri1 == null) {
-                return JsonUtils.toJson(res.of(Msg.NOT_FOUND));
-            }
-            if (Objects.equals(ri1.getOnwer() , acc.getAccountId())) {
-                return JsonUtils.toJson(res.of(Msg.NOT_ALLOWED));
-            }
-
-            reqSettingService.save(ri);
-
-            return JsonUtils.toJson(res);
-        }
-
-        ri.setOnwer(acc.getAccountId());
-        reqSettingService.save(ri);
-
-        return JsonUtils.toJson(res);
+        return new ReqSettingServiceImpl().saveSetting(ri, acc);
     }
 
-    public String update() throws IOException {
-
-        ReqSetting ri = getBodyParams(ReqSetting.class);
-
-        ReqAccount acc = currentAccountAndCheck();
-
-        ResultStatus<ReqSetting> res = new ResultStatus<>();
-
-        ReqSettingService reqSettingService = new ReqSettingServiceImpl();
-        ReqSetting ri1 = reqSettingService.findOne(ri.getId());
-        if (ri1 == null) {
-            return JsonUtils.toJson(res.of(Msg.NOT_FOUND));
-        }
-
-        if (Objects.equals(ri1.getOnwer() , acc.getAccountId())) {
-            return JsonUtils.toJson(res.of(Msg.NOT_ALLOWED));
-        }
-
-        ri.setOnwer(acc.getAccountId());
-        reqSettingService.save(ri);
-
-        return JsonUtils.toJson(res.of(Msg.OK));
-
+    public ResultStatus<ReqSetting> update(@ParamBody ReqSetting ri)  {
+        return save(ri);
     }
 
-    public String list() throws IOException {
-        System.out.println(" ====> list");
-
-
-
-        ResultStatus<List<ReqSetting>> res = new ResultStatus<>();
+    public ResultStatus<List<ReqSetting>> list()  {
 
         ReqSettingService reqSettingService = new ReqSettingServiceImpl();
 
         List<ReqSetting> ll = reqSettingService.findByOnwer(currentAccountAndCheck().getAccountId());
-
-        res.setData(ll);
-
-        return JsonUtils.toJson(res.of(Msg.OK));
-
+        return new ResultStatus<>(ll);
     }
 
-    public String delete() throws IOException {
-
-        System.out.println(" ====> delete");
+    public ResultStatus<Long> delete()  {
 
         Long id = Long.parseLong(getUrlParam("id"));
         checkNotNull(id, "Parameter id must be not null");
 
         ReqAccount acc = currentAccountAndCheck();
-
-        ResultStatus<List<ReqSetting>> res = new ResultStatus<>();
-
-        ReqSettingService reqSettingService = new ReqSettingServiceImpl();
-        ReqSetting ri1 = reqSettingService.findOne(id);
-        if (ri1 == null) {
-            return JsonUtils.toJson(res.of(Msg.NOT_FOUND));
-        }
-
-        if (Objects.equals(ri1.getOnwer() , acc.getAccountId())) {
-            return JsonUtils.toJson(res.of(Msg.NOT_ALLOWED));
-        }
-
-        reqSettingService.delete(ri1);
-
-        return JsonUtils.toJson(res.of(Msg.OK));
+        return new ReqSettingServiceImpl().delete(id, acc);
     }
 
 }

@@ -1,12 +1,14 @@
 package com.haleywang.monitor;
 
-import java.util.Set;
-
+import com.haleywang.monitor.common.Constants;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.slf4j.MDC;
 
-import com.haleywang.monitor.common.Constants;
-
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AppContext {
+
+	public static final String VERSION = "0.1";
 
     public static final String DEBUG_REQUEST = "debug_request";
     
@@ -18,7 +20,7 @@ public class AppContext {
         MDC.put(Constants.REQUEST_ID_IN_LOG, requestId);
     }
 	public static Object getVersion() {
-		return "0.1";
+		return VERSION;
 	}
 	public static void setAccountId(Long accid) {
 		MDC.put(Constants.CURRENT_ACCOUNT, accid +"");

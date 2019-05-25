@@ -1,6 +1,7 @@
 package com.haleywang.monitor.dto;
 
 
+import com.haleywang.monitor.common.Msg;
 import lombok.Data;
 
 @Data
@@ -14,7 +15,9 @@ public class ResultStatus<T> {
 
 	public ResultStatus(T data) {
 		super();
+		meta = new ResponseMeta();
 		this.data = data;
+		this.of(Msg.OK);
 	}
 	
 	public ResultStatus() {
@@ -32,12 +35,12 @@ public class ResultStatus<T> {
 
 
 	public ResultStatus of(String code) {
-		meta.code = code;
+		meta.setCode(code);
 		return this;
 	}
 
 	public ResultStatus of(String code, T result) {
-		meta.code = code;
+		meta.setCode(code);
 		this.data = result;
 		return this;
 	}

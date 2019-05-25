@@ -1,5 +1,9 @@
 package com.haleywang.monitor.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;
 
@@ -9,6 +13,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 public class ReqSetting implements Serializable {
 
@@ -40,70 +50,4 @@ public class ReqSetting implements Serializable {
 			typeHandler = SettingTypeEnumTypeHandler.class)
     private SettingType type;
 
-	public Long getId() {
-		return id;
-	}
-
-
-	public String getOnwerType() {
-		return onwerType;
-	}
-
-
-	public void setOnwerType(String onwerType) {
-		this.onwerType = onwerType;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public String getContent() {
-		return content;
-	}
-
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-
-	public SettingType getType() {
-		return type;
-	}
-
-
-	public void setType(SettingType type) {
-		this.type = type;
-	}
-
-
-	public Long getOnwer() {
-		return onwer;
-	}
-
-
-	public void setOnwer(Long onwer) {
-		this.onwer = onwer;
-	}
-
-	public Integer getCurrent() {
-		return current;
-	}
-
-	public void setCurrent(Integer current) {
-		this.current = current;
-	}
 }

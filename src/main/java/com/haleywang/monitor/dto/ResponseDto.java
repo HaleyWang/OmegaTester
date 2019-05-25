@@ -1,30 +1,22 @@
 package com.haleywang.monitor.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by haley on 2017/7/20.
  */
-public class ResponseDto<T> {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class ResponseDto {
 
     String code;
     String msg;
 
 
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 }

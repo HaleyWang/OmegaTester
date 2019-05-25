@@ -1,15 +1,19 @@
 package com.haleywang.monitor.entity;
 
-import com.haleywang.monitor.utils.DateUtils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Date;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Date;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class ReqBatchHistory implements Serializable {
@@ -37,18 +41,5 @@ public class ReqBatchHistory implements Serializable {
     private Integer total = 0;
     
     private Long costTime = 0L;
-
-
-
-	public Date getBatchStartDate() {
-		return DateUtils.copy(batchStartDate);
-	}
-
-	public void setBatchStartDate(Date batchStartDate) {
-		this.batchStartDate = DateUtils.copy(batchStartDate);
-	}
-
-
-
 
 }

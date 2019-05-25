@@ -12,13 +12,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class PostmanDataUtils {
+
+	private PostmanDataUtils(){}
 	
-	
-	public static HttpRequestItem parsePostmanData(String aa) throws IOException, FileNotFoundException {
+	public static HttpRequestItem parsePostmanData(String aa)  {
 		return parsePostManData(Arrays.asList(aa.split("\n")));
 	}
 	
-	public static HttpRequestItem parsePostmanData(File file) throws IOException, FileNotFoundException {
+	public static HttpRequestItem parsePostmanData(File file) throws IOException {
 		List<String> lines = IOUtils.readLines(new FileInputStream(file), "UTF-8");
 		return parsePostManData(lines);
 	}

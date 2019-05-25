@@ -6,8 +6,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import com.haleywang.monitor.common.ReqException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Md5Utils {
+
 
 	private static String getMD5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		MessageDigest md = MessageDigest.getInstance("MD5");

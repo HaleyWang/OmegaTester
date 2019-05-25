@@ -4,10 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;
 
+
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class ReqTaskHistoryMeta implements Serializable {

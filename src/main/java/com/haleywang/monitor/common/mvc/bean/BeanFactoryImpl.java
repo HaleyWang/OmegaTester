@@ -1,6 +1,6 @@
 package com.haleywang.monitor.common.mvc.bean;
 
-import com.haleywang.monitor.common.mvc.OakException;
+import com.haleywang.monitor.common.mvc.BeanException;
 
 /**
  * Created by haley on 2018/11/13.
@@ -19,12 +19,8 @@ public class BeanFactoryImpl implements BeanFactory {
     public <T> T getBean(Class<T> type) {
         try {
             return type.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new OakException(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new OakException(e.getMessage(), e);
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new BeanException(e.getMessage(), e);
         }
     }
 }

@@ -23,13 +23,9 @@ public class UnirestRes  {
 	private String body;
 
 	public static UnirestRes newInstance() {
-		UnirestRes res= new UnirestRes();
-		return res;
+		return new UnirestRes();
 	}
 
-	public UnirestRes() {
-
-	}
 
 	public UnirestRes withRes(Response res) throws IOException {
 		this.res = res;
@@ -61,7 +57,6 @@ public class UnirestRes  {
 	 * For instance use <code>getHeaders().getFirst("Location")</code> and not <code>getHeaders().getFirst("location")</code> to get first header "Location"
 	 */
 	public String getHeaders() {
-		//return FormatUtil.formatJson(JsonUtils.toJson(res.getHeaders()));
 		if(res == null) {
 			return null;
 		}
@@ -69,7 +64,7 @@ public class UnirestRes  {
 	}
 
 
-	public Map<String, Object> toMap () throws IOException {
+	public Map<String, Object> toMap ()  {
 		Map<String, Object> map = new HashMap<>();
 
 		map.put("statusCode" , getStatus());

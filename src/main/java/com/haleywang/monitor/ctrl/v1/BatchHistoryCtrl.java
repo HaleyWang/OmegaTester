@@ -1,13 +1,12 @@
 package com.haleywang.monitor.ctrl.v1;
 
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.entity.ReqBatchHistory;
-import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqBatchHistoryService;
 import com.haleywang.monitor.service.impl.ReqBatchHistoryServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,20 +15,15 @@ import java.util.List;
 public class BatchHistoryCtrl extends BaseCtrl {
 
 
-    public String list() throws IOException {
+    public ResultStatus<List<ReqBatchHistory>> list()  {
 
         Long batchId = Long.parseLong(getUrlParam("batchId"));
 
-        ResultStatus<List<ReqBatchHistory>> res = new ResultStatus<>();
-
         ReqBatchHistoryService service = new ReqBatchHistoryServiceImpl();
-
 
         List<ReqBatchHistory> ll = service.findByBatchId(batchId);
 
-        res.setData(ll);
-
-        return JsonUtils.toJson(res);
+        return new ResultStatus<>(ll);
     }
 
     public String  detail()  {
@@ -43,13 +37,13 @@ public class BatchHistoryCtrl extends BaseCtrl {
     }
 
 
-    public String delete() throws InterruptedException {
+    public ResultStatus<Long> delete() {
         Long batchHistoryId = Long.parseLong(getUrlParam("batchHistoryId"));
 
         ReqBatchHistoryService reqBatchHistoryService = new ReqBatchHistoryServiceImpl();
 
         reqBatchHistoryService.deleteByPrimaryKey(batchHistoryId);
-        return JsonUtils.toJson(new ResultStatus<>());
+        return new ResultStatus<>(batchHistoryId);
     }
 
 }

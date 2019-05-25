@@ -4,17 +4,22 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.haleywang.monitor.common.ReqException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by haley on 2017/3/10.
  */
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TemplateUtils {
+
+
 
     public static String parse(String temp, JSONObject data) {
 

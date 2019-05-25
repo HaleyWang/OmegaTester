@@ -1,13 +1,6 @@
 package com.haleywang.monitor.common.req;
 
 import com.haleywang.monitor.dto.UnirestRes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -15,10 +8,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 public class HttpUtils {
 
-
-	private static final Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
+	private HttpUtils(){}
 
 
 	private static final OkHttpClient CLIENT =new OkHttpClient.Builder()
@@ -37,16 +33,6 @@ public class HttpUtils {
 		Map<String, String> reqHeaders = reqItem.getReqHeaders();
 		String bodyStr = reqItem.getDataBuff().toString();
 
-		//url= TemplateUtils.parse(url, data);
-		//body= TemplateUtils.parse(body, data);
-
-		/*
-		Map<String, String> newReqHeaders = new HashMap<>();
-		for(String key : reqHeaders.keySet()) {
-			String newKey = TemplateUtils.parse(key, data);
-			newReqHeaders.put(newKey , TemplateUtils.parse(reqHeaders.get(key), data));
-		}
-		*/
 
 		String contentType = reqHeaders.getOrDefault(reqHeaders.get("content-type"), reqHeaders.getOrDefault("Content-Type", "text/plain"));
 		MediaType mediaType = MediaType.parse(contentType);
@@ -60,11 +46,6 @@ public class HttpUtils {
 
 		return new UnirestRes().withRes(response);
 
-		/*
-		HttpResponse<String> vvv = new HttpRequestWithBody(httpMethod, url).
-				headers(reqHeaders).body(body).asString();
-		return vvv;
-		*/
 	}
 
 }

@@ -1,8 +1,14 @@
 package com.haleywang.monitor.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.io.File;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PathUtils {
+
+
 
     public static<T> boolean isStartupFromJar(Class<T> clazz) {
         File file = new File(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());

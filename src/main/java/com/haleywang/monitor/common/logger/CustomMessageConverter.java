@@ -15,19 +15,19 @@ public class CustomMessageConverter extends ClassicConverter {
     private final int BUF_SIZE = 256;
     private final int MAX_TEXT_LENGTH = 9000;
     public final static String SPACE = " ";
-    private StringBuffer sbuf = new StringBuffer(BUF_SIZE);
 
 
     @Override
     public String convert(ILoggingEvent event) {
-        return doLayout(event, new ReqMsg());
+        return doLayout(event);
     }
 
-    public String doLayout(ILoggingEvent event, ReqMsg reqInfo) {
+    public String doLayout(ILoggingEvent event) {
         if (AppContext.getRequestId() == null) {
             AppContext.setRequestId(UUID.randomUUID().toString());
         }
 
+        StringBuffer sbuf = new StringBuffer(BUF_SIZE);
 
         sbuf.setLength(0);
         sbuf.append(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(new Date())).append(SPACE);

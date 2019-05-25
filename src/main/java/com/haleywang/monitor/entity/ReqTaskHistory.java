@@ -1,7 +1,10 @@
 package com.haleywang.monitor.entity;
 
 import com.haleywang.monitor.utils.DateUtils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;
 
@@ -13,6 +16,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class ReqTaskHistory implements Serializable {
@@ -56,10 +63,7 @@ public class ReqTaskHistory implements Serializable {
     }
 
     public boolean isSuccess() {
-        if("false".equals(testSuccess)) {
-            return false;
-        }
-        return true;
+        return (!"false".equals(testSuccess));
     }
 
     public void setCreatedOn(Date createdOn) {

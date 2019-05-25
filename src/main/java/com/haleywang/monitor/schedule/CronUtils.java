@@ -10,6 +10,8 @@ import java.util.Date;
  */
 public class CronUtils {
 
+    private CronUtils(){}
+
     public static Date getNextValidTimeAfter(String cronExpression, Date date) throws ParseException {
         CronExpression c = new CronExpression(cronExpression);
         return c.getNextValidTimeAfter(date);

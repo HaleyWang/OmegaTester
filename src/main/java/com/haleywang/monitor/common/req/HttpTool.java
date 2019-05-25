@@ -1,11 +1,10 @@
 package com.haleywang.monitor.common.req;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.dto.UnirestRes;
 import com.haleywang.monitor.utils.JsonUtils;
+
+import java.io.IOException;
 
 public class HttpTool {
 

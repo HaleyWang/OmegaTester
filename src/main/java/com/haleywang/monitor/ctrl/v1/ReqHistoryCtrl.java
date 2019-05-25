@@ -1,17 +1,16 @@
 package com.haleywang.monitor.ctrl.v1;
 
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.entity.ReqInfo;
 import com.haleywang.monitor.entity.ReqTaskHistory;
-import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -21,8 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ReqHistoryCtrl extends BaseCtrl {
 
-    //findReqTaskHistory
-    public String list() throws IOException {
+    public ResultStatus<List<ReqTaskHistory>> list() {
 
         ReqTaskHistory.HisType hisType = ReqTaskHistory.HisType
                 .valueOf(StringUtils.upperCase(getUrlParam("hisType", "manual")));
@@ -34,38 +32,27 @@ public class ReqHistoryCtrl extends BaseCtrl {
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();
         if (batchHistoryId != null) {
             List<ReqTaskHistory> ll = requestInfoService.findReqTaskHistory(acc, batchHistoryId);
-
-            return JsonUtils.toJson(res.ofData(ll));
+            return res.ofData(ll);
         }
 
         List<ReqTaskHistory> ll = requestInfoService.findReqTaskHistory(acc, hisType);
 
-        res.ofData(ll);
-
-        return JsonUtils.toJson(res);
+        return res.ofData(ll);
     }
 
-    //req/history
-    //RequestMapping( value = "/detail", method = RequestMethod.GET)
-    public String detail() throws IOException {
-        System.out.println(" ====> ");
+    public ResultStatus<ReqTaskHistory> detail() {
 
         Long id = Long.parseLong(getUrlParam("id"));
         checkNotNull(id, "Parameter id must be not null");
 
         ReqAccount acc = currentAccountAndCheck();
-        ResultStatus<ReqTaskHistory> res = new ResultStatus<>();
 
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();
-        ReqTaskHistory resHustory = requestInfoService.findHistoryDetail(acc, id);
+        ReqTaskHistory resHistory = requestInfoService.findHistoryDetail(acc, id);
+        ReqInfo ri = requestInfoService.detail(resHistory.getReqId(), acc);
+        resHistory.setReq(ri);
 
-        ReqInfo ri = requestInfoService.detail(resHustory.getReqId(), acc);
-
-        resHustory.setReq(ri);
-
-        res.ofData(resHustory);
-
-        return JsonUtils.toJson(res);
+        return new ResultStatus<>(resHistory);
     }
 
 }

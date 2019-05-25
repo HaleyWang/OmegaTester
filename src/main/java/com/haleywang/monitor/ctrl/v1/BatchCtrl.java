@@ -1,15 +1,14 @@
 package com.haleywang.monitor.ctrl.v1;
 
 import com.haleywang.monitor.common.Msg;
+import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.entity.ReqBatch;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 import com.haleywang.monitor.utils.JsonUtils;
-import com.haleywang.monitor.common.mvc.BaseCtrl;
 import tk.mybatis.mapper.entity.Example;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
  */
 public class BatchCtrl extends BaseCtrl {
 
-    public String add() throws IOException {
+    public String add()  {
         ReqBatch reqBatch = getBodyParams(ReqBatch.class);
 
         ResultStatus<List<ReqBatch>> res = new ResultStatus<>();
@@ -30,7 +29,7 @@ public class BatchCtrl extends BaseCtrl {
     }
 
     //
-    public ResultStatus<List<ReqBatch>> update() throws IOException {
+    public ResultStatus<List<ReqBatch>> update()  {
         ReqBatch reqBatch = getBodyParams(ReqBatch.class);
 
         ResultStatus<List<ReqBatch>> res = new ResultStatus<>();
@@ -46,7 +45,7 @@ public class BatchCtrl extends BaseCtrl {
         return res.of(Msg.OK);
     }
 
-    public String list() throws IOException {
+    public String list()  {
         ResultStatus<List<ReqBatch>> res = new ResultStatus<>();
 
         ReqBatchService service = new ReqBatchServiceImpl();

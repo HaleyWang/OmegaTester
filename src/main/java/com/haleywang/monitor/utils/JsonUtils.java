@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import com.fasterxml.jackson.databind.MapperFeature;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,9 +23,15 @@ import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.common.ReqException;
 import org.json.JSONObject;
 
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonUtils {
 
-	public static JSONObject extend(JSONObject jsonOne, JSONObject jsonTwo) throws Exception {
+
+	public static final String JSON_STRING = "json string:";
+	public static final String CAN_T_CONVERT_BEAN = " can't convert bean";
+
+	public static JSONObject extend(JSONObject jsonOne, JSONObject jsonTwo) {
 
 		for(Object key : jsonTwo.keySet()) {
 			String key1 = (String) key;
@@ -75,7 +83,7 @@ public class JsonUtils {
 		try {
 			return mapper.readValue(json, clazz);
 		} catch (IOException e) {
-			throw new ReqException("json string:" + json + " can't convert to " + clazz.getName(), e);
+			throw new ReqException(JSON_STRING + json + " can't convert to " + clazz.getName(), e);
 		}
 
 	}
@@ -96,7 +104,7 @@ public class JsonUtils {
 		try {
 			return mapper.readValue(json, t);
 		} catch (IOException e) {
-			throw new ReqException("json string:" + json + " can't convert bean", e);
+			throw new ReqException(JSON_STRING + json + CAN_T_CONVERT_BEAN, e);
 		}
 
 	}
@@ -106,7 +114,7 @@ public class JsonUtils {
 		try {
 			return mapper.convertValue(node, clazz);
 		} catch (IllegalArgumentException e) {
-			throw new ReqException("json string:" + node + " can't convert bean", e);
+			throw new ReqException(JSON_STRING + node + CAN_T_CONVERT_BEAN, e);
 		}
 
 	}
@@ -116,7 +124,7 @@ public class JsonUtils {
 		try {
 			return mapper.convertValue(node, t);
 		} catch (IllegalArgumentException e) {
-			throw new ReqException("json string:" + node + " can't convert bean", e);
+			throw new ReqException(JSON_STRING + node + CAN_T_CONVERT_BEAN, e);
 		}
 
 	}

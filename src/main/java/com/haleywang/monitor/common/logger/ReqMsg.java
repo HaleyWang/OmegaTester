@@ -5,8 +5,6 @@ public class ReqMsg{
 	private String hostname = "";
 	private String clientIp = "";
 	private String serviceName = "";
-	
-	public ReqMsg(){}
 
 	public String getHostname() {
 		return hostname;

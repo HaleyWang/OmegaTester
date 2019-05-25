@@ -1,6 +1,5 @@
 package com.haleywang.monitor.common.req;
 
-import com.haleywang.monitor.dto.Har;
 import com.haleywang.monitor.dto.MyRequest;
 
 public interface ReqConverter {

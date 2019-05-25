@@ -13,5 +13,4 @@ public interface ReqBatchHistoryService extends BaseService<ReqBatchHistory> {
 	List<ReqBatchHistory> findByBatchId(Long batchId, Sort sort);
 
 
-
 }

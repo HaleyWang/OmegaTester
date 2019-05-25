@@ -14,9 +14,8 @@ import com.haleywang.monitor.utils.JsonUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,27 +28,24 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class ApiHandler implements HttpHandler {
 
     private static final String HEADER_CONTENT_TYPE = "Content-Type";
 
     private static final Charset CHARSET = StandardCharsets.UTF_8;
+    public static final String PUBLIC = "public";
     private static Pattern COOKIE_SPLITE = Pattern.compile("(?<![=])=(?![=])");
 
     private static final int STATUS_404 = 404;
     private static final int STATUS_500 = 500;
 
-    public static final Logger LOG = LoggerFactory.getLogger(ApiHandler.class);
 
     @Override
     public void handle(HttpExchange he) throws IOException {
         boolean success = false;
         try {
             String uri = he.getRequestURI().getPath();
-            //final Headers headers = he.getResponseHeaders();
-            // get cookie
-            //List<String> cookies = he.getRequestHeaders().get("Cookie");
-
 
             String[] paths = uri.split("/");
             if (paths.length < 4) {
@@ -60,10 +56,10 @@ public class ApiHandler implements HttpHandler {
             String ctrlName = paths[2];
             String methodName = paths[3];
 
-            if (methodName.startsWith("public")) {
-                he.setAttribute("public", "1");
+            if (methodName.startsWith(PUBLIC)) {
+                he.setAttribute(PUBLIC, "1");
             } else {
-                he.setAttribute("public", "0");
+                he.setAttribute(PUBLIC, "0");
             }
 
             filter(he);
@@ -74,10 +70,10 @@ public class ApiHandler implements HttpHandler {
 
         } catch (NoSuchMethodException e) {
             response404(he);
-            LOG.error("ApiHandler NoSuchMethodException", e);
+            log.error("ApiHandler NoSuchMethodException", e);
         } catch (Exception e) {
             response500(he, e);
-            LOG.error("ApiHandler Exception", e);
+            log.error("ApiHandler Exception", e);
         } finally {
             DBUtils.closeSession(success);
 
@@ -122,17 +118,13 @@ public class ApiHandler implements HttpHandler {
         }
     }
 
-    private static void filter(HttpExchange t) throws IOException {
+    private static void filter(HttpExchange t) {
 
         AppContext.setAccountId(null);
-        //ReqAccount res = reqAccountService.findOne(id);
         t.setAttribute(Constants.CURRENT_ACCOUNT, null);
-        //Long id = 1L;
         ReqAccountService reqAccountService = new ReqAccountServiceImpl();
-        //ReqAccount res = reqAccountService.findOne(id);
-        //t.setAttribute(Constants.CURRENT_ACCOUNT, res);
 
-        if ("1".equals(t.getAttribute("public"))) {
+        if ("1".equals(t.getAttribute(PUBLIC))) {
             return ;
         }
 
@@ -166,9 +158,7 @@ public class ApiHandler implements HttpHandler {
             return null;
         }
 
-        //request.setAttribute(Constants.CURRENT_ACCOUNT, acc);
         AppContext.setAccountId(acc.getAccountId());
-        //ReqAccount res = reqAccountService.findOne(id);
         t.setAttribute(Constants.CURRENT_ACCOUNT, acc);
         return acc;
     }

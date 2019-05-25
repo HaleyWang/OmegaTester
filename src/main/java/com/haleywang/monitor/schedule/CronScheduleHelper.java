@@ -20,10 +20,11 @@ import java.util.List;
  */
 public class CronScheduleHelper {
 
+    private CronScheduleHelper(){}
+
     private static Scheduler scheduler;
 
     private static final Logger LOG = LoggerFactory.getLogger(CronScheduleHelper.class);
-    static long timeout = 30 * 60;
 
 
     public static void start() {
@@ -41,28 +42,6 @@ public class CronScheduleHelper {
             startSchedule();
 
 
-            /*
-
-            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1", "group1").withSchedule(CronScheduleBuilder.cronSchedule("0/6 * * * * ?"))
-                    .build();
-
-
-            // define the job and tie it to our HelloJob class
-            JobDetail job = JobBuilder.newJob(App.HelloJob.class)
-                    .withIdentity("job1", "group1")
-                    .build();
-                    */
-
-
-            // Tell quartz to schedule the job using our trigger
-            //scheduler.scheduleJob(job, trigger);
-
-            //Set<JobKey> ss = scheduler.getJobKeys(GroupMatcher.groupEquals("group1"));
-
-            //scheduler.getTriggersOfJob(ss.stream().findFirst().orElse(null)).get(0).getNextFireTime();
-
-
-            //scheduler.shutdown();
 
         } catch (SchedulerException e) {
             LOG.error(e.getMessage(), e);
@@ -78,7 +57,6 @@ public class CronScheduleHelper {
         try {
             ReqBatchService reqBatchService = new ReqBatchServiceImpl();
 
-            //reqBatchService.initDb();
             Example example = Example.builder(ReqBatch.class).build();
             example.createCriteria().andEqualTo("enable", "true");
             list.addAll(reqBatchService.findAll(example));

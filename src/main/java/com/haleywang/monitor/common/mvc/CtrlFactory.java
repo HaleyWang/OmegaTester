@@ -11,6 +11,8 @@ import java.util.Map;
  */
 public class CtrlFactory {
 
+    private CtrlFactory(){}
+
     private static Map<String, Class> nameClassMap = new HashMap<>();
     static {
         nameClassMap.put("ReqCtrl", ReqCtrl.class);
@@ -23,7 +25,6 @@ public class CtrlFactory {
         try {
             //todo cache
 
-
             Class cls = nameClassMap.get(className);
 
             if(cls == null) {
@@ -31,14 +32,9 @@ public class CtrlFactory {
             }
 
             return (BaseCtrl) cls.newInstance();
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new ReqException(e.getMessage(), e);
 
-        } catch (InstantiationException e) {
-            throw new ReqException(e.getMessage(), e);
-
-        } catch (IllegalAccessException e) {
-            throw new ReqException(e.getMessage(), e);
         }
 
     }

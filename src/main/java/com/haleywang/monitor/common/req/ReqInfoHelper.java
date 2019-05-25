@@ -1,22 +1,30 @@
 package com.haleywang.monitor.common.req;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
 import com.haleywang.monitor.entity.ReqInfo;
 import com.haleywang.monitor.entity.ReqSetting;
 import com.haleywang.monitor.utils.JsonUtils;
-
 import com.haleywang.monitor.utils.TemplateUtils;
 import com.haleywang.monitor.utils.UrlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
 public class ReqInfoHelper {
+
+	private ReqInfoHelper(){}
+
+	public static final String HEADERS = "headers";
+	public static final String DIAGONAL = "/";
 
 	public static HttpRequestItem parse(ReqInfo ri, ReqSetting envStrring, String preReqResultStr)
 			throws MalformedURLException {
@@ -42,7 +50,6 @@ public class ReqInfoHelper {
 
 		HashMap<String, Objects> map = new HashMap<>();
 		if(StringUtils.isNotBlank(envJson)) {
-			//HashMap<String, Objects> map = new HashMap<>();
 
 			TypeReference<HashMap> t = new TypeReference<HashMap>() {
 			};
@@ -67,7 +74,6 @@ public class ReqInfoHelper {
 		}
 
 		if(StringUtils.isNotBlank(preReqResultStr)) {
-			//HashMap<String, Objects> map = new HashMap<>();
 
 			TypeReference<HashMap> t = new TypeReference<HashMap>() {
 			};
@@ -113,7 +119,7 @@ public class ReqInfoHelper {
 			return "";
 		}
 		Object qs = reqJsonObject.get("qs");
-		StringBuffer buff = new StringBuffer();
+		StringBuilder buff = new StringBuilder();
 		if(qs instanceof JSONObject) {
 			JSONObject qsJson = (JSONObject)qs;
 			Set set = qsJson.keySet();
@@ -132,28 +138,6 @@ public class ReqInfoHelper {
 	}
 
 	private static void fillReqItemBody(JSONObject ri, HttpRequestItem reqItem) {
-		/*
-		String subtab = ri.getMeta().get(ReqMeta.DataType.subtab.toString());
-		String d = ri.getMeta().get(subtab);
-		StringBuffer sb = new StringBuffer();
-		if (d!= null && !ReqMeta.DataType.raw.equals(subtab)) {
-			TypeReference<Map<String, String>> t = new TypeReference<Map<String, String>>() {
-			};
-			Map<String, String> map = JsonUtils.fromJson(d, t);
-			String[] ks = map.keySet().toArray(new String[0]);
-			for (int i = 0, n = ks.length; i < n; i++) {
-				String k = ks[i];
-				String val = URLEncoder.encode(map.get(k));
-				sb.append(k).append("=").append(val);
-				if (i != n - 1) {
-					sb.append("&");
-				}
-			}
-			d = sb.toString();
-		}
-
-		reqItem.appendData(d);
-		*/
 
 
 		JSONObject form = null;
@@ -163,7 +147,7 @@ public class ReqInfoHelper {
 		}
 
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		String d = "";
 		if(form != null) {
 			Set ks = form.keySet();
@@ -193,33 +177,13 @@ public class ReqInfoHelper {
 	}
 
 	private static void fillReqItemHeader(JSONObject ri, HttpRequestItem reqItem) {
-		/*
-		String headStr = ri.getMeta().get(ReqMeta.DataType.header.toString());
-		if (headStr != null) {
 
-			TypeReference<Map<String, String>> t = new TypeReference<Map<String, String>>() {
-			};
-			Map<String, String> headMap = JsonUtils.fromJson(headStr, t);
-			Set<String> headKeys = headMap.keySet();
-			for (String headKey : headKeys) {
-				reqItem.addReqHeader(headKey, headMap.get(headKey));
-			}
-		}
 
-		String subtab = ri.getMeta().get(ReqMeta.DataType.subtab.toString());
-		if(subtab != null) {
-			if (ReqMeta.DataType.urlencoded.equals(ReqMeta.DataType.valueOf(subtab) )) {
-				reqItem.addReqHeader("content-type",
-						"application/x-www-form-urlencoded");
-			}
-		}
-		*/
-
-		if(!ri.has("headers") || ri.get("headers") == null) {
+		if(!ri.has(HEADERS) || ri.get(HEADERS) == null) {
 			return;
 		}
 
-		JSONObject headers = (JSONObject) ri.get("headers");
+		JSONObject headers = (JSONObject) ri.get(HEADERS);
 		
 		for(Object headKey : headers.keySet()) {
 			reqItem.addReqHeader(headKey + "",
@@ -229,17 +193,12 @@ public class ReqInfoHelper {
 
 	private static String[] splitUrl(String str) throws MalformedURLException {
 		URL url = new URL(str);
-		System.out.println(url.getHost());
-		System.out.println(str.indexOf(url.getHost()));
-
-		System.out.println(str.substring(0, str.indexOf(url.getHost())));
-		System.out.println(str.substring(str.indexOf(url.getHost())));
 
 		String subUrl = str.substring(str.indexOf(url.getHost()));
 
 		String host = str.substring(0, str.indexOf(url.getHost()))
-				+ subUrl.substring(0, subUrl.indexOf("/"));
-		String path = subUrl.substring(subUrl.indexOf("/"));
+				+ subUrl.substring(0, subUrl.indexOf(DIAGONAL));
+		String path = subUrl.substring(subUrl.indexOf(DIAGONAL));
 
 		return new String[] { host, path };
 	}

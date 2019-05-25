@@ -14,7 +14,6 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	
 	protected MyMapper<T> mapper;
 	private SqlSession session;
-	//private boolean doCommit;
 
 
 	public BaseServiceImpl() {
@@ -32,6 +31,15 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	@Override
 	public T save(T model) {
 		mapper.insert(model);
+		return model;
+	}
+
+	public T saveOrUpdate(T model) {
+		if(findOne(model) != null) {
+			update(model);
+		}else {
+			save(model);
+		}
 		return model;
 	}
 

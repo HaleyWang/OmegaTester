@@ -41,10 +41,6 @@ public class BlogCtrl extends BaseCtrl {
         return JsonUtils.toJson(blogs);
     }
 
-
-
-
-
     public String cookie() {
 
         Map<String, String> map = new HashMap<>();

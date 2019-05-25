@@ -10,8 +10,12 @@ import com.haleywang.monitor.utils.CollectionUtils;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -19,7 +23,14 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -27,8 +38,6 @@ import java.util.stream.Collectors;
  */
 public abstract class BaseCtrl {
 
-    private static final String HOSTNAME = "localhost";
-    private static final int BACKLOG = 1;
 
     private static final String HEADER_ALLOW = "Allow";
     private static final String HEADER_CONTENT_TYPE = "Content-Type";
@@ -36,7 +45,6 @@ public abstract class BaseCtrl {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     private static final int STATUS_OK = 200;
-    private static final int STATUS_METHOD_NOT_ALLOWED = 405;
 
     private static final int NO_RESPONSE_LENGTH = -1;
 
@@ -58,7 +66,6 @@ public abstract class BaseCtrl {
         final Headers headers = exchange.getResponseHeaders();
         requestParameters = getRequestParameters(exchange.getRequestURI());
         // get cookie
-        //List<String> cookies = exchange.getRequestHeaders().get("Cookie");
 
         String[] paths = uri.split("/");
 
@@ -68,7 +75,7 @@ public abstract class BaseCtrl {
         switch (requestMethod) {
         case METHOD_GET: {
             // do something with the request parameters
-            final String responseBody = (String) doGet();
+            String responseBody = toString(doGet());
             headers.set(HEADER_CONTENT_TYPE, String.format("application/json; charset=%s", CHARSET));
             final byte[] rawResponseBody = responseBody.getBytes(CHARSET);
             exchange.sendResponseHeaders(STATUS_OK, rawResponseBody.length);
@@ -84,9 +91,7 @@ public abstract class BaseCtrl {
         }
         default: {
 
-            //String reqBody = readRequestBody(exchange);
-
-            final String responseBody = (String) doPost();
+            final String responseBody = toString( doPost());
 
             headers.set(HEADER_CONTENT_TYPE, String.format("application/json; charset=%s", CHARSET));
             final byte[] rawResponseBody = responseBody.getBytes(CHARSET);
@@ -101,28 +106,18 @@ public abstract class BaseCtrl {
 
     }
 
+    private String toString(Object doGet) {
+        return doGet == null ? null : doGet.toString();
+    }
+
     public static String readRequestBody(HttpExchange exchange) throws IOException {
 
         // determine encoding
-        //Headers reqHeaders = exchange.getRequestHeaders();
-        //String contentType = reqHeaders.getFirst("Content-Type");
         String encoding = CHARSET.name();
-
-        // read the query string from the request body
-        String qry = null;
         InputStream in = exchange.getRequestBody();
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte buf[] = new byte[4096];
-            for (int n = in.read(buf); n > 0; n = in.read(buf)) {
-                out.write(buf, 0, n);
-            }
-            qry = new String(out.toByteArray(), encoding);
-        } finally {
-            in.close();
-        }
-
-        return qry;
+        String body = IOUtils.toString(in, encoding);
+        IOUtils.closeQuietly(in);
+        return body;
     }
 
     public final Object doGet() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -134,7 +129,7 @@ public abstract class BaseCtrl {
         return invokeMethod();
     }
 
-    private static Set<Class> BASIC_TYPE = new HashSet<>();
+    private static final Set<Class> BASIC_TYPE = new HashSet<>();
     static {
         BASIC_TYPE.addAll(Arrays.asList(
                 Byte.class, Short.class, Integer.class, Long.class,
@@ -156,17 +151,13 @@ public abstract class BaseCtrl {
                 paramVal = JsonUtils.fromJson(getBodyParams(), p.getType());
             }
             else if(BASIC_TYPE.contains(p.getType())) {
+
                 try {
                     paramVal = params[0].getType().getConstructor( String.class ).newInstance( value);
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new ReqException(e);
                 }
+
             }else if (String.class.equals(p.getType())){
                 paramVal = value;
             }else {
@@ -180,9 +171,6 @@ public abstract class BaseCtrl {
 
 
     private Object invokeMethod() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        //Object obj = this.getClass().getMethod(methodName, new Class[] {}).invoke(this, new Object[] {});
-
-//        Long id = Long.parseLong(getUrlParam("id"));
         Method method = Arrays.stream(this.getClass().getDeclaredMethods()).filter(m -> m.getName().equals(methodName)).findFirst().orElse(null);
         if(method == null) {
             throw new NoSuchMethodException("methodName:" + methodName);
@@ -223,8 +211,6 @@ public abstract class BaseCtrl {
 
         respHeaders.put("Set-Cookie", values);
 
-        //t.sendResponseHeaders(200, -1);
-        //t.close();
     }
 
     private static Map<String, List<String>> getRequestParameters(final URI requestUri) {
@@ -303,7 +289,7 @@ public abstract class BaseCtrl {
         try {
             String reqBody = readRequestBody(exchange);
             if (!reqBody.startsWith("{")) {
-                return new HashMap<String, Object>(Splitter.on("&").withKeyValueSeparator("=").split(reqBody));
+                return new HashMap<>(Splitter.on("&").withKeyValueSeparator("=").split(reqBody));
             }
             TypeReference<HashMap<String, Object>> t = new TypeReference<HashMap<String, Object>>() {
             };

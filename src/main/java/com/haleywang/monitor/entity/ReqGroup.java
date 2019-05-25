@@ -1,13 +1,11 @@
 package com.haleywang.monitor.entity;
 
 import com.haleywang.monitor.common.ReqException;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import lombok.NoArgsConstructor;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,10 +14,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
+
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
-public class ReqGroup implements Serializable , ReqGroupItem, Cloneable  {
+public class ReqGroup implements Serializable , ReqGroupItem  {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,11 +54,17 @@ public class ReqGroup implements Serializable , ReqGroupItem, Cloneable  {
     private ReqAccount modifiedBy;
 
     @Transient
-	private List<ReqGroupItem> children = new ArrayList<>();
+	private transient List<ReqGroupItem> children = new ArrayList<>();
 
+    public ReqGroup(ReqGroup reqGroup) {
+		try {
+			BeanUtils.copyProperties(this, reqGroup);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			throw new ReqException(e);
+		}
+	}
 
-
-	public void setCreatedBy(ReqAccount createdBy) {
+    public void setCreatedBy(ReqAccount createdBy) {
 		if(createdBy != null) {
 			this.createdById = createdBy.getAccountId();
 		}
@@ -73,8 +88,6 @@ public class ReqGroup implements Serializable , ReqGroupItem, Cloneable  {
 	}
 
 
-
-
 	@Override
 	public int hashCode() {
 		return super.hashCode();
@@ -85,16 +98,6 @@ public class ReqGroup implements Serializable , ReqGroupItem, Cloneable  {
 		this.children.addAll(Arrays.asList(add));
 	}
 	
-	public ReqGroup clone() {  
-		ReqGroup o = null;  
-        try {  
-            o = (ReqGroup) super.clone();  
-        } catch (CloneNotSupportedException e) {
-			throw new ReqException(e.getMessage(), e);
-
-		}
-        return o;  
-    }
 
 
 	@Override

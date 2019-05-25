@@ -1,17 +1,24 @@
 package com.haleywang.monitor.entity;
 
 import com.haleywang.monitor.utils.DateUtils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;
-
-import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Date;
 
+
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class ReqBatch implements Serializable {
@@ -48,34 +55,6 @@ public class ReqBatch implements Serializable {
 	private Date createdOn;
 
 	private Date updatedOn;
-
-
-
-
-	public Boolean getEnable() {
-		return enable;
-	}
-
-	public void setEnable(Boolean enable) {
-		this.enable = enable;
-	}
-
-	public Date getCreatedOn() {
-		return DateUtils.copy(createdOn);
-	}
-
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = DateUtils.copy(createdOn);
-	}
-
-	public Date getUpdatedOn() {
-		return DateUtils.copy(updatedOn);
-	}
-
-	public void setUpdatedOn(Date updatedOn) {
-		this.updatedOn = DateUtils.copy(updatedOn);
-	}
-
 
 
 }

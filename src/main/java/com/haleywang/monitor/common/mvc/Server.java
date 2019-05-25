@@ -6,7 +6,6 @@ import com.haleywang.monitor.utils.FileUtils;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.utils.PathUtils;
 import com.sun.net.httpserver.HttpServer;
-import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -23,22 +22,22 @@ import java.util.stream.Collectors;
 /**
  * Created by haley on 2018/12/1.
  */
-@Data
 public class Server {
+
+    private Server(){}
 
     private static final Logger LOG = LoggerFactory.getLogger(Server.class);
 
     private static final int DEFAULT_PORT = 8000;
     static int nThreads = 500;
 
-    public static void start(String[] args) throws Exception {
+    public static void start(String[] args) throws IOException {
         init();
         String args0 = (args != null && args.length >=1) ? args[0] : null ;
         int port = NumberUtils.toInt(args0, DEFAULT_PORT);
 
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 20);
-        //server.createContext("/static", new MyHandler());
         server.createContext("/", new StaticResourcesHandler());
         server.createContext("/index.html", new StaticResourcesHandler());
         server.createContext("/js", new StaticResourcesHandler());
@@ -57,7 +56,6 @@ public class Server {
 
     private static void init() throws IOException{
         if(PathUtils.isStartupFromJar(App.class)) {
-            System.out.println("run jar");
 
             copyJarStaticFiles();
 
@@ -113,8 +111,6 @@ public class Server {
 
 
         URL aa = App.class.getResource("/static");
-        System.out.println("=====> staticFile " + staticFile.getPath());
-        System.out.println("=====> " + aa.getFile());
         FileUtils.copyResourcesRecursively(aa, staticFile);
     }
 

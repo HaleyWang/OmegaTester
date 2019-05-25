@@ -1,25 +1,30 @@
 package com.haleywang.monitor.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.ShortBufferException;
 import javax.crypto.spec.SecretKeySpec;
-
-
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
-
+@NoArgsConstructor( access = AccessLevel.PRIVATE)
 public class AES {
 
 
     public static final String DEFAULT_CODING = "utf-8";
 
 
-    public static String decrypt(String encrypted, String seed) throws Exception {
+    public static String decrypt(String encrypted, String seed) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException {
         byte[] keyb = seed.getBytes(DEFAULT_CODING);
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] thedigest = md.digest(keyb);
-        SecretKeySpec skey = new SecretKeySpec(thedigest, "AES");
+        SecretKeySpec skey = getSecretKeySpec(keyb);
         Cipher dcipher = Cipher.getInstance("AES");
         dcipher.init(Cipher.DECRYPT_MODE, skey);
 
@@ -28,13 +33,11 @@ public class AES {
     }
 
 
-    public static String encrypt(String content, String key) throws Exception {
+    public static String encrypt(String content, String key) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException, ShortBufferException {
         byte[] input = content.getBytes(DEFAULT_CODING);
 
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] thedigest = md.digest(key.getBytes(DEFAULT_CODING));
-        SecretKeySpec skc = new SecretKeySpec(thedigest, "AES");
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        SecretKeySpec skc = getSecretKeySpec(key.getBytes(DEFAULT_CODING));
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, skc);
 
         byte[] cipherText = new byte[cipher.getOutputSize(input.length)];
@@ -42,6 +45,12 @@ public class AES {
         cipher.doFinal(cipherText, ctLength);
 
         return parseByte2HexStr(cipherText);
+    }
+
+    public static SecretKeySpec getSecretKeySpec(byte[] bytes) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] thedigest = md.digest(bytes);
+        return new SecretKeySpec(thedigest, "AES");
     }
 
 
@@ -55,7 +64,7 @@ public class AES {
     }
 
     private static String parseByte2HexStr(byte buf[]) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < buf.length; i++) {
             String hex = Integer.toHexString(buf[i] & 0xFF);
             if (hex.length() == 1) {
@@ -66,10 +75,11 @@ public class AES {
         return sb.toString();
     }
 
+    private static Random random = new Random();
+
     private static String getRandomString(int length) {
 		String base = "abcdefghijklmnopqrstuvwxyz";
-		Random random = new Random();
-		StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			int number = random.nextInt(base.length());
 			sb.append(base.charAt(number));

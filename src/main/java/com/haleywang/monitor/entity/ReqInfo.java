@@ -4,9 +4,13 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.common.req.HttpMethod;
 import com.haleywang.monitor.utils.DateUtils;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.JdbcType;
@@ -17,6 +21,11 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
+
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class ReqInfo implements Serializable, ReqGroupItem {
@@ -47,7 +56,7 @@ public class ReqInfo implements Serializable, ReqGroupItem {
 					return HttpMethod.valueOf(text);
 				}
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				throw new ReqException(e);
 			}
 			return HttpMethod.GET;
 		}
@@ -119,21 +128,4 @@ public class ReqInfo implements Serializable, ReqGroupItem {
         return meta;
 	}
 
-
-	public Date getCreatedOn() {
-		return DateUtils.copy(createdOn);
-	}
-
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = DateUtils.copy(createdOn);
-	}
-
-	public Date getUpdatedOn() {
-		return DateUtils.copy(updatedOn);
-	}
-
-	public void setUpdatedOn(Date updatedOn) {
-		this.updatedOn = DateUtils.copy(updatedOn);
-	}
-	
 }

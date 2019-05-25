@@ -5,8 +5,15 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.req.HttpMethod;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ConfigDto {
 

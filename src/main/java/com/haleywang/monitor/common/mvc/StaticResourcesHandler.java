@@ -5,6 +5,7 @@ import com.haleywang.monitor.utils.PathUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -18,6 +19,7 @@ import java.util.Map;
 /**
  * Created by haley on 2018/8/17.
  */
+@Slf4j
 public class StaticResourcesHandler implements HttpHandler {
 
     private static final String EXTENSION_MIME = "js=application/javascript,css=text/css," +
@@ -25,21 +27,23 @@ public class StaticResourcesHandler implements HttpHandler {
     private static final Map<String, String> EXTENSION_MIME_MAP = Splitter.on(",")
             .withKeyValueSeparator("=").split(EXTENSION_MIME);
     private static final String DEFAULT_MIME = "text/html";
+    public static final String INDEX_HTML = "/index.html";
+    public static final String DIAGONAL = "/";
 
     public void handle(HttpExchange t) throws IOException {
         String root = PathUtils.getRoot();
         URI uri = t.getRequestURI();
         String path = uri.getPath();
-        if("/".equals(path)) {
-            path = "/index.html";
+        if(DIAGONAL.equals(path)) {
+            path = INDEX_HTML;
         }
-        String rootPath = root.endsWith("/") ? root : root +"/";
+        String rootPath = root.endsWith(DIAGONAL) ? root : root + DIAGONAL;
         String filePath = rootPath + "static" + path;
 
 
 
-        filePath = filePath.replaceAll("//", "/");
-        System.out.println("looking for path: " + filePath);
+        filePath = filePath.replaceAll("//", DIAGONAL);
+        log.info("looking for path: " + filePath);
 
         File file = new File(filePath).getCanonicalFile();
 
@@ -49,11 +53,9 @@ public class StaticResourcesHandler implements HttpHandler {
             t.sendResponseHeaders(404, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
-            //os.close();
             IOUtils.closeQuietly(os);
         } else {
             // Object exists and is a file: accept with response code 200.
-
 
             String extension = FilenameUtils.getExtension(path);
             String mime = EXTENSION_MIME_MAP.getOrDefault(extension, DEFAULT_MIME);

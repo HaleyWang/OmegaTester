@@ -27,15 +27,15 @@ import tk.mybatis.mapper.entity.Example;
 
 public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implements ReqAccountService {
 
+	public static final String ACCOUNT_NOT_FOUND = "Account not found";
 	private ReqAccountRepository reqAccountRepository;
 
 	public ReqAccountServiceImpl() {
 		setReqAccountRepository();
 	}
 
-	public void setReqAccountRepository() {
-		ReqAccountRepository reqAccountRepository = getMapper(ReqAccountRepository.class);
-		this.reqAccountRepository = reqAccountRepository;
+	private void setReqAccountRepository() {
+		this.reqAccountRepository = getMapper(ReqAccountRepository.class);
 		this.mapper = reqAccountRepository;
 	}
 
@@ -53,7 +53,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		}
 		a.setPassword(password);
 
-		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
 		reqAccountRepository.insert(a);
 		res.setData(a);
@@ -78,7 +78,6 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 			passwordMD5 = Md5Utils.getT4MD5(pass);
 		} catch (Exception e) {
 			throw new ReqException(e.getMessage(), e);
-
 		}
 
 		Example example = new Example(ReqAccount.class);
@@ -95,9 +94,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 			res.ofCode(1002+"");
 			return res;
 		}
-		
 
-		
 		String loginCookieVal = null;
 		try {
 			loginCookieVal = new LoginCookieEncrypt(a).genetrateLoginCookieEncryptVal();
@@ -113,7 +110,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 
 
 	public ResultStatus<ReqAccount> sendUpdatePassUrlToEmail(String email) {
-		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
 		ReqAccount a = reqAccountRepository.findByEmail(email);
 		if (a == null) {
@@ -130,7 +127,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 	}
 
 	public ResultStatus<ReqAccount> updatePass(String token, String email, String pass) {
-		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
 		String password = null;
 		try {
@@ -168,7 +165,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		}
 		a.setPassword(password);
 
-		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
 		reqAccountRepository.insert(a);
 		res.setData(a);
@@ -180,14 +177,14 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 	public ResultStatus changePassword(ChangePasswordDto dto) {
 
 
-		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
 		String password = Md5Utils.getT4MD5(dto.getPassword());
 
 		ReqAccount a = reqAccountRepository.findByEmail(dto.getEmail());
 
 		if (a == null) {
-			throw new NotFoundException("Account not found");
+			throw new NotFoundException(ACCOUNT_NOT_FOUND);
 		}
 
 		if(a.getPassword().equals(Md5Utils.getT4MD5(dto.getOldPassword()))) {
@@ -202,7 +199,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 
 	@Override
 	public ResultStatus resetPassword(ResetPasswordDto dto) {
-		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
+		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
 		String password = null;
 		try {
@@ -212,7 +209,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		}
 		ReqAccount a = reqAccountRepository.findByEmail(dto.getEmail());
 		if (a == null) {
-			throw new NotFoundException("Account not found");
+			throw new NotFoundException(ACCOUNT_NOT_FOUND);
 		}
 
 		a.setPassword(password);
@@ -222,21 +219,6 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 
 	@Override
 	public ResultStatus resetSuperAdminPassword(ResetPasswordDto dto) {
-		ResultStatus<ReqAccount> res = new ResultStatus<ReqAccount>();
-
-		String password = null;
-		try {
-			password = Md5Utils.getT4MD5(dto.getPassword());
-		} catch (Exception e) {
-			throw new ReqException(e.getMessage(), e);
-		}
-		ReqAccount a = reqAccountRepository.findByEmail(dto.getEmail());
-		if (a == null) {
-			throw new NotFoundException("Account not found");
-		}
-
-		a.setPassword(password);
-		reqAccountRepository.updateByPrimaryKey(a);
-		return res;
+		return resetPassword(dto);
 	}
 }

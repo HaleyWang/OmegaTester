@@ -1,13 +1,17 @@
 package com.haleywang.monitor.utils;
 
-import com.haleywang.monitor.common.ReqException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServerName {
-	
-	private static String localServerName;
+
+
+    private static String localServerName;
 
     static{
         try {

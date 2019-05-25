@@ -9,7 +9,7 @@ import lombok.Data;
 public class HttpRequestItem {
 	private String host;
 	private String path;
-    private StringBuffer dataBuff;
+    private StringBuilder dataBuff;
     private HttpMethod httpMethod = HttpMethod.GET;
     private Map<String, String> reqHeaders = new HashMap<>();
     
@@ -30,14 +30,14 @@ public class HttpRequestItem {
 
 	public void appendData(String str) {
 		if(dataBuff == null) {
-			dataBuff = new StringBuffer();
+			dataBuff = new StringBuilder();
 		}
 		dataBuff.append(str);
 	}
 	
-	public StringBuffer getDataBuff() {
+	public StringBuilder getDataBuff() {
 		if(dataBuff == null) {
-			dataBuff = new StringBuffer();
+			dataBuff = new StringBuilder();
 		}
 		return dataBuff;
 	}
