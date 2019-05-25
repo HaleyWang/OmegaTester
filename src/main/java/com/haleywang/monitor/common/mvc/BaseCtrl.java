@@ -73,37 +73,43 @@ public abstract class BaseCtrl {
 
         final String requestMethod = exchange.getRequestMethod().toUpperCase();
         switch (requestMethod) {
-        case METHOD_GET: {
-            // do something with the request parameters
-            String responseBody = toString(doGet());
-            headers.set(HEADER_CONTENT_TYPE, String.format("application/json; charset=%s", CHARSET));
-            final byte[] rawResponseBody = responseBody.getBytes(CHARSET);
-            exchange.sendResponseHeaders(STATUS_OK, rawResponseBody.length);
-            OutputStream ops = exchange.getResponseBody();
-            ops.write(rawResponseBody);
-            ops.close();
-            break;
-        }
-        case METHOD_OPTIONS: {
-            headers.set(HEADER_ALLOW, ALLOWED_METHODS);
-            exchange.sendResponseHeaders(STATUS_OK, NO_RESPONSE_LENGTH);
-            break;
-        }
-        default: {
+            case METHOD_GET: {
+                // do something with the request parameters
+                String responseBody = toString(doGet());
+                headers.set(HEADER_CONTENT_TYPE, String.format("application/json; charset=%s", CHARSET));
+                final byte[] rawResponseBody = toBytes(responseBody);
+                exchange.sendResponseHeaders(STATUS_OK, rawResponseBody.length);
+                OutputStream ops = exchange.getResponseBody();
+                ops.write(rawResponseBody);
+                ops.close();
+                break;
+            }
+            case METHOD_OPTIONS: {
+                headers.set(HEADER_ALLOW, ALLOWED_METHODS);
+                exchange.sendResponseHeaders(STATUS_OK, NO_RESPONSE_LENGTH);
+                break;
+            }
+            default: {
 
-            final String responseBody = toString( doPost());
+                final String responseBody = toString(doPost());
+                headers.set(HEADER_CONTENT_TYPE, String.format("application/json; charset=%s", CHARSET));
+                final byte[] rawResponseBody = toBytes(responseBody);
+                exchange.sendResponseHeaders(STATUS_OK, rawResponseBody.length);
+                OutputStream ops = exchange.getResponseBody();
+                ops.write(rawResponseBody);
+                ops.close();
 
-            headers.set(HEADER_CONTENT_TYPE, String.format("application/json; charset=%s", CHARSET));
-            final byte[] rawResponseBody = responseBody.getBytes(CHARSET);
-            exchange.sendResponseHeaders(STATUS_OK, rawResponseBody.length);
-            OutputStream ops = exchange.getResponseBody();
-            ops.write(rawResponseBody);
-            ops.close();
-
-            break;
+                break;
+            }
         }
-        }
 
+    }
+
+    private byte[] toBytes(String responseBody) {
+        if (responseBody == null) {
+            return new byte[0];
+        }
+        return responseBody.getBytes(CHARSET);
     }
 
     private String toString(Object doGet) {
@@ -130,6 +136,7 @@ public abstract class BaseCtrl {
     }
 
     private static final Set<Class> BASIC_TYPE = new HashSet<>();
+
     static {
         BASIC_TYPE.addAll(Arrays.asList(
                 Byte.class, Short.class, Integer.class, Long.class,
@@ -147,20 +154,19 @@ public abstract class BaseCtrl {
             boolean hasParamBodyAnn = Arrays.stream(p.getDeclaredAnnotations()).anyMatch(annotation -> annotation.annotationType().equals(ParamBody.class));
 
             Object paramVal = null;
-            if(hasParamBodyAnn) {
+            if (hasParamBodyAnn) {
                 paramVal = JsonUtils.fromJson(getBodyParams(), p.getType());
-            }
-            else if(BASIC_TYPE.contains(p.getType())) {
+            } else if (BASIC_TYPE.contains(p.getType())) {
 
                 try {
-                    paramVal = params[0].getType().getConstructor( String.class ).newInstance( value);
+                    paramVal = params[0].getType().getConstructor(String.class).newInstance(value);
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                     throw new ReqException(e);
                 }
 
-            }else if (String.class.equals(p.getType())){
+            } else if (String.class.equals(p.getType())) {
                 paramVal = value;
-            }else {
+            } else {
                 paramVal = JsonUtils.fromJson(value, p.getType());
             }
             return paramVal;
@@ -172,19 +178,19 @@ public abstract class BaseCtrl {
 
     private Object invokeMethod() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method method = Arrays.stream(this.getClass().getDeclaredMethods()).filter(m -> m.getName().equals(methodName)).findFirst().orElse(null);
-        if(method == null) {
+        if (method == null) {
             throw new NoSuchMethodException("methodName:" + methodName);
         }
         Parameter[] params = method.getParameters();
 
-        Object[] args = params.length == 0 ? new Object[] {} : getMethodParams(params);
+        Object[] args = params.length == 0 ? new Object[]{} : getMethodParams(params);
         Object obj = method.invoke(this, args);
 
 
-        if(obj == null) {
+        if (obj == null) {
             return null;
         }
-        if(obj instanceof String) {
+        if (obj instanceof String) {
             return obj;
         }
         return JsonUtils.toJson(obj);

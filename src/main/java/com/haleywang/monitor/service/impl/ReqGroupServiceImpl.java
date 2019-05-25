@@ -122,7 +122,6 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 		Example reqRelationExample = new Example(ReqRelation.class);
 		reqRelationExample.createCriteria().andEqualTo("accountId", currentAccount.getAccountId())
 				.andEqualTo("type", "ReqGroup").andEqualTo("objectId", id);
-		List<ReqRelation> groups = reqRelationRepository.selectByExample(reqRelationExample);
 
 		return res.ofData(rg);
 	}
