@@ -1,9 +1,9 @@
 package com.haleywang.monitor.common;
 
-import java.io.IOException;
+import java.sql.SQLException;
 
 public class ReqSqlException extends ReqException {
-    public ReqSqlException(IOException e) {
+    public ReqSqlException(SQLException e) {
         super(e);
 
     }

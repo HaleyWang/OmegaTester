@@ -338,7 +338,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         HisType hisType = batchHistoryId != null ? HisType.BATCH : HisType.MANUAL;
         reqTaskHistory.setHisType(hisType);
 
-        reqTaskHistory.setStatutCode("" + result.getStatus());
+        reqTaskHistory.setStatusCode("" + result.getStatus());
         reqTaskHistory.setTestSuccess("" + result.getTestSuccess());
         reqTaskHistoryRepository.insert(reqTaskHistory);
 

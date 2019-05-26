@@ -20,6 +20,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements ReqGroupService {
@@ -83,8 +84,11 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 				.andEqualTo("type", "ReqGroup");
 		List<ReqRelation> groups = reqRelationRepository.selectByExample(reqRelationExample);
 
-		List<Long> groupIds = groups.stream().map(ReqRelation::getObjectId).collect(Collectors.toList());
+		List<Long> groupIds = groups.stream().filter(Objects::nonNull).map(ReqRelation::getObjectId).collect(Collectors.toList());
 
+		if(CollectionUtils.isEmpty(groupIds)) {
+			groupIds.add(0L);
+		}
 
 		Example reqGroupExample = new Example(ReqGroup.class);
 		reqGroupExample.createCriteria().andIn("groupId", groupIds);

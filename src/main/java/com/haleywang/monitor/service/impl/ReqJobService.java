@@ -80,7 +80,7 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
 
         List<ReqInfo> ll = requestInfoService.listRequestInfoByReqGroup(batch.getBatchId());
         int total = ll.size();
-        ReqBatchHistory.Statuts statuts = ReqBatchHistory.Statuts.PROCESSING;
+        ReqBatchHistory.Status status = ReqBatchHistory.Status.PROCESSING;
 
         ReqBatchHistory reqBatchHistory = ReqBatchHistory.builder().batchId(batch.getBatchId())
                 .total(total).batchStartDate(new Date()).build();
@@ -91,30 +91,30 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
         for (ReqInfo ri : ll) {
             ReqBatchHistory reqBatchHistoryDB = reqBatchHistoryService.findOne(reqBatchHistory);
 
-            if (reqBatchHistoryDB.getStatuts() == ReqBatchHistory.Statuts.CANCELLED) {
+            if (reqBatchHistoryDB.getStatus() == ReqBatchHistory.Status.CANCELLED) {
                 log.warn("Batch cancelled BatchHistoryId:{}" , reqBatchHistory.getBatchHistoryId());
                 continue;
             }
-            statuts = runOne(ri, reqBatchHistoryDB, batch, total);
+            status = runOne(ri, reqBatchHistoryDB, batch, total);
 
         }
         reqBatchHistory.setCostTime(System.currentTimeMillis() - t);
 
         if (reqBatchHistory.getSuccessNum() == reqBatchHistory.getTotal()) {
-            statuts = ReqBatchHistory.Statuts.COMPLETED;
-        } else if(statuts != ReqBatchHistory.Statuts.CANCELLED) {
-            statuts = ReqBatchHistory.Statuts.ERROR;
+            status = ReqBatchHistory.Status.COMPLETED;
+        } else if(status != ReqBatchHistory.Status.CANCELLED) {
+            status = ReqBatchHistory.Status.ERROR;
         }
-        reqBatchHistory.setStatuts(statuts);
+        reqBatchHistory.setStatus(status);
 
         reqBatchHistoryService.update(reqBatchHistory);
 
-        removeOldReqBatchHistory(batch.getBatchId(), ReqBatchHistory.Statuts.COMPLETED);
-        removeOldReqBatchHistory(batch.getBatchId(), ReqBatchHistory.Statuts.ERROR);
-        removeOldReqBatchHistory(batch.getBatchId(), ReqBatchHistory.Statuts.CANCELLED);
+        removeOldReqBatchHistory(batch.getBatchId(), ReqBatchHistory.Status.COMPLETED);
+        removeOldReqBatchHistory(batch.getBatchId(), ReqBatchHistory.Status.ERROR);
+        removeOldReqBatchHistory(batch.getBatchId(), ReqBatchHistory.Status.CANCELLED);
     }
 
-    private ReqBatchHistory.Statuts runOne(ReqInfo ri, ReqBatchHistory reqBatchHistoryDB, ReqBatch batch, int total){
+    private ReqBatchHistory.Status runOne(ReqInfo ri, ReqBatchHistory reqBatchHistoryDB, ReqBatch batch, int total){
         Long batchHistoryId = reqBatchHistoryDB.getBatchHistoryId();
 
         if(reqBatchHistoryDB.getTotal() == 0) {
@@ -127,21 +127,21 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
         try {
             res = requestInfoService.send(ri, account, batchHistoryId, null);
         } catch (IOException e) {
-            return ReqBatchHistory.Statuts.PROCESSING;
+            return ReqBatchHistory.Status.PROCESSING;
         }
         if (res.getTestSuccess() == null || res.getTestSuccess()) {
             reqBatchHistoryDB.setSuccessNum(reqBatchHistoryDB.getSuccessNum() + 1);
         }
 
         reqBatchHistoryService.update(reqBatchHistoryDB);
-        return ReqBatchHistory.Statuts.PROCESSING;
+        return ReqBatchHistory.Status.PROCESSING;
     }
 
-    private void removeOldReqBatchHistory(Long batchId, ReqBatchHistory.Statuts statuts) {
+    private void removeOldReqBatchHistory(Long batchId, ReqBatchHistory.Status status) {
 
         Example reqMetaExample = Example.builder(ReqBatchHistory.class).orderByDesc("batchHistoryId").build();
         reqMetaExample.createCriteria().andEqualTo("batchId", batchId)
-                .andEqualTo("statuts", statuts.name());
+                .andEqualTo("status", status.name());
 
         List<ReqBatchHistory> list = reqBatchHistoryRepository.selectByExample(reqMetaExample);
 

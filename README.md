@@ -20,6 +20,11 @@ mvn clean install
 mvn exec:java
 ```
 
+```
+source ~/.bash_profile
+
+```
+
 To change port use the following commands.
 
 ```

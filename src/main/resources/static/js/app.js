@@ -270,7 +270,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			log(res);
 			if(res.data && res.data.accountId) {
 				$scope.currentAccount = res.data;
-				$scope.fetchReqList();
+				$scope.fetchGroupList();
 			}else {
 				//pop up login
 				$(".at-login-modal-sm").modal("show");
@@ -296,7 +296,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
     			$scope.importTypes = res.data;
     		})
     	};
-    $scope.fetchImportType();
 
     $scope.fetchExportType = function() {
 
@@ -309,7 +308,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
         			$scope.exportTypes = res.data;
         		})
         	};
-    $scope.fetchExportType();
 
 
 	$scope.importRequest = function() {
@@ -408,11 +406,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
     };
 
 
-
-
-
 	$scope.configs = {};
-	$scope.fecthReqMethods = function() {
+	$scope.fetchReqMethods = function() {
 
 		$http.get("/v1/config/list").success(function(res) {
 			log(res);
@@ -421,7 +416,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		});
 
 	}
-	$scope.fecthReqMethods();
 
 	$scope.fetchReqList = function() {
 
@@ -473,7 +467,6 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	
 	
 	
-	$scope.fetchReqList();
 
 	$scope.newReqTabModel = function() {
 		log("====>");
@@ -500,14 +493,18 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	$scope.fetchGroupList = function() {
 		$http.get("/v1/req/groupList").success(function(res) {
 			log(res);
-			if(res.data == "need login.") {
-				$("#btn-login").click();
-			}
+
 			$scope.groupList = res.data;
+	        $scope.fetchImportType();
+            $scope.fetchExportType();
+	        $scope.fetchReqMethods();
+
+	        $scope.findReqHistory();
+            $scope.fetchReqList();
+            $scope.fetchSettingList();
 		});
 	}
-	$scope.fetchGroupList();
-	
+
 	$scope.reqSave = function() {
 	    changeReqTabsStorage($scope.reqTabs);
 
@@ -644,8 +641,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			$scope.reqHistoryList = res.data;
 		});
 	};
-	$scope.findReqHistory();
-	
+
 	$scope.reqDuplicate = function(node) {
 		log("reqDuplicate : " , node);
 
@@ -702,7 +698,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			var idx = $scope.getCurrentReqTab();
 		}
 		var id = $scope.mytree.currentNode.id;
-		$scope.fetchcurrentReqTabDetail(id, function() {
+		$scope.fetchCurrentReqTabDetail(id, function() {
 			$scope.onReqTabsChange();
 
 		});
@@ -713,16 +709,16 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
         log("click", node);
 
-        if(node.id == node.groupId) {
+        if(node.group) {
             return;
         }
 
-        var isReq = node.id != node.groupId;
+        var isReq = !node.group;
         if(isReq) {
             var idx = $scope.getCurrentReqTab();
         }
         var id = node.id;
-        $scope.fetchcurrentReqTabDetail(id, function() {
+        $scope.fetchCurrentReqTabDetail(id, function() {
             $scope.onReqTabsChange();
 
         });
@@ -813,7 +809,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		});
 	};
 	
-	$scope.fetchcurrentReqTabDetail = function(id, callback) {
+	$scope.fetchCurrentReqTabDetail = function(id, callback) {
 
 	    if(!id) {
 	        callback && callback(null);
@@ -947,7 +943,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		log("clickReqTab", reqTab);
 
 		if(!reqTab.meta || !reqTab.meta.request) {
-			$scope.fetchcurrentReqTabDetail(reqTab.id);
+			$scope.fetchCurrentReqTabDetail(reqTab.id);
 		}
 	};
 	
@@ -1033,16 +1029,14 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
     };
 
 
-
-	$scope.fectSettingList =  function() {
+	$scope.fetchSettingList =  function() {
 		$http.get("/v1/setting/list?t=" + (new Date().getTime())).success(function(res) {
-		    log("fectSettingList", res);
+		    log("fetchSettingList", res);
 
 		    $scope.settingList = res.data;
 		});
 	};
 
-	$scope.fectSettingList();
 
 	$scope.settingView = "list";
 	$scope.editEnv = {};
@@ -1060,7 +1054,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
         }).success(function(res) {
             log(res);
 
-            $scope.fectSettingList();
+            $scope.fetchSettingList();
         });
     };
 
@@ -1107,7 +1101,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
                 }).success(function(res) {
                     log(res);
 
-                    $scope.fectSettingList();
+                    $scope.fetchSettingList();
                 });
 
     };

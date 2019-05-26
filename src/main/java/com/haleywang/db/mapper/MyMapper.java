@@ -13,6 +13,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @author liuzh
  */
 @tk.mybatis.mapper.annotation.RegisterMapper
-public interface MyMapper<T> extends Mapper<T>, BaseCreateTableMapper<T> {
+public interface MyMapper<T> extends Mapper<T>, BaseCreateTableMapper<T>, BaseDropTableMapper<T> {
 
 }

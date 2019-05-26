@@ -51,10 +51,10 @@ public class ReqTaskHistory implements Serializable {
     @Transient
     ReqTaskHistoryMeta reqTaskHistoryMeta;
 
-    private String testStatuts;
+    private String testStatus;
 
-	private String statuts;
-	private String statutCode;
+	private String status;
+	private String statusCode;
 
     private String testSuccess;
 

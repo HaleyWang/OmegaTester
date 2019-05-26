@@ -8,6 +8,7 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AESUtil {
@@ -100,8 +101,19 @@ public class AESUtil {
 	}
 
 
-	public static String generateKey() {
-		return AES.generateKey();
+	private static Random random = new Random();
+
+	private static String getRandomString(int length) {
+		String base = "abcdefghijklmnopqrstuvwxyz";
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < length; i++) {
+			int number = random.nextInt(base.length());
+			sb.append(base.charAt(number));
+		}
+		return sb.toString();
 	}
 
+	public static String generateKey() { // length表示生成字符串的长度
+		return getRandomString(16);
+	}
 }

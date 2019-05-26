@@ -6,15 +6,19 @@ import com.haleywang.monitor.utils.FileUtils;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.utils.PathUtils;
 import com.sun.net.httpserver.HttpServer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Created by haley on 2018/12/1.
  */
+@Slf4j
 public class Server {
 
     private Server(){}
@@ -29,7 +34,6 @@ public class Server {
     private static final Logger LOG = LoggerFactory.getLogger(Server.class);
 
     private static final int DEFAULT_PORT = 8000;
-    static int nThreads = 500;
 
     public static void start(String[] args) throws IOException {
         init();
@@ -47,11 +51,18 @@ public class Server {
 
         server.createContext("/v1", new ApiHandler());
 
-        server.setExecutor(Executors.newFixedThreadPool(nThreads));
+        server.setExecutor(Executors.newCachedThreadPool());
         //server.setExecutor(null); // creates a default executor
         server.start();
         String startMessage = String.format("--------------------------------[ server.start at %d ]---------------------------------", port);
         LOG.info(startMessage);
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                Desktop.getDesktop().browse(new URI("http://127.0.0.1:" + port));
+            } catch (URISyntaxException e) {
+                log.warn("open browser: {}" ,e.getMessage());
+            }
+        }
     }
 
     private static void init() throws IOException{

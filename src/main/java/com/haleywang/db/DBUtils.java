@@ -3,6 +3,9 @@ package com.haleywang.db;
 import com.google.common.base.Splitter;
 import com.haleywang.monitor.dao.*;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
@@ -21,11 +24,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by haley on 2018/8/15.
  */
+@Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DBUtils {
 
     private static final ThreadLocal<SqlSession> THREADLOCAL_SQLSESSION = new ThreadLocal<>();
@@ -40,20 +46,12 @@ public class DBUtils {
                     //it is a bad practice to use multiple connections when connecting to SQLite
                     //change to h2 db
 
-
                     String path = PathUtils.getRoot();
                     path = path.replace("test-classes/", "");
                     path = path.replace("classes/", "");
                     path = path.replace("target/", "");
-                    System.out.println("------->>>>  " + path);
+                    log.info("path------->>>> {}", path);
 
-                    /*
-                    String driver = "org.sqlite.JDBC";
-                    String url = "jdbc:sqlite:file:{root}/data/dump.sqlite";
-                    url = url.replace("{root}", path);
-                    String username = null;
-                    String password = null;
-                    */
                     String driver = "org.h2.Driver";
                     String url = "jdbc:h2:file:{root}/data1/h2db;AUTO_SERVER=TRUE;MODE=MySQL;AUTO_RECONNECT=TRUE;DB_CLOSE_DELAY=-1";
                     url = url.replace("{root}", path);
@@ -77,6 +75,7 @@ public class DBUtils {
         return sqlSessionFactory;
 
     }
+
 
     private static void mapperRegistry(Configuration configuration) {
 
@@ -103,35 +102,40 @@ public class DBUtils {
         };
     }
 
-    public static void doInitSql(SqlSession session) throws IOException {
+    public static void doInitSql(SqlSession session, boolean dropTableBefore) throws SQLException {
         Class<?>[] types = DBUtils.getAllMapperClasses();
         for (Class<?> type : types) {
+            List<String> sqlList = new ArrayList<>();
+
+            if(dropTableBefore) {
+                String dropTableSqls = SqlHelper.getMapperSql(session, type, "dropTableSql");
+                List<String> dropTableSqlList = Splitter.on(";").omitEmptyStrings().trimResults().splitToList(dropTableSqls);
+                sqlList.addAll(dropTableSqlList);
+            }
             String sqls = SqlHelper.getMapperSql(session, type, "createTableSql");
-
-
-            List<String> sqlList = Splitter.on(";").omitEmptyStrings().trimResults().splitToList(sqls);
+            List<String> createSqlList = Splitter.on(";").omitEmptyStrings().trimResults().splitToList(sqls);
+            sqlList.addAll(createSqlList);
 
             for (String sql : sqlList) {
                 sql += ";";
-                System.out.println(sql);
+                log.info("doInitSql: {}", sql);
                 Connection con = session.getConnection();
-
-                try {
-                    Statement sm = con.createStatement();
-                    sm.execute(sql);
+                try (Statement sm = con.createStatement()) {
+                    try {
+                        sm.execute(sql);
+                    } catch (SQLException e) {
+                        if (!e.getMessage().contains("Duplicate column name")) {
+                            throw e;
+                        } else {
+                            log.warn("doInitSql warn: {}", e.getMessage());
+                        }
+                    }
                     con.commit();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
+
             }
-
-
-
         }
-
-
-        System.out.println("init_sql >>>>>>>  ");
+        log.info("init_sql done >>>>>>>  ");
     }
 
 
@@ -154,13 +158,13 @@ public class DBUtils {
         StringBuilder sb = new StringBuilder();
         for (Class<?> type : types) {
             String sql = SqlHelper.getMapperSql(session, type, "createTableSql");
-            System.out.println(sql);
+            log.info("outputInitSql: {}", sql);
             sb.append(sql).append("\n\n");
         }
 
         File file = new File("init_sql.sql");
         FileUtils.write(file, sb.toString());
-        System.out.println("init_sql >>>>>>>  " + file.getAbsolutePath());
+        log.info("outputInitSql path >>>>>>> {}", file.getAbsolutePath());
     }
 
     public static void commitSession(SqlSession session) {

@@ -20,7 +20,7 @@ public class ReqBatchHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    public static enum Statuts {
+    public static enum Status {
     	ERROR,  READY,  ACTIVATING,  ACTIVATED,  PROCESSING,  COMPLETED,  CANCELLED
     }
 
@@ -35,7 +35,7 @@ public class ReqBatchHistory implements Serializable {
     private Date batchStartDate;
     
     
-    private Statuts statuts;
+    private Status status;
     
     private Integer successNum = 0;
     private Integer total = 0;

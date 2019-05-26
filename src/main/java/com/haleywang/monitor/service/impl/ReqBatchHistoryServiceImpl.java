@@ -32,9 +32,17 @@ public class ReqBatchHistoryServiceImpl extends BaseServiceImpl<ReqBatchHistory>
 	}
 
 
-	public List<ReqBatchHistory> findByBatchId(Long batchId, Sort sort) {
-		return reqBatchHistoryRepository.findByBatchId(batchId, sort);
-	}
+	public List<ReqBatchHistory> findByBatchId(Long batchId, Sort sort) 	{
+		Example example1 = Example.builder(ReqBatchHistory.class).build();
 
+		example1.createCriteria().andEqualTo("batchId", batchId);
+		Example.OrderBy orderBy = example1.orderBy(sort.getField());
+		if(sort.isAsc()){
+			orderBy.asc();
+		}else {
+			orderBy.desc();
+		}
+		return reqBatchHistoryRepository.selectByExample(example1);
+}
 
 }

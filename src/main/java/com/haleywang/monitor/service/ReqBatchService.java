@@ -12,5 +12,5 @@ public interface ReqBatchService extends BaseService<ReqBatch> {
 
     int updateByVersion(ReqBatch model);
 
-    void initDb();
+    void initDb(boolean dropTableBefore);
 }

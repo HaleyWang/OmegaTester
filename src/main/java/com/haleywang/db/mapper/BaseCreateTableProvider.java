@@ -132,7 +132,7 @@ public class BaseCreateTableProvider  extends MapperTemplate {
         String tName = tableName(entityClass);
         Set<EntityColumn> columns = EntityHelper.getColumns(entityClass);
 
-        sql.append("create table ")
+        sql.append("create table IF NOT EXISTS ")
                 .append(tName)
                 .append(" (");
 
@@ -187,6 +187,31 @@ public class BaseCreateTableProvider  extends MapperTemplate {
             .append("\n");
 
         }
+
+
+        return sql.toString();
+    }
+
+    /**
+     * drop table
+     *
+     * @param ms
+     * @return
+     */
+    public String dropTableSql(MappedStatement ms) {
+        final Class<?> entityClass = getEntityClass(ms);
+        //修改返回值类型为实体类型
+        setResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder();
+
+        Set<EntityColumn> pks = EntityHelper.getPKColumns(entityClass);
+        String tName = tableName(entityClass);
+        Set<EntityColumn> columns = EntityHelper.getColumns(entityClass);
+
+        sql.append("drop table IF EXISTS ")
+                .append(tName)       . append(" ;");
+
+
 
 
         return sql.toString();

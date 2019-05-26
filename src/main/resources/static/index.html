@@ -110,17 +110,13 @@
 
                     <span>New</span> </a></li>
 
-                <li ng-show="node.groupId != node.id"><a  data-nodrag ng-click="reqDuplicate(node)" class="li-node-item" >
+                <li ng-hide="node.group"><a  data-nodrag ng-click="reqDuplicate(node)" class="li-node-item" >
 
 
                     <svg class="icon icon-add" ng-hide="collapsed" aria-hidden="true">
                         <use xlink:href="#icon-add"></use>
                     </svg>
-
-
                     Duplicate </a></li>
-
-
 
             </ul>
         </div>
@@ -290,7 +286,7 @@
 
                                 <div class="his-item " ng-class="tab.testSuccess ? 'test-success':'test-error' ">{{tab.req.name}} {{tab.createdOn}}</div>
                                 <div class="his-sub-item">
-                                    <span class="statut-code-{{tab.statutCode}}">{{tab.statutCode}} </span>
+                                    <span class="status-code-{{tab.statusCode}}">{{tab.statusCode}} </span>
                                     <span> {{tab.req.method}} </span>  {{tab.req.url}}
                                 </div>
 

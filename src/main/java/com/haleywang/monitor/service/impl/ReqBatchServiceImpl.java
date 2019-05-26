@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import tk.mybatis.mapper.entity.Example;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ReqBatchServiceImpl extends BaseServiceImpl<ReqBatch> implements
 		ReqBatchService {
@@ -53,14 +54,14 @@ public class ReqBatchServiceImpl extends BaseServiceImpl<ReqBatch> implements
 	}
 
 	@Override
-	public void initDb() {
+	public void initDb(boolean dropTableBefore) {
 
 		SqlSession session = DBUtils.getOrOpenSqlSession();
 		try {
 			try {
 
-				DBUtils.doInitSql(session);
-			} catch (IOException e) {
+				DBUtils.doInitSql(session, dropTableBefore);
+			} catch (SQLException e) {
 				throw new ReqSqlException(e);
 			}
 

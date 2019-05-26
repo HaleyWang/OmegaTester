@@ -1,0 +1,19 @@
+package com.haleywang.db.mapper;
+
+import org.apache.ibatis.annotations.SelectProvider;
+import tk.mybatis.mapper.annotation.RegisterMapper;
+
+
+
+
+@RegisterMapper
+public interface BaseDropTableMapper<T> {
+
+    /**
+     * 查询全部结果
+     *
+     * @return
+     */
+    @SelectProvider(type = BaseCreateTableProvider.class, method = "dynamicSQL")
+    void dropTableSql();
+}

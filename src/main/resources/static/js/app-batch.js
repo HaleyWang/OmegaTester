@@ -41,16 +41,16 @@ app.filter('reqHistoryFilter', function () {
 
 app.controller('TodoController', function($rootScope, $scope, $http) {
 	
-	$scope.fectSettingList =  function() {
+	$scope.fetchSettingList =  function() {
 		$http.get("/v1/setting/list?t=" + (new Date().getTime())).success(function(res) {
-		    console.log("fectSettingList", res);
+		    console.log("fetchSettingList", res);
 
 		    $scope.settingList = res.data;
 		    $scope.fetchGroups();
 
 		});
 	};
-	$scope.fectSettingList();
+	$scope.fetchSettingList();
 
 	$scope.fetchAccountInfo = function() {
 
@@ -276,8 +276,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 	};
 
 
-
-	$scope.fectReqHistoryDetail =  function(reqHistory) {
+	$scope.fetchReqHistoryDetail =  function(reqHistory) {
 	    var id = reqHistory.taskHistoryId;
 	    reqHistory.req.showDetail = !reqHistory.req.showDetail;
         $http.get("/v1/reqHistory/detail?id=" +id).success(function(res) {
