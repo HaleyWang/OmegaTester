@@ -322,6 +322,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			    $scope.currentReqTabData.meta = {};
 			}
 			$scope.currentReqTabData.meta.request = res.data;
+            console.log(123);
+			$scope.formatReqData();
 
 		})
 	};
@@ -365,7 +367,25 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
     		alert(1);
 
-    	}
+    }
+
+
+    $scope.toggleNode = function(el, node) {
+
+        node.collapsed = !node.collapsed;
+
+        $scope.changeNodeCollapse(node);
+
+    }
+
+    $scope.changeNodeCollapse = function(node) {
+
+        $scope.navCollapseRecords[node.groupId] = node.collapsed;
+
+        log($scope.navCollapseRecords);
+
+        changeNavCollapseRecords($scope.navCollapseRecords);
+    }
 
     $scope.showReqSettings = false;
     $scope.toggleShowReqSettings = function() {
@@ -539,6 +559,12 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			data : newReqObj,
 		}).success(function(res) {
 			log(res);
+			if(res && res.data) {
+			    res.data.collapsed = false;
+            	$scope.changeNodeCollapse(res.data);
+			}
+
+            $scope.fetchGroupList();
 			$scope.fetchReqList();
 
 			callback && callback(res);
@@ -609,6 +635,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			log(res);
 			node.name = $scope.groupEditObj.name;
 			node.label = node.name;
+
+			$scope.fetchGroupList();
 		})
 
 	};

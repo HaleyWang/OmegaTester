@@ -67,15 +67,15 @@
 
 <!-- Nested node template -->
 <script type="text/ng-template" id="nodes_renderer.html">
-    <div ui-tree-handle class="tree-node tree-node-content clearfix tree-group-{{node.groupId==node.id}} tree-collapsed-{{collapsed}}">
+    <div ui-tree-handle class="tree-node tree-node-content clearfix tree-group-{{node.group}} tree-collapsed-{{node.collapsed}}">
         <div class="tree-node-inner" >
-            <a ng-show="node.group" class="btn btn-info btn-xs btn-toggle " data-nodrag ng-click="toggle(this)">
+            <a ng-show="node.group" class="btn btn-info btn-xs btn-toggle " data-nodrag ng-click="toggleNode(this, node)">
 
-                <svg class="icon icon-enter" ng-show="collapsed"  aria-hidden="true">
+                <svg class="icon icon-enter" ng-show="node.collapsed"  aria-hidden="true">
                     <use xlink:href="#icon-enter"></use>
                 </svg>
 
-                <svg class="icon icon-unfold" ng-hide="collapsed" aria-hidden="true">
+                <svg class="icon icon-unfold" ng-hide="node.collapsed" aria-hidden="true">
                     <use xlink:href="#icon-unfold"></use>
                 </svg>
             </a>
@@ -123,7 +123,7 @@
 
 
     </div>
-    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: node.collapsed}">
         <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
         </li>
     </ol>
@@ -1199,7 +1199,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-ng-click="importRequest()">Ok</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="importRequest()">Ok</button>
             </div>
         </div>
     </div>

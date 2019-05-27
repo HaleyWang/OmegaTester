@@ -31,6 +31,14 @@ public class CurlConverter implements ReqConverter {
             curlItemNext = StringUtils.stripStart(curlItemNext, "'");
             curlItemNext = StringUtils.stripEnd(curlItemNext, "'");
 
+            if(curlItem.equals("-X")) {
+                List<String> kv = Splitter.onPattern(":\\s+").splitToList(curlItem);
+                if(kv.size() == 2) {
+                    req.setMethod(HttpMethod.parse(kv.get(1)));
+                    continue;
+                }
+            }
+
             if(curlItem.equals("-H")) {
                 List<String> kv = Splitter.onPattern(":\\s+").splitToList(curlItemNext);
                 if(kv.size() == 2) {
@@ -54,11 +62,17 @@ public class CurlConverter implements ReqConverter {
 
             if(curlItem.equals("-d")) {
                 req.setBody(curlItemNext);
+                if(req.getMethod() == null) {
+                    req.setMethod(HttpMethod.POST);
+                }
                 continue;
             }
 
             if(curlItem.equals("--data-binary")) {
                 req.setBody(curlItemNext);
+                if(req.getMethod() == null) {
+                    req.setMethod(HttpMethod.POST);
+                }
                 continue;
             }
 
