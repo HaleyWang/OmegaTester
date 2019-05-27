@@ -20,13 +20,17 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.HttpCookie;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ApiHandler implements HttpHandler {
@@ -35,7 +39,6 @@ public class ApiHandler implements HttpHandler {
 
     private static final Charset CHARSET = StandardCharsets.UTF_8;
     public static final String PUBLIC = "public";
-    private static Pattern COOKIE_SPLITE = Pattern.compile("(?<![=])=(?![=])");
 
     private static final int STATUS_404 = 404;
     private static final int STATUS_500 = 500;
@@ -136,11 +139,11 @@ public class ApiHandler implements HttpHandler {
 
         List<String> cookies = Optional.ofNullable(t.getRequestHeaders()).map(it -> it.get("Cookie")).orElse(new ArrayList<>());
 
-        String loginCookieVal = null;
-        for (String coo : cookies) {
 
-            Map<String, String> cooMap = Splitter.onPattern(";\\s*").withKeyValueSeparator(Splitter.on(COOKIE_SPLITE))
-                    .split(coo);
+        String loginCookieVal = null;
+        Map<String, String> cooMap = new HashMap<>();
+        for (String coo : cookies) {
+            parseCookie(cooMap, coo);
             if (cooMap.containsKey(Constants.LOGIN_COOKIE)) {
                 loginCookieVal = cooMap.get(Constants.LOGIN_COOKIE);
                 break;
@@ -161,6 +164,24 @@ public class ApiHandler implements HttpHandler {
         AppContext.setAccountId(acc.getAccountId());
         t.setAttribute(Constants.CURRENT_ACCOUNT, acc);
         return acc;
+    }
+
+    private static void parseCookie(Map<String, String> cooMap, String coo) {
+        try {
+
+            List<String> cookies =  Splitter.onPattern(";\\s*").splitToList(coo).stream().filter(Objects::nonNull).filter(o -> o.contains("="))
+                    .collect(Collectors.toList());
+
+            for(String cookieStr : cookies) {
+
+                List<HttpCookie> cookieList = HttpCookie.parse(cookieStr);
+                HttpCookie cookie = cookieList.get(0);
+                cooMap.put(cookie.getName(), cookie.getValue());
+            }
+
+        }catch (Exception e) {
+            log.error("parse error:", e);
+        }
     }
 
 }

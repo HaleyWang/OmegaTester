@@ -101,9 +101,12 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
         List<Long> groupIds = groups.stream().map(ReqRelation::getObjectId)
                 .collect(Collectors.toList());
-
+        if(CollectionUtils.isEmpty(groupIds)) {
+            groupIds.add(0L);
+        }
 
         Example reqGroupExample = new Example(ReqGroup.class);
+
         reqGroupExample.createCriteria().andIn(GROUP_ID, groupIds);
         List<ReqGroup> gs = reqGroupRepository.selectByExample(reqGroupExample);
 
@@ -161,6 +164,8 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
                 ri.setReqGroup(g);
             }
         }
+        ri.setCreatedBy(by.getAccountId());
+        ri.setUpdatedBy(by.getAccountId());
         ri = super.save(ri);
         Set<String> keySet = ri.getMeta().keySet();
         for (String key : keySet) {
@@ -184,6 +189,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
             }
         }
         ri.setUpdatedOn(new Date());
+        ri.setUpdatedBy(by.getAccountId());
 
         if (ri.getId() == null) {
             ri.setCreatedOn(new Date());

@@ -87,9 +87,10 @@ public class ReqInfo implements Serializable, ReqGroupItem {
     private ReqGroup reqGroup;
     
     private Integer sort;
-    
-    private Date createdOn;
-    
+
+	private Date createdOn;
+	private Long createdBy;
+	private Long updatedBy;
     private Date updatedOn;
     
     @Transient

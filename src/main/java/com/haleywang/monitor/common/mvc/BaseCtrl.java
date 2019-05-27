@@ -208,7 +208,7 @@ public abstract class BaseCtrl {
         List<String> values = new ArrayList<>();
 
         for (Map.Entry<String, String> item : cookies.entrySet()) {
-            values.add(item.getKey() + "=" + item.getValue() + "; Path=" + URI_PATH);
+            values.add(item.getKey() + "=" + item.getValue() + "; version=1; Path=" + URI_PATH + "; HttpOnly");
         }
 
         values.add("ID=JOEBLOGGS; version=1; Path=" + URI_PATH);

@@ -2,6 +2,7 @@ package com.haleywang.monitor.service.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.Msg;
+import com.haleywang.monitor.common.mvc.Server;
 import com.haleywang.monitor.common.req.HttpMethod;
 import com.haleywang.monitor.dao.ReqAccountRepository;
 import com.haleywang.monitor.dao.ReqGroupRepository;
@@ -50,7 +51,7 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 		ReqInfo exampleReqInfo = ReqInfo.builder()
 				.method(HttpMethod.GET)
 				.name("example 1")
-				.url("http://localhost:8000/v1/req/version")
+				.url("http://localhost:" + Server.getPort() + "/v1/req/version")
 				.reqGroup(reqGroup)
 				.createdOn(new Date())
 				.sort(0)
@@ -62,7 +63,7 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 				.type(ReqSetting.SettingType.ENV)
 				.onwer(currentAccount.getAccountId())
 				.current(1).name("DEV")
-				.content("{\"host\":\"http://localhost:8000\"}").build();
+				.content("{\"host\":\"http://localhost:"+ Server.getPort() +"\"}").build();
 		new ReqSettingServiceImpl().saveSetting(setting, currentAccount);
 	}
 

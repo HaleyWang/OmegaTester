@@ -2,6 +2,7 @@ package com.haleywang.monitor.common.mvc;
 
 import com.haleywang.monitor.App;
 import com.haleywang.monitor.dto.VersionObj;
+import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 import com.haleywang.monitor.utils.FileUtils;
 import com.haleywang.monitor.utils.JsonUtils;
 import com.haleywang.monitor.utils.PathUtils;
@@ -29,17 +30,21 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Server {
 
+
     private Server(){}
 
     private static final Logger LOG = LoggerFactory.getLogger(Server.class);
 
     private static final int DEFAULT_PORT = 8000;
+    private static int port = DEFAULT_PORT;
+
 
     public static void start(String[] args) throws IOException {
-        init();
         String args0 = (args != null && args.length >=1) ? args[0] : null ;
-        int port = NumberUtils.toInt(args0, DEFAULT_PORT);
+        port = NumberUtils.toInt(args0, DEFAULT_PORT);
 
+        init();
+        new ReqBatchServiceImpl().initDb(false);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 20);
         server.createContext("/", new StaticResourcesHandler());
@@ -63,6 +68,10 @@ public class Server {
                 log.warn("open browser: {}" ,e.getMessage());
             }
         }
+    }
+
+    public static int getPort() {
+        return port;
     }
 
     private static void init() throws IOException{

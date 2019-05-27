@@ -7,7 +7,6 @@ import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 public class App {
 
     public static void main( String[] args) throws Exception {
-        new ReqBatchServiceImpl().initDb(false);
         Server.start(args);
         CronScheduleHelper.start();
 
