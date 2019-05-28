@@ -23,7 +23,7 @@ import javax.persistence.Id;
 public class ReqSetting implements Serializable {
 
 	public static enum SettingType {
-		ENV
+		ENV, CODE_FOR_IMPORT, CODE_FOR_EXPORT
 	}
 	
 

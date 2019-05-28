@@ -312,6 +312,12 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 	$scope.importRequest = function() {
 
+        if($scope.importObject.codeId) {
+            $scope.importObject.codeObj = _.find($scope.settingList, {id: parseInt($scope.importObject.codeId)});
+            $scope.importObject.code = $scope.importObject.codeObj.content;
+        }
+
+
 		$http({
 			method : 'POST',
 			url : '/v1/req/importRequest',
@@ -1068,13 +1074,19 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 	$scope.settingView = "list";
 	$scope.editEnv = {};
+	$scope.currentSettingType = "ENV";
+
+    $scope.changeCurrentSettingType =  function(settingType) {
+        $scope.currentSettingType = settingType;
+    }
+
 
 	$scope.saveEnvSetting =  function(setting) {
-	if(!setting.name) {
-	return;
-	}
+        if(!setting.name) {
+            return;
+        }
 
-	    setting.type= "env";
+	    setting.type= $scope.currentSettingType;
         $http({
             method : 'POST',
             url : '/v1/setting/save',

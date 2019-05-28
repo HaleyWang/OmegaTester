@@ -139,5 +139,23 @@ public class JavaExecScript {
         }
     }
 
+    public static String jsRunScriptCode(String code, String arg) {
+        if (code == null) {
+            return null;
+        }
+        String script = code.trim();
+        String funName = script.substring("function".length(), script.indexOf('(')).trim();
+
+        try {
+            se.eval(script);
+
+            Invocable inv2 = (Invocable) se;
+            return (String) inv2.invokeFunction(funName, arg);
+        } catch (Exception e) {
+            throw new ReqException(e.getMessage(), e);
+
+        }
+    }
+
 
 }

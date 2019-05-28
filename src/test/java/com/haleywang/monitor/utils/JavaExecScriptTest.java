@@ -41,18 +41,26 @@ public class JavaExecScriptTest {
 		ScriptEngineManager manager = new ScriptEngineManager();
 		ScriptEngine engine = manager.getEngineByExtension("js");
 
-		Persion persion = new Persion();
-		persion.setName("AA");
-		persion.say("00");
+		Person person = new Person();
+		person.setName("AA");
+		person.say("00");
 
-		engine.put("persion",persion);
-		engine.eval(" persion.say(\"123\"); ");
+		engine.put("person", person);
+		engine.eval(" person.say(\"123\"); ");
 
 	}
 
+    @Test
+    public void jsRunScriptCode() {
+
+		String code = "function out(arg) { return 'You input is:' + arg; }";
+		String arg = "hello";
+		String out = JavaExecScript.jsRunScriptCode(code, arg);
+		Assert.assertEquals("You input is:hello", out);
+    }
 
 
-    public static class Persion {
+    public static class Person {
 		private String name;
 
 		public void setName(String name) {

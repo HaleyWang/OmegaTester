@@ -3,7 +3,7 @@ package com.haleywang.monitor.ctrl.v1;
 import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.common.mvc.ParamBody;
-import com.haleywang.monitor.common.req.ConverterBuilder;
+import com.haleywang.monitor.common.req.converter.ConverterBuilder;
 import com.haleywang.monitor.dto.MyRequest;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.dto.TypeValuePair;
@@ -66,7 +66,7 @@ public class ReqCtrl extends BaseCtrl {
     }
 
     public ResultStatus<String> importRequest(@ParamBody TypeValuePair ri) {
-        MyRequest data = new ConverterBuilder().build(ri.getType()).toMyRequest(ri.getValue());
+        MyRequest data = new ConverterBuilder().build(ri.getType()).toMyRequest(ri);
 
         return new ResultStatus<>(JsonUtils.toJson(data));
     }

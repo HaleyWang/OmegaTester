@@ -926,9 +926,34 @@
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel_env">Env</h4>
+                <h4 class="modal-title" id="myModalLabel_env">
+                    Setting
+                </h4>
             </div>
             <div class="modal-body">
+
+
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a data-ng-click="changeCurrentSettingType('ENV')" href="#nev_1" aria-controls="home" role="tab" data-toggle="tab">ENV</a></li>
+                        <li role="presentation"><a href="#code_1" data-ng-click="changeCurrentSettingType('CODE_FOR_IMPORT')" aria-controls="profile" role="tab" data-toggle="tab">Code for import</a></li>
+                        <li role="presentation"><a href="#code_2" data-ng-click="changeCurrentSettingType('CODE_FOR_EXPORT')" aria-controls="settings" role="tab" data-toggle="tab">Code for export</a></li>
+
+
+                        <input type="hidden" data-ng-model="currentSettingType">
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content" style="display:none;">
+                        <div role="tabpanel" class="tab-pane active" id="nev_1">..1.</div>
+                        <div role="tabpanel" class="tab-pane" id="code_1">..2.</div>
+                        <div role="tabpanel" class="tab-pane" id="code_2">..3.</div>
+                    </div>
+
+                </div>
+
                 <div data-ng-show="settingView == 'save'">
                     <!--save -->
                     <div class="form-group">
@@ -938,18 +963,13 @@
                             placeholder="Name">
                     </div>
                     <textarea data-ng-model="editEnv.content" class="form-control" rows="3" placeholder="Textarea"></textarea>
-
-
-
                 </div>
                 <div data-ng-show="settingView == 'list'" class="box-setting-view" >
                     <!--list -->
-
-
                     <table class="table">
 
                         <tbody>
-                        <tr data-ng-repeat="item in settingList | filter:{type: 'env'}" class="current-{{item.current}}">
+                        <tr data-ng-repeat="item in settingList | filter:{type: currentSettingType}" class="current-{{item.current}}">
 
                             <td><a data-ng-click="gotoEditEnvView(item)"><span  ng-bind="item.name"></span></a></td>
                             <td width="60"><a data-ng-click="duplicateEnv(item)">duplicate</a></td>
@@ -958,8 +978,8 @@
 
                         </tbody>
                     </table>
-
                 </div>
+
             </div>
             <div class="modal-footer " data-ng-show="settingView == 'list'">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1190,6 +1210,10 @@
                     <select data-ng-model="importObject.type" class="form-control" >
                         <option ng-repeat="importType in importTypes" >{{importType}}</option>
                     </select>
+
+                    <select data-ng-model="importObject.codeId" class="form-control" >
+                        <option ng-repeat="item in settingList | filter:{type: 'code_for_import'}"  value="{{item.id}}" >{{item.name}}</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -1223,6 +1247,10 @@
                 <div class="form-group">
                     <select data-ng-model="exportObject.type" class="form-control" >
                         <option ng-repeat="exportType in exportTypes" >{{exportType}}</option>
+                    </select>
+
+                    <select data-ng-model="importObject.code" class="form-control" >
+                        <option ng-repeat="item in settingList | filter:{type: 'code_for_export'}" value="{{item.id}}" >{{item.name}}</option>
                     </select>
                 </div>
 
