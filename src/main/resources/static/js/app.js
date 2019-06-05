@@ -398,6 +398,11 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
          $scope.showReqSettings  = !$scope.showReqSettings ;
     };
+     $scope.showResSettings = false;
+          $scope.toggleShowResSettings = function() {
+
+               $scope.showResSettings  = !$scope.showResSettings ;
+          };
 
     $scope.clickReqExItem = function(item) {
         if(!$scope.currentReqTabData.meta) {
@@ -433,6 +438,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 
 	$scope.configs = {};
+	$scope.levels = [1,2,3,4,5,6,7,8,9];
 	$scope.fetchReqMethods = function() {
 
 		$http.get("/v1/config/list").success(function(res) {
@@ -1265,10 +1271,58 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
       };
 
+      $scope.changeGroupName = function (item) {
+              return true; //todo
 
+            };
+
+      $scope.foldAtDepth = function(depth) {
+           var editor = editors[4];
+            editor.session.unfold()
+
+           if(depth > 0) {
+           foldAtDepth(editor, depth);
+
+           }
+
+
+      }
 
 
 });
+
+
+/*
+editor.session.foldAll()
+editor.session.unfold()
+*/
+function foldAtDepth(editor, depth) {
+    var range, fold;
+    var session = editor.session;
+    var indent = depth * session.getTabString().length;
+
+
+        for (var row = 0; row < session.getLength(); row++) {
+            if (session.foldWidgets[row] === undefined) {
+                session.foldWidgets[row] = session.getFoldWidget(row);
+            }
+
+
+            if (session.foldWidgets[row] === "start") {
+                range = session.getFoldWidgetRange(row);
+                if (range !== null && session.getLine(row).search(/\S/) === indent) {
+
+
+                    fold = session.addFold("...", range);
+
+
+                    row = range.end.row;
+                }
+            }
+        }
+
+
+};
 
 
 function resizeEditors() {

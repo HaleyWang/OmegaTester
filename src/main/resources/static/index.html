@@ -482,7 +482,7 @@
 
                                             <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
                                                  data-ng-show="showReqSettings"
-                                                 style="  overflow: scroll;height: 200px;    width: 200px;">
+                                                 style="  overflow: scroll;height: 200px;    width: 220px;">
 
                                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
@@ -573,7 +573,7 @@
 
                                             <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
                                                  data-ng-show="showReqSettings"
-                                                 style="  overflow: scroll;height: 200px;    width: 200px;">
+                                                 style="  overflow: scroll;height: 200px;    width: 220px;">
 
                                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
@@ -648,7 +648,7 @@
 
                                             <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
                                                  data-ng-show="showReqSettings"
-                                                 style="  overflow: scroll;height: 200px;    width: 200px;">
+                                                 style="  overflow: scroll;height: 200px;    width: 220px;">
 
                                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
@@ -718,7 +718,7 @@
 
                                             <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
                                                  data-ng-show="showReqSettings"
-                                                 style="  overflow: scroll;height: 200px;    width: 200px;">
+                                                 style="  overflow: scroll;height: 200px;    width: 220px;">
 
                                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
@@ -821,15 +821,20 @@
 
                         <div data-ng-show="currentReqTabData.loading"
                              class="box-req-loading"
-                             >
+                             style="margin: 0 30px 0 0"
+
+                        >
                             loading
                         </div>
                         <div class="box-status"
+                             style="margin: 0 30px 0 0"
                                 data-ng-show="currentReqTabData.response && !currentReqTabData.loading"
                                 >
                             Status: {{currentReqTabData.response.status}} Time:
                             {{currentReqTabData.response.spent_time}}
                         </div>
+
+
 
                     </ul>
 
@@ -842,6 +847,89 @@
                                   data-ng-show="showAce"
                                  ng-model="currentReqTabData.response.body"
                             ></div>
+
+                            <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; ">
+
+                            <div class="dropdown" style="display:inline-block">
+                                <button
+                                        data-ng-click="toggleShowResSettings()"
+                                        class="btn btn-default btn-xs " type="button"
+                                >
+                                    <span class="caret"></span>
+                                </button>
+
+                                <div class="dropdown-menu1 dropdown-menu-right show-{{showResSettings}}"
+                                     data-ng-show="showResSettings"
+                                     style="  overflow: scroll;height: 200px;    width: 220px;">
+
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel1 panel-default">
+                                            <div class="panel-heading" role="tab" id="headingOne">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        Expand
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                <div class="">
+
+                                                    <ul class="list-group">
+                                                        <li
+                                                                class="list-group-item">
+
+
+
+
+                                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+
+                                                                <button type="button" class="btn btn-default"
+                                                                        data-ng-click="foldAtDepth(0)"
+                                                                >All</button>
+                                                                <button type="button" class="btn btn-default"
+                                                                        data-ng-repeat="item in levels"
+                                                                        data-ng-click="foldAtDepth(item)"
+                                                                >{{item}}</button>
+
+
+
+                                                            </div>
+
+
+
+                                                        </li>
+
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel1 hide panel-default">
+                                            <div class="panel-heading" role="tab" id="headingTwo">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                        Other
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                <div class="panel-body">
+
+                                                    Coming soon.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+                            </div>
+
                         </div>
 
                         <div role="tabpanel" class="tab-pane hide" id="res-body-json">
