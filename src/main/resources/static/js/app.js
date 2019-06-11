@@ -438,7 +438,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 
 	$scope.configs = {};
-	$scope.levels = [1,2,3,4,5,6,7,8,9];
+	$scope.levels = [1,2,3,4,5,6,7,8];
 	$scope.fetchReqMethods = function() {
 
 		$http.get("/v1/config/list").success(function(res) {
