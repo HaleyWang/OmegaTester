@@ -1773,7 +1773,7 @@ height
 }
 
 .req-panel {
-	margin: 0px;
+	margin: 40px 0 0 0;
 	border: none;
     border-radius: 0;
     border-top: 0;
@@ -2078,6 +2078,7 @@ border-top: solid 1px #bbb;
 .req-tabs.nav-tabs>li.active>a:hover, .req-tabs.nav-tabs>li>a {
 	padding: 6px 17px 6px 10px;
 	font-size: 12px;
+	background: #ddd;
 }
 
 /*
@@ -2352,7 +2353,7 @@ tr.angular-ui-tree-empty {
 }
 
 .li-req-tabs {
-	overflow:hidden;max-width:180px;
+	overflow:hidden;
 }
 
 .li-req-tabs .a-tab {
@@ -2380,5 +2381,24 @@ tr.angular-ui-tree-empty {
     right: 0;
     z-index: 2;
     margin: 11px;
+}
+
+.req-tabs-box {
+    position:absolute;
+    top:5px;
+    left:8px;
+    right:60px;
+}
+
+.req-tabs-op {
+position:absolute;
+    top:5px;
+    right:8px;
+
+}
+
+.list-group-item.active {
+    background: #ccc;
+
 }
 

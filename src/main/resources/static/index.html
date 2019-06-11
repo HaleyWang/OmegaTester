@@ -56,6 +56,9 @@
 
     <script src="/assets/js/icon/iconfont.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="js/infinteTabs/infinteTabs.css">
+    <script src="js/infinteTabs/infinteTabs.js"></script>
+
     <script src="js/app.js"></script>
 
 
@@ -334,11 +337,11 @@
         <div id="main" class="">
 
             <div id="c" class="split content">
-                <div>
+                <div class="req-tabs-box">
 
 
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs req-tabs" role="tablist">
+                    <ul class="nav nav-tabs req-tabs tabs-unlimited" role="tablist">
 
                         <li ng-repeat="tab in reqTabs track by $index | limitTo:5 "
                             data-idx="{{$index}}" role="presentation" class="li-req-tabs {{tab.active}}">
@@ -354,9 +357,7 @@
                         </li>
 
 
-                        <li><a href="#settings" ng-click="newReqTabModel()"> <span
-                                class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </a></li>
+
                     </ul>
 
                     <!-- Tab panes -->
@@ -366,6 +367,44 @@
                         <div role="tabpanel" class="tab-pane" id="messages"></div>
                         <div role="tabpanel" class="tab-pane" id="settings"></div>
                     </div>
+
+                </div>
+
+                <div class="req-tabs-op">
+                    <a href="#settings" style="display:inline-block; padding: 5px;" ng-click="newReqTabModel()"> <span
+                        class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </a>
+
+                    <div class="btn-group">
+                        <a type="button"  style="display:inline-block; padding: 5px;"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="  overflow: scroll;height: 260px;    width: 200px;">
+                            <ul  class="list-group">
+                            <li class="list-group-item"><a ng-click="removeReqTabs()" href="#">Remove all</a></li>
+
+
+
+                            <li  ng-repeat="tab in reqTabs track by $index | limitTo:5 "
+                                data-idx="{{$index}}" role="presentation" class=" list-group-item li-req-tabs {{tab.active}}">
+                                <a class="a-tab" data-ng-click="clickReqTab(tab)"
+                                   title="{{tab.name}}"
+                                   >{{tab.name}}&nbsp;
+
+
+                                </a>
+                                <a class="tab-remove-btn fr" href="#"
+                                     ng-click="removeReqTab(tab)">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+
 
                 </div>
 

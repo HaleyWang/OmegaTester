@@ -989,6 +989,19 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 	
 	$scope.clickReqTab($scope.getCurrentReqTab());
 
+	$scope.removeReqTabs = function() {
+
+        log("removeReqTabs");
+
+        $scope.reqTabs = [];
+
+        if($scope.reqTabs.length == 0) {
+            $scope.newReqTabModel();
+        }
+
+        $scope.clickReqTab($scope.reqTabs[activeId]);
+    };
+
 	$scope.removeReqTab = function(tab) {
 
 		log("removeReqTab");
@@ -1349,6 +1362,7 @@ function resizeEditors() {
 			onDragEnd : function() {
 				respBox.show();
 				resizeEditors();
+
 			}
 
 		})
@@ -1365,5 +1379,10 @@ function resizeEditors() {
                 respBox.show();
                 resizeEditors();
             }
-        })
+        });
+
+
+tabs_unlimited();
+
+
 	});
