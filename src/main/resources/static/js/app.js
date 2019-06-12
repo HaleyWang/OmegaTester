@@ -635,9 +635,16 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 		})
 	};
 
+	$scope.beforeUpdateGroup = function(item) {
+    		//$scope.groupEditObj
+    		$scope.groupEditObj = item.node;
+    		console.log(item);
+
+    	};
+
 	$scope.updateGroup = function() {
 		//$scope.groupEditObj
-		var node = $scope.groupEditObj.obj;
+		var node = $scope.groupEditObj;
 
 		$http({
 			method : 'POST',
@@ -645,8 +652,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			data : {groupId: node.groupId, name: $scope.groupEditObj.name},
 		}).success(function(res) {
 			log(res);
-			node.name = $scope.groupEditObj.name;
-			node.label = node.name;
+
 
 			$scope.fetchGroupList();
 		})

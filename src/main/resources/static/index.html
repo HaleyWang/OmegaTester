@@ -105,13 +105,17 @@
 
                 <li role="separator" class="divider"></li>
 
-                <li ng-show="node.group"><a  data-nodrag ng-click="newSubItem(this)" class="li-node-item" >
+                <li ng-show="node.group"><a  data-nodrag ng-click="beforeUpdateGroup(this)" class="li-node-item"
+
+                                             data-toggle="modal"
+                                             data-target="#modalUpdateGroup"
+                >
 
                     <svg class="icon icon-add" ng-hide="collapsed" aria-hidden="true">
                         <use xlink:href="#icon-add"></use>
                     </svg>
 
-                    <span>New</span> </a></li>
+                    <span>Update</span> </a></li>
 
                 <li ng-hide="node.group"><a  data-nodrag ng-click="reqDuplicate(node)" class="li-node-item" >
 
@@ -612,7 +616,7 @@
 
                                             <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
                                                  data-ng-show="showReqSettings"
-                                                 style="  overflow: scroll;height: 200px;    width: 220px;">
+                                                 >
 
                                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
@@ -687,7 +691,7 @@
 
                                             <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
                                                  data-ng-show="showReqSettings"
-                                                 style="  overflow: scroll;height: 200px;    width: 220px;">
+                                                 >
 
                                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
@@ -757,7 +761,7 @@
 
                                             <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
                                                  data-ng-show="showReqSettings"
-                                                 style="  overflow: scroll;height: 200px;    width: 220px;">
+                                                 >
 
                                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
@@ -899,7 +903,7 @@
 
                                 <div class="dropdown-menu1 dropdown-menu-right show-{{showResSettings}}"
                                      data-ng-show="showResSettings"
-                                     style="  overflow: scroll;height: 200px;    width: 220px;">
+                                     >
 
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                         <div class="panel1 panel-default">
@@ -1290,22 +1294,31 @@
 
 <!-- Small modal  -->
 <div class="modal fade at-group-title" tabindex="-1"
+     id="modalUpdateGroup"
      role="dialog" aria-labelledby="registerModalLabel">
     <div class="modal-dialog modal-sm " role="document">
-        <div class="modal-content loginpanel">
+        <div class="modal-content">
 
-            <div class="">
-                <i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalUpdateGroupLabel">Edit group</h4>
+            </div>
+            <div class="modal-body">
+                <i id="loading1" class="hidden fa fa-spinner fa-spin bigicon"></i>
 
                 <div>
                     <input id="title" ng-model="groupEditObj.name" type="text"
+                           class="form-control"
                            placeholder="title"  >
 
 
                     <div class="buttonwrapper">
-                        <button id="loginbtn" ng-click="updateGroup()"
+                        <button ng-click="updateGroup()"
                                 data-dismiss="modal"
-                                class="btn btn-warning ">
+                                class="btn btn-primary  ">
                             Save
                         </button>
 

@@ -155,9 +155,9 @@ public class ReqCtrl extends BaseCtrl {
         ReqGroupService reqGroupService = new ReqGroupServiceImpl();
         ReqGroup reqGroup = reqGroupService.findOne(g.getGroupId());
         reqGroup.setName(g.getName());
-        reqGroupService.save(reqGroup);
+        reqGroupService.update(reqGroup);
 
-        return new ResultStatus<>(g);
+        return new ResultStatus<>(reqGroup);
     }
 
     public ResultStatus<ReqGroup> groupDelete() {
