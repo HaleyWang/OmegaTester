@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,362 +9,217 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="./../favicon.ico">
-
     <title>Omega tester</title>
-
     <!-- Bootstrap core CSS -->
     <link href="./../dist/css/bootstrap.min.css" rel="stylesheet">
-
-
     <link rel="stylesheet" type="text/css" href="./css/jquery.jscrollpane.css">
-
     <link rel="stylesheet" href="js/angular-ui-tree/angular-ui-tree.min.css">
-
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
-
-
-
     <script src="js/underscore-min.js"></script>
-
-
     <!-- Bootstrap core JavaScript
             ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="./../dist/js/jquery-1.12.4.min.js"></script>
-
     <script src="./../dist/js/bootstrap.min.js"></script>
-
-
-
     <script src="js/split.js"></script>
-
     <script src="js/ace-builds-master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/ace-builds-master/src-noconflict/ext-beautify.js" type="text/javascript" charset="utf-8"></script>
-
     <script src="js/angular.min.js"></script>
-
-
     <script type="text/javascript" src="js/angular-ui-tree/angular-ui-tree.js"></script>
-
-
-
     <script src="js/ace-builds-master/ui-ace.js"></script>
-
     <script src="js/tree.js"></script>
     <script src="js/tool/htmlformat.js"></script>
-
     <script src="js/tool/jsformat.js"></script>
-
     <script src="/assets/js/icon/iconfont.js"></script>
-
     <link rel="stylesheet" type="text/css" href="js/infinteTabs/infinteTabs.css">
     <script src="js/infinteTabs/infinteTabs.js"></script>
-
     <script src="js/app.js"></script>
-
-
-
 </head>
 
 <body ng-app="TodoApp" ng-controller="TodoController">
-
-
 <!-- Nested node template -->
 <script type="text/ng-template" id="nodes_renderer.html">
     <div ui-tree-handle class="tree-node tree-node-content clearfix tree-group-{{node.group}} tree-collapsed-{{node.collapsed}}">
-        <div class="tree-node-inner" >
-            <a ng-show="node.group" class="btn btn-info btn-xs btn-toggle " data-nodrag ng-click="toggleNode(this, node)">
-
-                <svg class="icon icon-enter" ng-show="node.collapsed"  aria-hidden="true">
+        <div class="tree-node-inner">
+            <a data-ng-show="node.group" class="btn btn-info btn-xs btn-toggle " data-nodrag data-ng-click="toggleNode(this, node)">
+                <svg class="icon icon-enter" data-ng-show="node.collapsed" aria-hidden="true">
                     <use xlink:href="#icon-enter"></use>
                 </svg>
-
-                <svg class="icon icon-unfold" ng-hide="node.collapsed" aria-hidden="true">
+                <svg class="icon icon-unfold" data-ng-hide="node.collapsed" aria-hidden="true">
                     <use xlink:href="#icon-unfold"></use>
                 </svg>
             </a>
-            <a ng-click="clickReqItem(node)" data-nodrag ><span class="method-{{node.method}}">{{node.method}}</span> {{node.name}}</a>
+            <a data-ng-click="clickReqItem(node)" data-nodrag><span class="method-{{node.method}}">{{node.method}}</span> {{node.name}}</a>
         </div>
-
         <div class="btn btn-xs  dropdown btn0" data-nodrag>
             <a class=" " type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-more"></use>
                 </svg>
-
-
             </a>
             <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                <li><a   data-nodrag ng-click="remove(this);reqDelete(node)">
-
-                    <svg class="icon icon-delete" ng-hide="collapsed" aria-hidden="true">
-                        <use xlink:href="#icon-delete"></use>
-                    </svg>
-
-                    <span>Delete</span></a></li>
-
+                <li>
+                    <a data-nodrag data-ng-click="remove(this);reqDelete(node)">
+                        <svg class="icon icon-delete" data-ng-hide="collapsed" aria-hidden="true">
+                            <use xlink:href="#icon-delete"></use>
+                        </svg>
+                        <span>Delete</span></a>
+                </li>
                 <li role="separator" class="divider"></li>
-
-                <li ng-show="node.group"><a  data-nodrag ng-click="beforeUpdateGroup(this)" class="li-node-item"
-
-                                             data-toggle="modal"
-                                             data-target="#modalUpdateGroup"
-                >
-
-                    <svg class="icon icon-add" ng-hide="collapsed" aria-hidden="true">
-                        <use xlink:href="#icon-add"></use>
-                    </svg>
-
-                    <span>Update</span> </a></li>
-
-                <li ng-hide="node.group"><a  data-nodrag ng-click="reqDuplicate(node)" class="li-node-item" >
-
-
-                    <svg class="icon icon-add" ng-hide="collapsed" aria-hidden="true">
-                        <use xlink:href="#icon-add"></use>
-                    </svg>
-                    Duplicate </a></li>
-
+                <li data-ng-show="node.group">
+                    <a data-nodrag data-ng-click="beforeUpdateGroup(this)" class="li-node-item" data-toggle="modal" data-target="#modalUpdateGroup">
+                        <svg class="icon icon-add" data-ng-hide="collapsed" aria-hidden="true">
+                            <use xlink:href="#icon-editor"></use>
+                        </svg>
+                        <span>Edit</span> </a>
+                </li>
+                <li data-ng-hide="node.group">
+                    <a data-nodrag data-ng-click="reqDuplicate(node)" class="li-node-item">
+                        <svg class="icon icon-add" data-ng-hide="collapsed" aria-hidden="true">
+                            <use xlink:href="#icon-add"></use>
+                        </svg>
+                        Duplicate </a>
+                </li>
             </ul>
         </div>
-
-
     </div>
-    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: node.collapsed}">
-        <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
+    <ol ui-tree-nodes="" data-ng-model="node.children" ng-class="{hidden: node.collapsed}">
+        <li data-ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'" data-ng-show="visible(node)">
         </li>
     </ol>
 </script>
-
-
 <nav class="navbar navbar-inverse navbar-fixed-top mynavbar">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed"
-                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                    aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span> <span
-                    class="icon-bar"></span> <span class="icon-bar"></span> <span
-                    class="icon-bar"></span>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">Ω-tester</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-
-
-                <li class="dropdown"><a href="#" class="dropdown-toggle"
-                                        data-toggle="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">Env
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Env
 
                     <span data-ng-repeat="item in settingList | filter:{type: 'env', current: 1}">
-                        : <span ng-bind="item.name"></span>
+                        : <span data-ng-bind="item.name"></span>
                     </span>
 
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu setting-dropdown-menu">
-                        <li><a href="#" data-toggle="modal"
-                               data-target="#myModal_env">Manange Env</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myModal_env">Manange Env</a></li>
                         <li role="separator" class="divider"></li>
-
-
-                        <li><a href="#" data-ng-click="changeEnv({})" >No Env</a></li>
+                        <li><a href="#" data-ng-click="changeEnv({})">No Env</a></li>
                         <li role="separator" class="divider"></li>
-
-                        <li class="li-settings" >
+                        <li class="li-settings">
                             <ul>
-                            <li
-                                    data-ng-repeat="item in settingList | filter:{type: 'env'}"
-                            data-ng-click="changeEnv(item)"
-                                 class="env-item current-{{item.current}}"
-                            ><a href="#"><span ng-bind="item.name"></span></a></li>
+                                <li data-ng-repeat="item in settingList | filter:{type: 'env'}" data-ng-click="changeEnv(item)" class="env-item current-{{item.current}}"><a href="#"><span data-ng-bind="item.name"></span></a></li>
                             </ul>
                         </li>
-
-
                     </ul>
                 </li>
-
                 <li><a href="/">Builder</a></li>
                 <li><a href="/batch.html">Runner</a></li>
-                <li ng-hide="currentAccount.name"><a data-toggle="modal" id="btn-login"
-                                                     data-target=".at-login-modal-sm" href="#">Sign In</a></li>
-
+                <li data-ng-hide="currentAccount.name"><a data-toggle="modal" id="btn-login" data-target=".at-login-modal-sm" href="#">Sign In</a></li>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
                     <li><a href="#">Regular link</a></li>
                     <li class="disabled"><a href="#">Disabled link</a></li>
                     <li><a href="#">Another link</a></li>
                 </ul>
+                <li data-ng-show="currentAccount.name"><a id="dLabel" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
-
-                <li ng-show="currentAccount.name"><a id="dLabel"
-                                                     data-target="#" href="#" data-toggle="dropdown" role="button"
-                                                     aria-haspopup="true" aria-expanded="false">
-
-                    <span ng-bind="currentAccount.name"></span>
+                    <span data-ng-bind="currentAccount.name"></span>
                     <span class="caret"></span>
                 </a>
-
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-
-                        <li><a
-                               href="#" role="button" aria-haspopup="true"
-                               aria-expanded="false"
-                               data-toggle="modal"
-                               data-target="#myModal_aboutMe"> About </a></li>
-
-                        <li><a id="dLabel" data-target="#" data-ng-click="logout()"
-                               href="#" role="button" aria-haspopup="true"
-                               aria-expanded="false"> Logout </a></li>
+                        <li><a href="#" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="modal" data-target="#myModal_aboutMe"> About </a></li>
+                        <li><a id="cLabel" data-target="#" data-ng-click="logout()" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Logout </a></li>
                     </ul>
                 </li>
-
-
             </ul>
-
         </div>
     </div>
 </nav>
-
-
-
-
 <div class="container-fluid split-box">
     <div id="a" class="split split-horizontal">
-
         <div id="sidebar">
             <div id="header" class="clearfix">
-                <input ng-show="collectionsOrHistory" type="text"
-                       ng-change="onReqSearchTextChange()"
-
-                       ng-model="query"
-                       class="form-control"
-                       placeholder="Search...">
-                <input ng-hide="collectionsOrHistory" type="text"
-
-                      ng-model="queryHistory"
-                      class="form-control"
-                      placeholder="Search...">
+                <input data-ng-show="collectionsOrHistory" type="text" ng-change="onReqSearchTextChange()" data-ng-model="query" class="form-control" placeholder="Search...">
+                <input data-ng-hide="collectionsOrHistory" type="text" data-ng-model="queryHistory" class="form-control" placeholder="Search...">
             </div>
             <div id="sidebar-sections" class="clearfix">
                 <div id="history-options" class="section-options">
-                    <a class="history-actions-delete" rel="tooltip"
-                       data-placement="bottom" data-original-title="Clear history">
+                    <a class="history-actions-delete" rel="tooltip" data-placement="bottom" data-original-title="Clear history">
 
                     </a>
                 </div>
-                <div ng-show="collectionsOrHistory" id=""
-                     class=" pull-right box-collections-his" >
-                    <i ng-show="folderClose" data-ng-click="doFolderOpen()"
-                       class="expanded ">
+                <div data-ng-show="collectionsOrHistory" id="" class=" pull-right box-collections-his">
+                    <i data-ng-show="folderClose" data-ng-click="doFolderOpen()" class="expanded ">
 
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-offline_fill"></use>
                         </svg>
                     </i>
-                    <i ng-hide="folderClose" data-ng-click="doFolderClose()"
-                        class="expanded  ">
+                    <i data-ng-hide="folderClose" data-ng-click="doFolderClose()" class="expanded  ">
 
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-addition"></use>
                         </svg>
                     </i>
                 </div>
-
                 <ul id="sidebar-selectors" class="nav nav-pills">
-                    <li ng-click="onClickcollectionsOrHistory('history')" class=""><a
-                            href="#sidebar-section-history" data-id="history"
-                            data-toggle="tab">History</a></li>
-                    <li ng-click="onClickcollectionsOrHistory('collections')"
-                        class="active"><a href="#sidebar-section-collections"
-                                          data-id="collections" data-toggle="tab">Collections</a></li>
+                    <li data-ng-click="onClickcollectionsOrHistory('history')" class=""><a href="#sidebar-section-history" data-id="history" data-toggle="tab">History</a></li>
+                    <li data-ng-click="onClickcollectionsOrHistory('collections')" class="active"><a href="#sidebar-section-collections" data-id="collections" data-toggle="tab">Collections</a></li>
                 </ul>
                 <div id="sidebar-section-data">
-                    <div ng-hide="collectionsOrHistory" class="tab-pane"
-                         id="sidebar-section-history">
+                    <div data-ng-hide="collectionsOrHistory" class="tab-pane" id="sidebar-section-history">
                         <ul id="history-items" class="clearfix">
-
-
-                            <li ng-repeat="tab in reqHistoryList | filter: {req: {url: queryHistory}}"
-                                data-idx="{{$index}}" role="presentation"
-                                class="{{tab.active}}"><a class="a-tab"
-                                                          data-ng-click="onClickHistoryItem(tab)" href="#home"
-                                                          aria-controls="home" role="tab" data-toggle="tab">
-
-                                <div class="his-item " ng-class="tab.testSuccess ? 'test-success':'test-error' ">{{tab.req.name}} {{tab.createdOn}}</div>
-                                <div class="his-sub-item">
-                                    <span class="status-code-{{tab.statusCode}}">{{tab.statusCode}} </span>
-                                    <span> {{tab.req.method}} </span>  {{tab.req.url}}
-                                </div>
-
-
-
-                            </a></li>
-
+                            <li data-ng-repeat="tab in reqHistoryList | filter: {req: {url: queryHistory}}" data-idx="{{$index}}" role="presentation" class="{{tab.active}}">
+                                <a class="a-tab" data-ng-click="onClickHistoryItem(tab)" href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                                    <div class="his-item " ng-class="tab.testSuccess ? 'test-success':'test-error' ">{{tab.req.name}} {{tab.createdOn}}</div>
+                                    <div class="his-sub-item">
+                                        <span class="status-code-{{tab.statusCode}}">{{tab.statusCode}} </span>
+                                        <span> {{tab.req.method}} </span> {{tab.req.url}}
+                                    </div>
+                                </a>
+                            </li>
                         </ul>
-                        <div ng-hide="reqHistoryList.length"
-                             class="empty-message size-{{reqHistoryList.length}}">Nothing
-                            in your history yet. You can automatically save and access your
-                            sent requests here.
+                        <div data-ng-hide="reqHistoryList.length" class="empty-message size-{{reqHistoryList.length}}">Nothing in your history yet. You can automatically save and access your sent requests here.
                         </div>
                     </div>
-                    <div ng-show="collectionsOrHistory" class="tab-pane active"
-                         id="sidebar-section-collections">
-
-<!--
-                        <div data-angular-treeview="true" class="req-tree"
-                             data-tree-id="mytree" data-tree-model="reqList"></div>
-                             -->
-
+                    <div data-ng-show="collectionsOrHistory" class="tab-pane active" id="sidebar-section-collections">
+                        <!--
+                    <div data-angular-treeview="true" class="req-tree"
+                         data-tree-id="mytree" data-tree-model="reqList"></div>
+                         -->
                         <div ui-tree="treeOptions" id="tree-root">
-
-                            <ol ui-tree-nodes="treeOptions" ng-model="reqList">
-                                <li ng-repeat="node in reqList" ui-tree-node ng-include="'nodes_renderer.html'"
-                                    ng-show="visibleGroup(node)"></li>
+                            <ol ui-tree-nodes="treeOptions" data-ng-model="reqList">
+                                <li data-ng-repeat="node in reqList" ui-tree-node ng-include="'nodes_renderer.html'" data-ng-show="visibleGroup(node)"></li>
                             </ol>
                         </div>
-
-                        <div class="empty-message hide-true" >You
-                            haven't created any collections yet. Collections let you group
-                            requests together for quick access.
+                        <div class="empty-message hide-true">You haven't created any collections yet. Collections let you group requests together for quick access.
                         </div>
                     </div>
                 </div>
             </div>
             <div id="sidebar-filler"></div>
         </div>
-
     </div>
     <div id="b" class="split split-horizontal content">
-
-
         <div id="main" class="">
-
             <div id="c" class="split content">
                 <div class="req-tabs-box">
-
-
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs req-tabs tabs-unlimited" role="tablist">
-
-                        <li ng-repeat="tab in reqTabs track by $index | limitTo:5 "
-                            data-idx="{{$index}}" role="presentation" class="li-req-tabs {{tab.active}}">
-                            <a class="a-tab" data-ng-click="clickReqTab(tab)" href="#home"
-                               title="{{tab.name}}"
-                               aria-controls="home" role="tab" data-toggle="tab">{{tab.name}}&nbsp;
+                        <li data-ng-repeat="tab in reqTabs track by $index | limitTo:5 " data-idx="{{$index}}" role="presentation" class="li-req-tabs {{tab.active}}">
+                            <a class="a-tab" data-ng-click="clickReqTab(tab)" href="#home" title="{{tab.name}}" aria-controls="home" role="tab" data-toggle="tab">{{tab.name}}&nbsp;
 
                                 <div class="tab-remove-btn" href="#"
-                                     ng-click="removeReqTab(tab)">
+                                     data-ng-click="removeReqTab(tab)">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </div>
                             </a>
                         </li>
-
-
-
                     </ul>
-
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="home"></div>
@@ -371,92 +227,57 @@
                         <div role="tabpanel" class="tab-pane" id="messages"></div>
                         <div role="tabpanel" class="tab-pane" id="settings"></div>
                     </div>
-
                 </div>
-
                 <div class="req-tabs-op">
-                    <a href="#settings" style="display:inline-block; padding: 5px;" ng-click="newReqTabModel()"> <span
-                        class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    <a href="#settings" style="display:inline-block; padding: 5px;" data-ng-click="newReqTabModel()"> <span
+                            class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>
-
                     <div class="btn-group">
-                        <a type="button"  style="display:inline-block; padding: 5px;"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a type="button" style="display:inline-block; padding: 5px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" style="  overflow: scroll;height: 260px;    width: 200px;">
-                            <ul  class="list-group">
-                            <li class="list-group-item"><a ng-click="removeReqTabs()" href="#">Remove all</a></li>
+                            <ul class="list-group">
+                                <li class="list-group-item"><a data-ng-click="removeReqTabs()" href="#">Remove all</a></li>
+                                <li data-ng-repeat="tab in reqTabs track by $index | limitTo:5 " data-idx="{{$index}}" role="presentation" class=" list-group-item li-req-tabs {{tab.active}}">
+                                    <a class="a-tab" data-ng-click="clickReqTab(tab)" title="{{tab.name}}">{{tab.name}}&nbsp;
 
 
-
-                            <li  ng-repeat="tab in reqTabs track by $index | limitTo:5 "
-                                data-idx="{{$index}}" role="presentation" class=" list-group-item li-req-tabs {{tab.active}}">
-                                <a class="a-tab" data-ng-click="clickReqTab(tab)"
-                                   title="{{tab.name}}"
-                                   >{{tab.name}}&nbsp;
-
-
-                                </a>
-                                <a class="tab-remove-btn fr" href="#"
-                                     ng-click="removeReqTab(tab)">
-                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                </a>
-                            </li>
-
+                                    </a>
+                                    <a class="tab-remove-btn fr" href="#" data-ng-click="removeReqTab(tab)">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
-
-
-
                 </div>
-
-
-
-                <div class="panel panel-default border-none req-panel" >
-                    <div class="panel-heading request-box" >
-
+                <div class="panel panel-default border-none req-panel">
+                    <div class="panel-heading request-box">
                         <div id="request-url" class="clearfix">
-                            <div id="request-url-wrapper" class="request-url-wrapper" >
-
+                            <div id="request-url-wrapper" class="request-url-wrapper">
                                 <div class="input-group">
-                                    <input class="form-control" ng-model="currentReqTabData.name"
-                                           placeholder="Name"
-                                           readonly="readonly"
-                                           aria-label="Text input with segmented button dropdown">
-
+                                    <input class="form-control" data-ng-model="currentReqTabData.name" placeholder="Name" readonly="readonly" aria-label="Text input with segmented button dropdown">
                                     <div class="input-group-btn">
-                                        <button type="button" ng-click="sendCurrentReq()"
-                                                class="btn btn-default">Send
+                                        <button type="button" data-ng-click="sendCurrentReq()" class="btn btn-default">Send
                                         </button>
                                     </div>
                                 </div>
-
                                 <div class="btn-group pull-right">
-
-
                                     <!-- Split button -->
                                     <div class="btn-group ">
-                                        <button ng-click="reqSave()" type="button"
-                                                class="btn btn-default">Save
+                                        <button data-ng-click="reqSave()" type="button" class="btn btn-default">Save
                                         </button>
-                                        <button type="button" class="btn btn-default dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="caret"></span> <span class="sr-only">Toggle
-												Dropdown</span>
+                                                Dropdown</span>
                                         </button>
-
                                         <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a id="add-to-collection"
-                                                   href="#modal-add-to-collection" data-toggle="modal"
-                                                   data-backdrop="static" data-keyboard="true">Save as ...</a></li>
+                                            <li><a id="add-to-collection" href="#modal-add-to-collection" data-toggle="modal" data-backdrop="static" data-keyboard="true">Save as ...</a></li>
                                         </ul>
                                     </div>
                                 </div>
-
-
                             </div>
                             <div id="request-modifiers">
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
@@ -467,594 +288,335 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-
-
-                        <div class="js-max-box req-box " ng-class="reqMaxBox"  >
-
+                        <div class="js-max-box req-box " ng-class="reqMaxBox">
                             <!-- Nav tabs -->
-                            <ul class="nav nav-tabs req-data-tab" role="tablist" >
-                                <li data-idx="0" role="presentation" class="active"><a
-                                        data-ng-dblclick="reqTabDblclick()"
-                                        href="#req_data" aria-controls="home" role="tab"
-                                        data-toggle="tab">Request</a></li>
-
-
+                            <ul class="nav nav-tabs req-data-tab" role="tablist">
+                                <li data-idx="0" role="presentation" class="active"><a data-ng-dblclick="reqTabDblclick()" href="#req_data" aria-controls="home" role="tab" data-toggle="tab">Request</a></li>
                                 <li class="" data-idx="3" role="presentation">
-                                    <a href="#cases" aria-controls="messages" role="tab"
-                                       data-ng-dblclick="reqTabDblclick()"
-                                       data-toggle="tab">Cases</a>
+                                    <a href="#cases" aria-controls="messages" role="tab" data-ng-dblclick="reqTabDblclick()" data-toggle="tab">Cases</a>
                                 </li>
-
                                 <li class="" data-idx="1" role="presentation">
-                                    <a href="#req_script" aria-controls="messages" role="tab"
-                                       data-ng-dblclick="reqTabDblclick()"
-                                       data-toggle="tab">Pre script</a>
+                                    <a href="#req_script" aria-controls="messages" role="tab" data-ng-dblclick="reqTabDblclick()" data-toggle="tab">Pre script</a>
                                 </li>
-                                <li data-idx="2" role="presentation"><a href="#req_test"
-                                                                        data-ng-dblclick="reqTabDblclick()"
-                                                                        aria-controls="settings" role="tab"
-                                                                        data-toggle="tab">Test</a>
+                                <li data-idx="2" role="presentation"><a href="#req_test" data-ng-dblclick="reqTabDblclick()" aria-controls="settings" role="tab" data-toggle="tab">Test</a>
                                 </li>
-
-
-
-
                             </ul>
-
-
-
-
                             <!-- Tab panes -->
                             <div class="tab-content req-body-content
-" >
+">
                                 <div role="tabpanel" class="tab-pane active" id="req_data" style="position: relative;">
-
-                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; " >
-
-                                        <a href="##" ng-click="formatReqData()">Format</a>
-
-
-
+                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; ">
+                                        <a href="##" data-ng-click="formatReqData()">Format</a>
                                         <div class="dropdown" style="display:inline-block">
-                                            <button
-                                                    data-ng-click="toggleShowReqSettings()"
-                                                    class="btn btn-default btn-xs " type="button"
-                                            >
+                                            <button data-ng-click="toggleShowReqSettings()" class="btn btn-default btn-xs " type="button">
                                                 <span class="caret"></span>
                                             </button>
-
-                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
-                                                 data-ng-show="showReqSettings"
-                                                 style="  overflow: scroll;height: 200px;    width: 220px;">
-
-                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}" data-ng-show="showReqSettings" style="  overflow: scroll;height: 200px;    width: 220px;">
+                                                <div class="panel-group" id="accordionA" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
-                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                        <div class="panel-heading" role="tab" id="headingOneA">
                                                             <h4 class="panel-title">
-                                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                <a role="button" data-toggle="collapse" data-parent="#accordionA" href="#collapseOneA" aria-expanded="true" aria-controls="collapseOneA">
                                                                     Actions
                                                                 </a>
                                                             </h4>
                                                         </div>
-                                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div id="collapseOneA" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOneA">
                                                             <div class="">
                                                                 <ul class="list-group">
-                                                                    <li
-                                                                            class="list-group-item">
-                                                                        <a
-                                                                                href="#importModal" data-toggle="modal"
-                                                                                data-backdrop="static" data-keyboard="true"
-                                                                        >Import</a>
+                                                                    <li class="list-group-item">
+                                                                        <a href="#importModal" data-toggle="modal" data-backdrop="static" data-keyboard="true">Import</a>
                                                                     </li>
-
-                                                                    <li
-                                                                            class="list-group-item">
-
-                                                                        <a
-                                                                                href="#exportModal" data-toggle="modal"
-                                                                                data-backdrop="static" data-keyboard="true"
-                                                                        >Export</a>
+                                                                    <li class="list-group-item">
+                                                                        <a href="#exportModal" data-toggle="modal" data-backdrop="static" data-keyboard="true">Export</a>
                                                                     </li>
                                                                 </ul>
-
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="panel1 panel-default">
-                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                        <div class="panel-heading" role="tab" id="headingTwoA">
                                                             <h4 class="panel-title">
-                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordionA" href="#collapseTwoA" aria-expanded="false" aria-controls="collapseTwoA">
                                                                     Request examples
                                                                 </a>
                                                             </h4>
                                                         </div>
-                                                        <div id="collapseTwo" class="panel-collapse " role="tabpanel" aria-labelledby="headingTwo">
+                                                        <div id="collapseTwoA" class="panel-collapse " role="tabpanel" aria-labelledby="headingTwoA">
                                                             <div class="">
-
                                                                 <ul class="list-group">
-                                                                    <li data-ng-repeat="reqExConf in configs.reqExamples"
-                                                                        data-ng-click="clickReqExItem(reqExConf)"
-                                                                        class="list-group-item">Example {{reqExConf.id}}
+                                                                    <li data-ng-repeat="reqExConf in configs.reqExamples" data-ng-click="clickReqExItem(reqExConf)" class="list-group-item">Example {{reqExConf.id}}
                                                                     </li>
                                                                 </ul>
-
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
-
-
-
-
                                             </div>
                                         </div>
-
                                     </div>
-
-
-
-                                    <div data-ng-show="showAce"
-                                         ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded, autoScrollEditorIntoView: true, mode: 'javascript'}"
-                                         ng-model="currentReqTabData.meta.request"></div>
-
-
+                                    <div data-ng-show="showAce" ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded, autoScrollEditorIntoView: true, mode: 'javascript'}" data-ng-model="currentReqTabData.meta.request"></div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="req_script">
-
-                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; " >
-
-
+                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; ">
                                         <div class="dropdown" style="display:inline-block">
-                                            <button
-                                                    data-ng-click="toggleShowReqSettings()"
-                                                    class="btn btn-default btn-xs " type="button"
-                                            >
+                                            <button data-ng-click="toggleShowReqSettings()" class="btn btn-default btn-xs " type="button">
                                                 <span class="caret"></span>
                                             </button>
-
-                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
-                                                 data-ng-show="showReqSettings"
-                                                 >
-
-                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}" data-ng-show="showReqSettings">
+                                                <div class="panel-group" id="accordion1" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
-                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                        <div class="panel-heading" role="tab" id="headingOne1">
                                                             <h4 class="panel-title">
-                                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                <a role="button" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne1" aria-expanded="true" aria-controls="collapseOne1">
                                                                     PreScript Examples
                                                                 </a>
                                                             </h4>
                                                         </div>
-                                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne1">
                                                             <div class="">
-
                                                                 <ul class="list-group">
-                                                                    <li data-ng-repeat="item in configs.preScriptExamples"
-                                                                        data-ng-click="clickPreScriptExItem(item)"
-                                                                        class="list-group-item">Example {{item.id}}
+                                                                    <li data-ng-repeat="item in configs.preScriptExamples" data-ng-click="clickPreScriptExItem(item)" class="list-group-item">Example {{item.id}}
                                                                     </li>
                                                                 </ul>
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="panel1 hide panel-default">
-                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                        <div class="panel-heading" role="tab" id="headingTwo1">
                                                             <h4 class="panel-title">
-                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                                     Other
 
                                                                 </a>
                                                             </h4>
                                                         </div>
-                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                        <div id="collapseTwo1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo1">
                                                             <div class="panel-body">
-
                                                                 Coming soon.
-
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
-
-
-
-
                                             </div>
                                         </div>
-
                                     </div>
-
-
-                                    <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
-                                          data-ng-show="showAce"
-                                         ng-model="currentReqTabData.meta.pre_request_script"
-                                    ></div>
-
-
+                                    <div ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}" data-ng-show="showAce" data-ng-model="currentReqTabData.meta.pre_request_script"></div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="req_test">
-
-                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; " >
-
-
+                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; ">
                                         <div class="dropdown" style="display:inline-block">
-                                            <button
-                                                    data-ng-click="toggleShowReqSettings()"
-                                                    class="btn btn-default btn-xs " type="button"
-                                            >
+                                            <button data-ng-click="toggleShowReqSettings()" class="btn btn-default btn-xs " type="button">
                                                 <span class="caret"></span>
                                             </button>
-
-                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
-                                                 data-ng-show="showReqSettings"
-                                                 >
-
-                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}" data-ng-show="showReqSettings">
+                                                <div class="panel-group" id="accordionB" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
-                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                        <div class="panel-heading" role="tab" id="headingOneB">
                                                             <h4 class="panel-title">
-                                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                <a role="button" data-toggle="collapse" data-parent="#accordionB" href="#collapseOneB" aria-expanded="true" aria-controls="collapseOneB">
                                                                     Test Examples
                                                                 </a>
                                                             </h4>
                                                         </div>
-                                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div id="collapseOneB" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOneB">
                                                             <div class="">
-
                                                                 <ul class="list-group">
-                                                                    <li data-ng-repeat="item in configs.testScriptExamples"
-                                                                        data-ng-click="clickTestExItem(item)"
-                                                                        class="list-group-item">Example {{item.id}}
+                                                                    <li data-ng-repeat="item in configs.testScriptExamples" data-ng-click="clickTestExItem(item)" class="list-group-item">Example {{item.id}}
                                                                     </li>
                                                                 </ul>
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="panel1 hide panel-default">
-                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                        <div class="panel-heading" role="tab" id="headingTwoB">
                                                             <h4 class="panel-title">
-                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordionB" href="#collapseTwoB" aria-expanded="false" aria-controls="collapseTwoB">
                                                                     Other
                                                                 </a>
                                                             </h4>
                                                         </div>
-                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                        <div id="collapseTwoB" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwoB">
                                                             <div class="panel-body">
-
                                                                 Coming soon.
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
-
-
-
-
                                             </div>
                                         </div>
-
                                     </div>
-
-                                    <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
-                                          data-ng-show="showAce"
-                                         ng-model="currentReqTabData.meta.test_script"
-                                    ></div>
+                                    <div ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}" data-ng-show="showAce" data-ng-model="currentReqTabData.meta.test_script"></div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="cases">
-
-                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; " >
-
-
+                                    <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; ">
                                         <div class="dropdown" style="display:inline-block">
-                                            <button
-                                                    data-ng-click="toggleShowReqSettings()"
-                                                    class="btn btn-default btn-xs " type="button"
-                                            >
+                                            <button data-ng-click="toggleShowReqSettings()" class="btn btn-default btn-xs " type="button">
                                                 <span class="caret"></span>
                                             </button>
-
-                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}"
-                                                 data-ng-show="showReqSettings"
-                                                 >
-
-                                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="dropdown-menu1 dropdown-menu-right show-{{showReqSettings}}" data-ng-show="showReqSettings">
+                                                <div class="panel-group" id="accordionC" role="tablist" aria-multiselectable="true">
                                                     <div class="panel1 panel-default">
-                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                        <div class="panel-heading" role="tab" id="headingOneC">
                                                             <h4 class="panel-title">
-                                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                <a role="button" data-toggle="collapse" data-parent="#accordionC" href="#collapseOneC" aria-expanded="true" aria-controls="collapseOneC">
                                                                     Cases Examples
                                                                 </a>
                                                             </h4>
                                                         </div>
-                                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div id="collapseOneC" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOneC">
                                                             <div class="">
-
                                                                 <ul class="list-group">
-                                                                    <li data-ng-repeat="item in configs.caseExamples"
-                                                                        data-ng-click="clickCaseExItem(item)"
-                                                                        class="list-group-item">Example {{item.id}}
+                                                                    <li data-ng-repeat="item in configs.caseExamples" data-ng-click="clickCaseExItem(item)" class="list-group-item">Example {{item.id}}
                                                                     </li>
                                                                 </ul>
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="panel1 hide panel-default">
-                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                        <div class="panel-heading" role="tab" id="headingTwoC">
                                                             <h4 class="panel-title">
-                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordionC" href="#collapseTwoC" aria-expanded="false" aria-controls="collapseTwoC">
                                                                     Other
                                                                 </a>
                                                             </h4>
                                                         </div>
-                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                        <div id="collapseTwoC" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwoC">
                                                             <div class="panel-body">
-
                                                                 Coming soon.
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
-
-
-
-
                                             </div>
                                         </div>
-
                                     </div>
-
-                                    <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
-                                          data-ng-show="showAce"
-                                          ng-model="currentReqTabData.meta.cases"
-                                    ></div>
-
-
+                                    <div ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}" data-ng-show="showAce" data-ng-model="currentReqTabData.meta.cases"></div>
                                 </div>
                             </div>
-
                         </div>
-
-
                     </div>
-
                 </div>
-
-
             </div>
             <div id="d" class="split content">
-
                 <div class="panel-body response-box js-max-box" ng-class="resMaxBox">
-
-
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#res-body"
-                                                                  data-ng-dblclick="resTabDblclick()"
-
-                                                                  aria-controls="res-body" role="tab" data-toggle="tab">Body</a>
+                        <li role="presentation" class="active"><a href="#res-body" data-ng-dblclick="resTabDblclick()" aria-controls="res-body" role="tab" data-toggle="tab">Body</a>
                         </li>
                         <li class="hide " role="presentation">
-                            <a href="#res-body-json"
-                               data-ng-click="drawBodyJson()"
-                               data-ng-dblclick="resTabDblclick()"
-                               aria-controls="res-body-json" role="tab" data-toggle="tab">Body json</a>
+                            <a href="#res-body-json" data-ng-click="drawBodyJson()" data-ng-dblclick="resTabDblclick()" aria-controls="res-body-json" role="tab" data-toggle="tab">Body json</a>
                         </li>
-
-                        <li role="presentation"><a href="#res-headers"
-                                                   data-ng-dblclick="resTabDblclick()"
-                                                   aria-controls="res-headers" role="tab" data-toggle="tab">Headers</a>
+                        <li role="presentation"><a href="#res-headers" data-ng-dblclick="resTabDblclick()" aria-controls="res-headers" role="tab" data-toggle="tab">Headers</a>
                         </li>
                         <!-- //todo -->
-                        <li class="hide " role="presentation"><a href="#res-cookies"
-                                                                 data-ng-dblclick="resTabDblclick()"
-                                                                 aria-controls="res-cookies" role="tab" data-toggle="tab">Cookies</a>
+                        <li class="hide " role="presentation"><a href="#res-cookies" data-ng-dblclick="resTabDblclick()" aria-controls="res-cookies" role="tab" data-toggle="tab">Cookies</a>
                         </li>
-                        <li role="presentation"><a href="#res-tests"
-                                                   data-ng-dblclick="resTabDblclick()"
-                                                   aria-controls="res-tests" role="tab" data-toggle="tab" ><span ng-class="currentReqTabData.response.testError ? 'test-success-false':'test-success-true' " >Tests</span></a></li>
-
-
-                        <div data-ng-show="currentReqTabData.loading"
-                             class="box-req-loading"
-                             style="margin: 0 30px 0 0"
-
-                        >
-                            loading
-                        </div>
-                        <div class="box-status"
-                             style="margin: 0 30px 0 0"
-                                data-ng-show="currentReqTabData.response && !currentReqTabData.loading"
-                                >
-                            Status: {{currentReqTabData.response.status}} Time:
-                            {{currentReqTabData.response.spent_time}}
-                        </div>
-
-
-
+                        <li role="presentation"><a href="#res-tests" data-ng-dblclick="resTabDblclick()" aria-controls="res-tests" role="tab" data-toggle="tab"><span ng-class="currentReqTabData.response.testError ? 'test-success-false':'test-success-true' " >Tests</span></a></li>
                     </ul>
-
                     <!-- Tab panes -->
-                    <div class="tab-content res-body-content" >
+                    <div class="tab-content res-body-content">
                         <div role="tabpanel" class="tab-pane active" id="res-body">
-
-
-                            <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
-                                  data-ng-show="showAce"
-                                 ng-model="currentReqTabData.response.body"
-                            ></div>
-
+                            <div ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}" data-ng-show="showAce" data-ng-model="currentReqTabData.response.body"></div>
                             <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; ">
-
-                            <div class="dropdown" style="display:inline-block">
-                                <button
-                                        data-ng-click="toggleShowResSettings()"
-                                        class="btn btn-default btn-xs " type="button"
-                                >
-                                    <span class="caret"></span>
-                                </button>
-
-                                <div class="dropdown-menu1 dropdown-menu-right show-{{showResSettings}}"
-                                     data-ng-show="showResSettings"
-                                     >
-
-                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div class="panel1 panel-default">
-                                            <div class="panel-heading" role="tab" id="headingOne">
-                                                <h4 class="panel-title">
-                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                        Expand
-                                                    </a>
-                                                </h4>
+                                <div data-ng-show="currentReqTabData.loading" class="box-req-loading" style="margin: 0 30px 0 0">
+                                    loading
+                                </div>
+                                <div class="box-status" style="margin: 0 30px 0 0" data-ng-show="currentReqTabData.response && !currentReqTabData.loading">
+                                    Status: {{currentReqTabData.response.status}} Time: {{currentReqTabData.response.spent_time}}
+                                </div>
+                                <div class="dropdown" style="display:inline-block">
+                                    <button data-ng-click="toggleShowResSettings()" class="btn btn-default btn-xs " type="button">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu1 dropdown-menu-right show-{{showResSettings}}" data-ng-show="showResSettings">
+                                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="panel1 panel-default">
+                                                <div class="panel-heading" role="tab" id="headingOne">
+                                                    <h4 class="panel-title">
+                                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            Expand
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="">
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item">
+                                                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                                                    <button type="button" class="btn btn-default" data-ng-click="foldAtDepth(0)">All</button>
+                                                                    <button type="button" class="btn btn-default" data-ng-repeat="item in levels" data-ng-click="foldAtDepth(item)">{{item}}</button>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                <div class="">
-
-                                                    <ul class="list-group">
-                                                        <li
-                                                                class="list-group-item">
-
-
-
-
-                                                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
-
-                                                                <button type="button" class="btn btn-default"
-                                                                        data-ng-click="foldAtDepth(0)"
-                                                                >All</button>
-                                                                <button type="button" class="btn btn-default"
-                                                                        data-ng-repeat="item in levels"
-                                                                        data-ng-click="foldAtDepth(item)"
-                                                                >{{item}}</button>
-
-
-
-                                                            </div>
-
-
-
-                                                        </li>
-
-                                                    </ul>
-
+                                            <div class="panel1 hide panel-default">
+                                                <div class="panel-heading" role="tab" id="headingTwo">
+                                                    <h4 class="panel-title">
+                                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                            Other
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                    <div class="panel-body">
+                                                        Coming soon.
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="panel1 hide panel-default">
-                                            <div class="panel-heading" role="tab" id="headingTwo">
-                                                <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                        Other
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                <div class="panel-body">
-
-                                                    Coming soon.
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
-
-
-
-
                                 </div>
                             </div>
-
-                            </div>
-
                         </div>
-
                         <div role="tabpanel" class="tab-pane hide" id="res-body-json">
                             <div id="json">
-
                             </div>
                         </div>
-
                         <div role="tabpanel" class="tab-pane" id="res-headers">
-                            <div  ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}"
-                                  data-ng-show="showAce"
-                                 ng-model="currentReqTabData.response.headers"
-                            ></div>
-
+                            <div ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}" data-ng-show="showAce" data-ng-model="currentReqTabData.response.headers"></div>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="res-cookies">
                             <textarea class="form-control" rows="18"></textarea>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="res-tests">
-
                             <br/>
-                            <ul  class="list-group">
+                            <ul class="list-group">
                                 <li data-ng-repeat="testResult in currentReqTabData.response.testResultArr" class="list-group-item ">
-                                    <span ng-if="testResult.success" class="test-success-{{testResult.success}}" ng-bind="testResult.i + ' : ' + testResult.v"></span>
-                                    <span ng-if="!testResult.success" class="test-success-false" ng-bind="testResult.i + ' : ' + testResult.v"></span>
-
+                                    <span data-ng-if="testResult.success" class="test-success-{{testResult.success}}" data-ng-bind="testResult.i + ' : ' + testResult.v"></span>
+                                    <span data-ng-if="!testResult.success" class="test-success-false" data-ng-bind="testResult.i + ' : ' + testResult.v"></span>
                                 </li>
-
                             </ul>
-
-
-
-
                         </div>
                     </div>
-
-
                 </div>
-
-
-
             </div>
-
-
         </div>
-
-
     </div>
 </div>
-
-
-<div class="modal fade" id="myModal_aboutMe" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLab_aboutMe">
+<div class="modal fade" id="myModal_aboutMe" tabindex="-1" role="dialog" aria-labelledby="myModalLab_aboutMe">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" >About</h4>
+                <h4 class="modal-title">About</h4>
             </div>
             <div class="modal-body">
                 <p>Omega tester</p>
                 <p>Version 0.1</p>
-
-
             </div>
-
-
         </div>
     </div>
 </div>
-
-
-<div class="modal fade" id="myModal_env" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel_env">
+<div class="modal fade" id="myModal_env" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_env">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel_env">
@@ -1062,80 +624,61 @@
                 </h4>
             </div>
             <div class="modal-body">
-
-
                 <div>
-
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a data-ng-click="changeCurrentSettingType('ENV')" href="#nev_1" aria-controls="home" role="tab" data-toggle="tab">ENV</a></li>
                         <li role="presentation"><a href="#code_1" data-ng-click="changeCurrentSettingType('CODE_FOR_IMPORT')" aria-controls="profile" role="tab" data-toggle="tab">Code for import</a></li>
                         <li role="presentation"><a href="#code_2" data-ng-click="changeCurrentSettingType('CODE_FOR_EXPORT')" aria-controls="settings" role="tab" data-toggle="tab">Code for export</a></li>
-
-
                         <input type="hidden" data-ng-model="currentSettingType">
                     </ul>
-
                     <!-- Tab panes -->
                     <div class="tab-content" style="display:none;">
                         <div role="tabpanel" class="tab-pane active" id="nev_1">..1.</div>
                         <div role="tabpanel" class="tab-pane" id="code_1">..2.</div>
                         <div role="tabpanel" class="tab-pane" id="code_2">..3.</div>
                     </div>
-
                 </div>
-
                 <div data-ng-show="settingView == 'save'">
                     <!--save -->
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Name</label> <input
-                            type="text" class="form-control"
-                            ng-model="editEnv.name"
-                            placeholder="Name">
+                        <label>Name</label>
+                        <input type="text" class="form-control" data-ng-model="editEnv.name" placeholder="Name">
                     </div>
                     <textarea data-ng-model="editEnv.content" class="form-control" rows="3" placeholder="Textarea"></textarea>
                 </div>
-                <div data-ng-show="settingView == 'list'" class="box-setting-view" >
+                <div data-ng-show="settingView == 'list'" class="box-setting-view">
                     <!--list -->
                     <table class="table">
-
                         <tbody>
                         <tr data-ng-repeat="item in settingList | filter:{type: currentSettingType}" class="current-{{item.current}}">
-
-                            <td><a data-ng-click="gotoEditEnvView(item)"><span  ng-bind="item.name"></span></a></td>
+                            <td><a data-ng-click="gotoEditEnvView(item)"><span  data-ng-bind="item.name"></span></a></td>
                             <td width="60"><a data-ng-click="duplicateEnv(item)">duplicate</a></td>
                             <td width="60"><a data-ng-click="deleteEnv(item)">delete</a></td>
                         </tr>
-
                         </tbody>
                     </table>
                 </div>
-
             </div>
             <div class="modal-footer " data-ng-show="settingView == 'list'">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button data-ng-click="gotoAddEnvView()" type="button" class="btn btn-primary" >Add
-
+                <button data-ng-click="gotoAddEnvView()" type="button" class="btn btn-primary">Add
                 </button>
             </div>
             <div class="modal-footer " data-ng-show="settingView == 'save'">
-                <button type="button" data-ng-click="gotoEnvListView()" class="btn btn-default" >Back</button>
-                <button type="button" data-ng-click="saveEnv()" class="btn btn-primary" >Save
-
+                <button type="button" data-ng-click="gotoEnvListView()" class="btn btn-default">Back</button>
+                <button type="button" data-ng-click="saveEnv()" class="btn btn-primary">Save
                 </button>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
@@ -1148,56 +691,37 @@
         </div>
     </div>
 </div>
-
-
 <!-- Small modal -->
-<div class="modal fade at-login-modal-sm " tabindex="-1" role="dialog"
-     aria-labelledby="mySmallModalLabel">
+<div class="modal fade at-login-modal-sm " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm " role="document">
         <div class="modal-content loginpanel">
-
             <div class="">
-                <i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
+                <i class="hidden loading fa fa-spinner fa-spin bigicon"></i>
                 <h2>
                     <span class="fa fa-quote-left "></span> Sign In <span
                         class="fa fa-quote-right "></span>
                 </h2>
                 <div>
-                    <input id="username" ng-model="loginModel.email" type="text"
-                           placeholder="Email" onkeypress="check_values();"> <input
-                        id="password" ng-model="loginModel.pass" type="password"
-                        placeholder="password" onkeypress="check_values();">
-
+                    <input id="username" data-ng-model="loginModel.email" type="text" placeholder="Email" onkeypress="check_values();">
+                    <input id="password" data-ng-model="loginModel.pass" type="password" placeholder="password" onkeypress="check_values();">
                     <div class="buttonwrapper">
-                        <button id="loginbtn" ng-click="login()"
-                                ng-show="loginModel.email && loginModel.pass"
-                                class="btn btn-warning loginbutton">
+                        <button id="loginbtnA" data-ng-click="login()" data-ng-show="loginModel.email && loginModel.pass" class="btn btn-warning loginbutton">
                             <span class="glyphicon glyphicon-hand-right"></span>
                         </button>
-                        <span id="lockbtn" ng-hide="loginModel.email && loginModel.pass"
-                              class="glyphicon glyphicon-lock lockbutton redborder"></span>
+                        <span id="lockbtnA" data-ng-hide="loginModel.email && loginModel.pass" class="glyphicon glyphicon-lock lockbutton redborder"></span>
                     </div>
                 </div>
-
-                <div class="box-sign-btns" >
-                    <a data-toggle="modal" data-target=".at-register-modal-sm"
-                       href="#" data-dismiss="modal" aria-label="Close"> Sign Up</a>
-
-
+                <div class="box-sign-btns">
+                    <a data-toggle="modal" data-target=".at-register-modal-sm" href="#" data-dismiss="modal" aria-label="Close"> Sign Up</a>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-
-
 <!-- Small modal  -->
-<div class="modal fade at-register-modal-sm " tabindex="-1"
-     role="dialog" aria-labelledby="registerModalLabel">
+<div class="modal fade at-register-modal-sm " tabindex="-1" role="dialog" aria-labelledby="registerModalLabel">
     <div class="modal-dialog modal-sm " role="document">
         <div class="modal-content loginpanel">
-
             <div class="">
                 <i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
                 <h2>
@@ -1205,161 +729,101 @@
                         class="fa fa-quote-right "></span>
                 </h2>
                 <div>
-                    <input id="username1" ng-model="registerModel.name" type="text"
-                           placeholder="Name" onkeypress="check_values();"> <input
-                        id="Email" ng-model="registerModel.email" type="text"
-                        placeholder="Email" onkeypress="check_values();"> <input
-                        id="password1" ng-model="registerModel.pass" type="password"
-                        placeholder="Password" onkeypress="check_values();">
-
+                    <input id="username1" data-ng-model="registerModel.name" type="text" placeholder="Name" onkeypress="check_values();">
+                    <input id="Email" data-ng-model="registerModel.email" type="text" placeholder="Email" onkeypress="check_values();">
+                    <input id="password1" data-ng-model="registerModel.pass" type="password" placeholder="Password" onkeypress="check_values();">
                     <div class="buttonwrapper">
-                        <button id="loginbtn" ng-click="register()"
-                                ng-show="registerModel.name && registerModel.email && registerModel.pass"
-                                class="btn btn-warning loginbutton">
+                        <button id="loginbtn" data-ng-click="register()" data-ng-show="registerModel.name && registerModel.email && registerModel.pass" class="btn btn-warning loginbutton">
                             <span class="glyphicon glyphicon-hand-right"></span>
                         </button>
-                        <span id="lockbtn"
-                              ng-hide="registerModel.name && registerModel.email && registerModel.pass"
-                              class="glyphicon glyphicon-lock lockbutton redborder"></span>
+                        <span id="lockbtn" data-ng-hide="registerModel.name && registerModel.email && registerModel.pass" class="glyphicon glyphicon-lock lockbutton redborder"></span>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-
-
-<div id="modal-add-to-collection" class="modal fade"
-     data-keyboard="true" tabindex="-1" aria-hidden="true" role="dialog"
-     aria-labelledby="myModalLabel">
-
+<div id="modal-add-to-collection" class="modal fade" data-keyboard="true" tabindex="-1" aria-hidden="true" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
-
             <div class="modal-header">
-                <a class="close" data-dismiss="modal"
-                   id="modal-share-collection-close">x</a>
-
+                <a class="close" data-dismiss="modal" id="modal-share-collection-close">x</a>
                 <h4 class="modal-title">Add request to a collection</h4>
             </div>
-
             <div class="modal-body">
                 <form class="form-horizontal" id="form-add-to-collection">
-
-
                     <div class="form-group">
-                        <label for="select-collection" class="col-sm-4 control-label">Existing
-                            collection</label>
+                        <label for="select-collection" class="col-sm-4 control-label">Existing collection
+                        </label>
                         <div class="col-sm-8">
-                            <select ng-model="newReqObj.reqGroup.groupId"
-                                    name="select-collection" class="form-control"
-                                    id="select-collection">
-
+                            <select data-ng-model="newReqObj.reqGroup.groupId" name="select-collection" class="form-control" id="select-collection">
                                 <option value="">Select</option>
-
-                                <option ng-repeat="gr in groupList " value="{{gr.groupId}}">{{gr.name}}</option>
-
+                                <option data-ng-repeat="gr in groupList " value="{{gr.groupId}}">{{gr.name}}</option>
                             </select>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" for="new-collection">or
-                            create a new one</label>
-
+                        <label class="col-sm-4 control-label" for="new-collection">or create a new one</label>
                         <div class="col-sm-8">
-                            <input ng-model="newReqObj.reqGroup.name" type="text"
-                                   class="form-control" id="new-collection"/>
+                            <input data-ng-model="newReqObj.reqGroup.name" type="text" class="form-control" id="new-collection" />
                         </div>
                     </div>
-
-
                 </form>
             </div>
-
             <div class="modal-footer">
-                <a data-dismiss="modal" class="btn btn-primary"
-                   ng-click="reqSaveAs()">Add to collection</a> <a
-                    data-dismiss="modal" class="btn btn-secondary">Cancel</a>
+                <a data-dismiss="modal" class="btn btn-primary" data-ng-click="reqSaveAs()">Add to collection</a> <a data-dismiss="modal" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
     </div>
-
-
 </div>
-
-
-
 <!-- Small modal  -->
-<div class="modal fade at-group-title" tabindex="-1"
-     id="modalUpdateGroup"
-     role="dialog" aria-labelledby="registerModalLabel">
+<div class="modal fade at-group-title" tabindex="-1" id="modalUpdateGroup" role="dialog" aria-labelledby="registerModalLabel">
     <div class="modal-dialog modal-sm " role="document">
         <div class="modal-content">
-
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="modalUpdateGroupLabel">Edit group</h4>
             </div>
             <div class="modal-body">
                 <i id="loading1" class="hidden fa fa-spinner fa-spin bigicon"></i>
-
                 <div>
-                    <input id="title" ng-model="groupEditObj.name" type="text"
-                           class="form-control"
-                           placeholder="title"  >
-
-
-                    <div class="buttonwrapper">
-                        <button ng-click="updateGroup()"
-                                data-dismiss="modal"
-                                class="btn btn-primary  ">
-                            Save
-                        </button>
-
-                    </div>
+                    <input id="title" data-ng-model="groupEditObj.name" type="text" class="form-control" placeholder="title">
                 </div>
             </div>
-
+            <div class="modal-footer">
+                <button data-ng-click="updateGroup()" data-dismiss="modal" class="btn btn-primary  ">
+                    Save
+                </button>
+            </div>
         </div>
     </div>
 </div>
-
-
-
-
 <!-- Modal -->
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog"
-     aria-labelledby="importModalLabel">
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="importModalLabel">Import</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <select data-ng-model="importObject.type" class="form-control" >
-                        <option ng-repeat="importType in importTypes" >{{importType}}</option>
-                    </select>
-
-                    <select data-ng-model="importObject.codeId" class="form-control" >
-                        <option ng-repeat="item in settingList | filter:{type: 'code_for_import'}"  value="{{item.id}}" >{{item.name}}</option>
+                    <select data-ng-model="importObject.type" class="form-control">
+                        <option data-ng-repeat="importType in importTypes">{{importType}}</option>
                     </select>
                 </div>
-
+                <div  data-ng-show="importObject.type == 'Custom Script'" class="form-group">
+                    <select data-ng-model="importObject.codeId" class="form-control">
+                        <option data-ng-repeat="item in settingList | filter:{type: 'code_for_import'}" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <textarea data-ng-model="importObject.value" class="form-control ng-pristine ng-valid ng-touched" rows="8" placeholder="Textarea"></textarea>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1368,50 +832,41 @@
         </div>
     </div>
 </div>
-
-
-
 <!-- Modal -->
-<div class="modal fade" id="exportModal" tabindex="-1" role="dialog"
-     aria-labelledby="importModalLabel">
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" >Export</h4>
+                <h4 class="modal-title">Export</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <select data-ng-model="exportObject.type" class="form-control" >
-                        <option ng-repeat="exportType in exportTypes" >{{exportType}}</option>
-                    </select>
-
-                    <select data-ng-model="importObject.code" class="form-control" >
-                        <option ng-repeat="item in settingList | filter:{type: 'code_for_export'}" value="{{item.id}}" >{{item.name}}</option>
+                    <select data-ng-model="exportObject.type" class="form-control">
+                        <option data-ng-repeat="exportType in exportTypes">{{exportType}}</option>
                     </select>
                 </div>
+                <div  data-ng-show="exportObject.type == 'Custom Script'" class="form-group">
 
-
+                    <select data-ng-model="exportObject.code" class="form-control">
+                        <option data-ng-repeat="item in settingList | filter:{type: 'code_for_export'}" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                </div>
                 <div class="form-group text-right">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-ng-click="exportRequest()">Ok</button>
                 </div>
-
             </div>
             <div class="modal-footer">
-
                 <div class="form-group">
                     <textarea data-ng-model="exportRequestData" class="form-control ng-pristine ng-valid ng-touched" rows="8" placeholder="Textarea"></textarea>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
-
 </body>
+
 </html>

@@ -2403,8 +2403,14 @@ position:absolute;
 }
 
 .dropdown-menu1 {
-overflow: scroll;
-    height: 200px;
+    overflow: scroll;
+    max-height: 200px;
     width: 220px;
+}
+
+.res-body-content .box-format .dropdown {
+    position: absolute;
+    right: 0;
+    top:0;
 }
 
