@@ -1,7 +1,7 @@
 .tabs-unlimited{white-space:nowrap;overflow:hidden;position:relative;padding:0 30px;}
 .tabs-unlimited .__left-tabunlimited{left:0px;}.tabs-unlimited .__right-tabunlimited{right:0px;}
 .tabs-unlimited .__left-tabunlimited, .tabs-unlimited
-.__right-tabunlimited{position:absolute;top:0px;background:#fff;padding:3px 10px;
+.__right-tabunlimited{position:absolute;top:0px;background:#fff;padding:4px 10px;
 line-height:23px;text-align:center;cursor:pointer;}
 
 .tabs-unlimited>li{display:inline-block !important;vertical-align:top;white-space:normal;
