@@ -553,8 +553,10 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			url : '/v1/req/update',
 			data : $scope.currentReqTabData
 		}).success(function(res) {
+
 			log(res);
 			$scope.fetchReqList();
+			toastr.success('Success.');
 		});
 	};
 	
@@ -588,6 +590,9 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			$scope.fetchReqList();
 
 			callback && callback(res);
+
+			toastr.success('Success.');
+
 		})
 	};
 	
@@ -684,6 +689,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 			data : node,
 		}).success(function(res) {
 			log(res);
+			toastr.success('Success.');
+
 		})
 
 	};
@@ -962,6 +969,9 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
             currentReqTabData.response .status = status;
 
 			currentReqTabData.responseMeta = {response_status: status};
+
+			toastr.error('Error.');
+
 			
 		}).finally(function() {
 		    log(' finally ---');
@@ -1128,6 +1138,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
             log(res);
 
             $scope.fetchSettingList();
+            toastr.success('Success.');
+
         });
     };
 
@@ -1397,6 +1409,10 @@ function resizeEditors() {
 
 
 tabs_unlimited();
+
+toastr.options.positionClass = 'toast-bottom-right';
+
+
 
 
 	});
