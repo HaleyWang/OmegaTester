@@ -55,9 +55,20 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 				.reqGroup(reqGroup)
 				.createdOn(new Date())
 				.sort(0)
-				.meta(ImmutableMap.of("request", configDto.getReqExamples().get(0).getValue()))
+				.meta(ImmutableMap.of("request", configDto.getReqExamples().get(1).getValue()))
 				.build();
 		new ReqInfoServiceImpl().add(exampleReqInfo, currentAccount);
+
+		ReqInfo exampleReqInfoJs = ReqInfo.builder()
+				.method(HttpMethod.GET)
+				.name("example 2")
+				.url("http://localhost:" + Server.getPort() + "/v1/req/version")
+				.reqGroup(reqGroup)
+				.createdOn(new Date())
+				.sort(1)
+				.meta(ImmutableMap.of("request", configDto.getReqExamples().get(0).getValue()))
+				.build();
+		new ReqInfoServiceImpl().add(exampleReqInfoJs, currentAccount);
 
 		ReqSetting setting = ReqSetting.builder()
 				.type(ReqSetting.SettingType.ENV)
