@@ -229,11 +229,11 @@
                         </div>
                     </div>
                     <div class="req-tabs-op">
-                        <a href="#settings" style="display:inline-block; padding: 5px;" data-ng-click="newReqTabModel()"> <span
+                        <a href="#settings" style="display:inline-block; padding: 5px 3px;" data-ng-click="newReqTabModel()"> <span
                             class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>
                         <div class="btn-group">
-                            <a type="button" style="display:inline-block; padding: 5px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a type="button" style="display:inline-block; padding: 5px 3px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 
                         </a>
@@ -848,7 +848,7 @@
                         </select>
                     </div>
                     <div data-ng-show="exportObject.type == 'Custom Script'" class="form-group">
-                        <select data-ng-model="exportObject.code" class="form-control">
+                        <select data-ng-model="exportObject.codeId" class="form-control">
                             <option data-ng-repeat="item in settingList | filter:{type: 'code_for_export'}" value="{{item.id}}">{{item.name}}</option>
                         </select>
                     </div>

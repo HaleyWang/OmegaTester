@@ -8,6 +8,7 @@ import com.haleywang.monitor.common.req.HttpMethod;
 import com.haleywang.monitor.common.req.MyRequestExportAnnotation;
 import com.haleywang.monitor.common.req.MyRequestImportAnnotation;
 import com.haleywang.monitor.dto.TypeValuePair;
+import com.haleywang.monitor.utils.JsonUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -86,7 +87,11 @@ public class CurlConverter implements ReqConverter {
     }
 
     @Override
-    public String fromMyRequest(MyRequest myRequest) {
+    public String fromMyRequest(TypeValuePair pair) {
+
+        String reqString = pair.getValue();
+        MyRequest myRequest = JsonUtils.fromJson(reqString, MyRequest.class);
+
         StringBuffer sb = new StringBuffer();
         sb.append("curl -X "+ myRequest.getMethod() +" \\")
                 .append(" '"+myRequest.getUrl()+"' \\");

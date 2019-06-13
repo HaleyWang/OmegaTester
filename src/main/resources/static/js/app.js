@@ -337,10 +337,18 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
 	$scope.exportRequest = function() {
 
+	        if($scope.exportObject.codeId) {
+                $scope.exportObject.codeObj = _.find($scope.settingList, {id: parseInt($scope.exportObject.codeId)});
+                $scope.exportObject.code = $scope.exportObject.codeObj.content;
+            }
+
+            $scope.exportObject.value = $scope.currentReqTabData.meta.request;
+
+
     		$http({
     			method : 'POST',
     			url : '/v1/req/exportRequest?type=' + $scope.exportObject.type,
-    			data : $scope.currentReqTabData.meta.request
+    			data : $scope.exportObject
     		}).success(function(res) {
     			log(res);
     			$scope.exportRequestData = res.data;

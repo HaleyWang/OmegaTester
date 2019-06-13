@@ -21,7 +21,8 @@ import com.haleywang.monitor.utils.JsonUtils;
 @MyRequestImportAnnotation(name = "HAR")
 public class HarConverter implements ReqConverter {
 
-    public String fromMyRequest(MyRequest myRequest) {
+    public String fromMyRequest(TypeValuePair t) {
+        MyRequest myRequest = JsonUtils.fromJson(t.getValue(), MyRequest.class);
         Har har = new Har();
         List<Har.HarEntry> entries = new ArrayList<>();
         har.setLog(new Har.HarLog());

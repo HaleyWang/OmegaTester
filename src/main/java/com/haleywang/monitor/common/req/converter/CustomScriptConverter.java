@@ -11,10 +11,8 @@ import com.haleywang.monitor.utils.JsonUtils;
 @MyRequestImportAnnotation(name = "Custom Script")
 public class CustomScriptConverter implements ReqConverter {
 
-    public String fromMyRequest(MyRequest myRequest) {
-
-
-        return null;
+    public String fromMyRequest(TypeValuePair o) {
+        return JavaExecScript.jsRunScriptCode(o.getCode(), o.getValue());
     }
 
 

@@ -7,5 +7,5 @@ public interface ReqConverter {
 
     MyRequest toMyRequest(TypeValuePair o);
 
-    String fromMyRequest(MyRequest myRequest);
+    String fromMyRequest(TypeValuePair o);
 }

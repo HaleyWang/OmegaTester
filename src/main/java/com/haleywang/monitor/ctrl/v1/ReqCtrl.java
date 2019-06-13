@@ -71,11 +71,10 @@ public class ReqCtrl extends BaseCtrl {
         return new ResultStatus<>(JsonUtils.toJson(data));
     }
 
-    public ResultStatus<String> exportRequest(@ParamBody MyRequest myRequest) {
-        String type = getUrlParam("type");
+    public ResultStatus<String> exportRequest(@ParamBody TypeValuePair ri) {
 
-        String data = new ConverterBuilder().build(type)
-                .fromMyRequest(myRequest);
+        String data = new ConverterBuilder().build(ri.getType())
+                .fromMyRequest(ri);
 
         return new ResultStatus<>(data);
     }
