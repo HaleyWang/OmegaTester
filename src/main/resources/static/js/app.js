@@ -1410,7 +1410,7 @@ function resizeEditors() {
 
 tabs_unlimited();
 
-toastr.options.positionClass = 'toast-bottom-right';
+toastr.options.positionClass = 'toast-bottom-left';
 
 
 
