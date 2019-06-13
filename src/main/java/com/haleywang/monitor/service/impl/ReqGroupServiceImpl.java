@@ -49,7 +49,7 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 		ConfigDto configDto =new ReqSettingServiceImpl().parseConfigDto();
 
 		ReqInfo exampleReqInfo = ReqInfo.builder()
-				.method(HttpMethod.GET)
+				.method(HttpMethod.POST)
 				.name("example 1")
 				.url("http://localhost:" + Server.getPort() + "/v1/req/version")
 				.reqGroup(reqGroup)
@@ -60,7 +60,7 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 		new ReqInfoServiceImpl().add(exampleReqInfo, currentAccount);
 
 		ReqInfo exampleReqInfoJs = ReqInfo.builder()
-				.method(HttpMethod.GET)
+				.method(HttpMethod.POST)
 				.name("example 2")
 				.url("http://localhost:" + Server.getPort() + "/v1/req/version")
 				.reqGroup(reqGroup)
