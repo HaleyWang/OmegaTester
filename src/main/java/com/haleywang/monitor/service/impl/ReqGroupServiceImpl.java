@@ -65,6 +65,25 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 				.current(1).name("DEV")
 				.content("{\"host\":\"http://localhost:"+ Server.getPort() +"\"}").build();
 		new ReqSettingServiceImpl().saveSetting(setting, currentAccount);
+
+
+		ReqSetting exportSettingExample = ReqSetting.builder().onwer(currentAccount.getAccountId())
+				.content("function exportRequest(arg) { return arg; }")
+				.current(0)
+				.name("Export unaltered")
+				.type(ReqSetting.SettingType.CODE_FOR_EXPORT)
+				.build();
+		new ReqSettingServiceImpl().saveSetting(exportSettingExample, currentAccount);
+
+		ReqSetting importSettingExample = ReqSetting.builder().onwer(currentAccount.getAccountId())
+				.content("function importRequest(arg) { return arg; }")
+				.current(0)
+				.name("Import unaltered")
+				.type(ReqSetting.SettingType.CODE_FOR_IMPORT)
+				.build();
+		new ReqSettingServiceImpl().saveSetting(importSettingExample, currentAccount);
+
+
 	}
 
     @Override
