@@ -4,6 +4,6 @@
   "put": "PUT",
   "get": "GET",
   "requestHeader": "headers",
-  "a": "api_Key",
+  "a": "apiKey",
   "requestData": "body"
 }
