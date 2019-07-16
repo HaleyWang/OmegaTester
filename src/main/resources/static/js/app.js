@@ -1077,7 +1077,13 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
                     			}
                 }).success(function(res) {
 
-                    $scope.currentReqTabData.meta.request = beautifyCode(data);
+                    if(typeof res == "object") {
+                        var str = JSON.stringify(res)
+                        $scope.currentReqTabData.meta.request = beautifyCode(str);
+                    }else  {
+                        $scope.currentReqTabData.meta.request = beautifyCode(res);
+
+                    }
 
                     changeReqTabsStorage($scope.reqTabs);
                 });
