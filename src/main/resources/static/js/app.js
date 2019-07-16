@@ -1077,8 +1077,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
                     			}
                 }).success(function(res) {
 
-                    $scope.currentReqTabData.meta.request = beautifyCode(res.data);
-
+                    $scope.currentReqTabData.meta.request = beautifyCode(data);
 
                     changeReqTabsStorage($scope.reqTabs);
                 });

@@ -30,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ReqCtrl extends BaseCtrl {
 
 
-    public ResultStatus<String> format() {
+    public String format() {
         String body = StringUtils.defaultString(getBodyParams(), StringUtils.EMPTY).trim();
         return new ReqFormatter().format(body);
     }

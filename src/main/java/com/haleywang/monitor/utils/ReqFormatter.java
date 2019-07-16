@@ -29,8 +29,6 @@ public class ReqFormatter {
     }
 
 
-
-
     private static void initMyReqReplace() throws IOException {
 
         String test = FileTool.read("conf/myrequest-replace.json");
@@ -47,14 +45,13 @@ public class ReqFormatter {
 
     }
 
-    public ResultStatus<String> format(String input) {
-        ResultStatus<String> res = new ResultStatus<>();
+    public String format(String input) {
 
         String body = input;
-        if (body.indexOf("var") == 0) {
-            return res.ofData(body);
+        if (body.trim().indexOf("var") == 0) {
+            return body;
         }
-        if (body.indexOf('{') < 0) {
+        if (body.trim().indexOf('{') < 0) {
             body = "{}";
         }
         if (body.endsWith(",")) {
@@ -69,7 +66,6 @@ public class ReqFormatter {
                 }
             }
         }
-
 
         String result = JsonUtils.toStandardJson(body);
 
@@ -88,7 +84,14 @@ public class ReqFormatter {
         dataMap.putIfAbsent("body", "");
 
         if (StringUtils.isBlank(dataMap.getOrDefault("name", "") + "")) {
-            dataMap.put("name", UrlUtils.getPath(dataMap.getOrDefault("url", "") + ""));
+            String name =  UrlUtils.getPath(dataMap.getOrDefault("url", "") + "");
+            name = replaceName(name);
+            dataMap.put("name", name);
+        }else {
+            String name = dataMap.get("name") + "";
+            name = replaceName(name);
+
+            dataMap.put("name", name);
         }
 
         if (dataMap.get(HEADERS) instanceof String) {
@@ -96,6 +99,12 @@ public class ReqFormatter {
         }
         result = JsonUtils.toJson(dataMap);
 
-        return res.ofData(result);
+        return result;
+    }
+
+    private String replaceName(String name) {
+        name = name.replaceAll("/\\d+", "/{id}")
+                .replaceAll("[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}", "\\{id}");
+        return name;
     }
 }
