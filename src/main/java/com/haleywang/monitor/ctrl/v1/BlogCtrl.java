@@ -1,13 +1,17 @@
 package com.haleywang.monitor.ctrl.v1;
 
 import com.haleywang.db.Blog;
+import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.utils.JsonUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Created by haley on 2018/8/17.
+ * @author haley
  */
 public class BlogCtrl extends BaseCtrl {
 
@@ -33,7 +37,7 @@ public class BlogCtrl extends BaseCtrl {
 
     public String detail() {
         Long id = Long.parseLong(getUrlParam("id"));
-        return JsonUtils.toJson(blogs.stream().filter(b -> b.getId() == id).findFirst().orElse(new Blog()));
+        return JsonUtils.toJson(blogs.stream().filter(b -> b.getId().equals(id)).findFirst().orElse(new Blog()));
     }
 
     public String list() {
@@ -43,7 +47,7 @@ public class BlogCtrl extends BaseCtrl {
 
     public String cookie() {
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(Constants.DEFAULT_MAP_SIZE);
         map.put("aaaa", "bbbb");
         addCookie(map);
 

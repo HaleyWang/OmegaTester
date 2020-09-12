@@ -1,20 +1,24 @@
 package com.haleywang.monitor.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.ImmutableMap;
 import com.haleywang.monitor.common.req.HttpMethod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * @author haley
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class ConfigDto {
 
     private HttpMethod[] methods;

@@ -6,6 +6,9 @@ import tk.mybatis.mapper.annotation.RegisterMapper;
 
 
 
+/**
+ * @author haley
+ */
 @RegisterMapper
 public interface BaseDropTableMapper<T> {
 

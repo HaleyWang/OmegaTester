@@ -1,12 +1,18 @@
 package com.haleywang.monitor.schedule;
 
-import com.haleywang.db.DBUtils;
+import com.haleywang.db.DbUtils;
 import com.haleywang.monitor.entity.ReqBatch;
 import com.haleywang.monitor.service.ReqBatchService;
 import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.quartz.*;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +21,9 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by haley on 2018/12/5.
+ * @author haley
  */
 public class CronScheduleHelper {
 
@@ -61,7 +68,7 @@ public class CronScheduleHelper {
             example.createCriteria().andEqualTo("enable", "true");
             list.addAll(reqBatchService.findAll(example));
         }finally {
-            DBUtils.closeSession(true);
+            DbUtils.closeSession(true);
         }
 
 

@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * Created by haley on 2018/12/9.
+ * @author haley
+ * @date 2018/12/16
  */
 
 @NoArgsConstructor( access = AccessLevel.PRIVATE)

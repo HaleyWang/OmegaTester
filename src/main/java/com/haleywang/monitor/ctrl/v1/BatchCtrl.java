@@ -12,7 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by haley on 2018/8/18.
+ * @author haley
+ * @date 2018/12/16
  */
 public class BatchCtrl extends BaseCtrl {
 
@@ -27,7 +28,7 @@ public class BatchCtrl extends BaseCtrl {
         return JsonUtils.toJson(res);
     }
 
-    //
+
     public ResultStatus<List<ReqBatch>> update()  {
         ReqBatch reqBatch = getBodyParams(ReqBatch.class);
 

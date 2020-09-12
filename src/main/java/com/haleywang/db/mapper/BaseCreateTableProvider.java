@@ -1,5 +1,6 @@
 package com.haleywang.db.mapper;
 
+import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.utils.AnnotationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Created by haley on 2018/8/19.
+ * @author haley
  */
 public class BaseCreateTableProvider  extends MapperTemplate {
 
@@ -139,7 +140,7 @@ public class BaseCreateTableProvider  extends MapperTemplate {
         int i = 0;
         int n = pks.size();
         for(EntityColumn pk : pks) {
-            //sql.append(pk.getColumn()).append(" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE ");
+            //sql.append(pk.getColumn()).append(" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE ")
             sql.append(pk.getColumn()).append(" INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ");
 
             if(i < n-1) {
@@ -153,7 +154,7 @@ public class BaseCreateTableProvider  extends MapperTemplate {
 
 
         // alter sql
-        Map<String, String> typeMap = new HashMap<>();
+        Map<String, String> typeMap = new HashMap<>(Constants.DEFAULT_MAP_SIZE);
         typeMap.put("java.lang.String", "VARCHAR");
         typeMap.put("java.lang.Long", "BIGINT");
         typeMap.put("java.lang.Integer", "INTEGER");
@@ -166,7 +167,7 @@ public class BaseCreateTableProvider  extends MapperTemplate {
 
             Column columnLengthAnn = columnObj.getEntityField().getAnnotation(Column.class);
             Integer columnLength = (Integer) AnnotationUtils.getValue(columnLengthAnn, "length");
-            String jdbcType = Optional.ofNullable(columnObj.getJdbcType()).map(o -> o.name()).orElse(null);
+            String jdbcType = Optional.ofNullable(columnObj.getJdbcType()).map(Enum::name).orElse(null);
             String colummTyle = typeMap.getOrDefault(columnObj.getJavaType().getName(), "TEXT");
             if(StringUtils.isNotEmpty(jdbcType)) {
                 colummTyle = jdbcType;
@@ -204,9 +205,9 @@ public class BaseCreateTableProvider  extends MapperTemplate {
         setResultType(ms, entityClass);
         StringBuilder sql = new StringBuilder();
 
-        Set<EntityColumn> pks = EntityHelper.getPKColumns(entityClass);
+        //Set<EntityColumn> pks = EntityHelper.getPKColumns(entityClass)
         String tName = tableName(entityClass);
-        Set<EntityColumn> columns = EntityHelper.getColumns(entityClass);
+        //Set<EntityColumn> columns = EntityHelper.getColumns(entityClass)
 
         sql.append("drop table IF EXISTS ")
                 .append(tName)       . append(" ;");

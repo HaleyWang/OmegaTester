@@ -5,8 +5,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+
 /**
- * Created by haley on 2018/8/18.
+ * @author haley
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CollectionUtils {

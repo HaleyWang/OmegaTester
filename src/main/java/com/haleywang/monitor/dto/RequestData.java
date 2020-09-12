@@ -1,10 +1,14 @@
 package com.haleywang.monitor.dto;
 
-import java.util.List;
-
 import com.haleywang.monitor.common.req.HttpMethod;
 import lombok.Data;
 
+import java.util.List;
+
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Data
 public class RequestData {
 	private String url;
@@ -19,8 +23,11 @@ public class RequestData {
 		private String value;
 		private String description;
 	}
-	
+
 	public static enum BodyMode {
+		/**
+		 * Options of enum
+		 */
 		RAW, FORM_DATA, URLENCODED
 	}
 

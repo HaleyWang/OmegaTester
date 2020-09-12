@@ -1,6 +1,6 @@
 package com.haleywang.monitor.service.impl;
 
-import com.haleywang.db.DBUtils;
+import com.haleywang.db.DbUtils;
 import com.haleywang.db.mapper.MyMapper;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.service.BaseService;
@@ -10,14 +10,17 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
+/**
+ * @author haley
+ */
 public class BaseServiceImpl<T> implements BaseService<T> {
-	
+
 	protected MyMapper<T> mapper;
 	private SqlSession session;
 
 
 	public BaseServiceImpl() {
-		this.session = DBUtils.getOrOpenSqlSession();
+		this.session = DbUtils.getOrOpenSqlSession();
 	}
 
 	protected final void rollback() {
@@ -34,15 +37,17 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 		return model;
 	}
 
+	@Override
 	public T saveOrUpdate(T model) {
-		if(findOne(model) != null) {
+		if (findOne(model) != null) {
 			update(model);
-		}else {
+		} else {
 			save(model);
 		}
 		return model;
 	}
 
+	@Override
 	public T update(T model) {
 		mapper.updateByPrimaryKey(model);
 		return model;

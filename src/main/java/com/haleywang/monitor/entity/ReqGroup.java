@@ -3,8 +3,9 @@ package com.haleywang.monitor.entity;
 import com.haleywang.monitor.common.ReqException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.persistence.CascadeType;
@@ -22,58 +23,64 @@ import java.util.List;
 import java.util.Objects;
 
 
-
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
-public class ReqGroup implements Serializable , ReqGroupItem  {
+public class ReqGroup implements Serializable, ReqGroupItem {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-	@GeneratedValue(generator= "JDBC")
-    private Long groupId;
-    
-    private Long parentId;
+	@Id
+	@GeneratedValue(generator = "JDBC")
+	private Long groupId;
+
+	private Long parentId;
 
 	private Long createdById;
 	private Long modifiedById;
 
-    private String name;
+	private String name;
 
 	private Integer sort;
-    
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = true)
-    @JoinColumn(name = "createdById", nullable = true)
-    private ReqAccount createdBy;
-    
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = true)
-    @JoinColumn(name = "modifiedById", nullable = true)
-    private ReqAccount modifiedBy;
 
-    @Transient
+	@ManyToOne(cascade = CascadeType.REFRESH, optional = true)
+	@JoinColumn(name = "createdById", nullable = true)
+	private ReqAccount createdBy;
+
+	@ManyToOne(cascade = CascadeType.REFRESH, optional = true)
+	@JoinColumn(name = "modifiedById", nullable = true)
+	private ReqAccount modifiedBy;
+
+	@Transient
 	@Builder.Default
 	private transient List<ReqGroupItem> children = new ArrayList<>();
 
-    public ReqGroup(ReqGroup reqGroup) {
+	@SuppressWarnings("AlibabaAvoidApacheBeanUtilsCopy")
+	public ReqGroup(ReqGroup reqGroup) {
 		try {
+			//noinspection AlibabaAvoidApacheBeanUtilsCopy
 			BeanUtils.copyProperties(this, reqGroup);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new ReqException(e);
 		}
 	}
 
-    public void setCreatedBy(ReqAccount createdBy) {
-		if(createdBy != null) {
+	public void setCreatedBy(ReqAccount createdBy) {
+		if (createdBy != null) {
 			this.createdById = createdBy.getAccountId();
 		}
 		this.createdBy = createdBy;
 	}
 
 	public void setModifiedBy(ReqAccount modifiedBy) {
-		if(modifiedBy != null) {
+		if (modifiedBy != null) {
 			this.modifiedById = modifiedBy.getAccountId();
 		}
 		this.modifiedBy = modifiedBy;
@@ -98,7 +105,6 @@ public class ReqGroup implements Serializable , ReqGroupItem  {
 	public void addItem(ReqGroupItem ... add) {
 		this.children.addAll(Arrays.asList(add));
 	}
-	
 
 
 	@Override

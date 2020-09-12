@@ -6,7 +6,9 @@ import com.haleywang.monitor.dto.ConfigDto;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.service.impl.ReqSettingServiceImpl;
 
-
+/**
+ * @author haley
+ */
 public class ConfigCtrl extends BaseCtrl {
 
     public ResultStatus<ConfigDto> list() {

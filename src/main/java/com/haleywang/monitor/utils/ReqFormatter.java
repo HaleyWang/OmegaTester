@@ -1,9 +1,9 @@
 package com.haleywang.monitor.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.common.ReqIllegalArgumentException;
-import com.haleywang.monitor.dto.ResultStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 
@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 public class ReqFormatter {
 
 
@@ -19,6 +23,7 @@ public class ReqFormatter {
 
 
     public static final String HEADERS = "headers";
+    public static final String VAR_TEXT = "var";
 
     static {
         try {
@@ -48,7 +53,7 @@ public class ReqFormatter {
     public String format(String input) {
 
         String body = input;
-        if (body.trim().indexOf("var") == 0) {
+        if (body.trim().indexOf(VAR_TEXT) == 0) {
             return body;
         }
         if (body.trim().indexOf('{') < 0) {
@@ -80,7 +85,7 @@ public class ReqFormatter {
         dataMap.putIfAbsent("name", "");
         dataMap.putIfAbsent("url", "");
         dataMap.putIfAbsent("method", "GET");
-        dataMap.putIfAbsent(HEADERS, new HashMap<String, String>());
+        dataMap.putIfAbsent(HEADERS, new HashMap<String, String>(Constants.DEFAULT_MAP_SIZE));
         dataMap.putIfAbsent("body", "");
 
         if (StringUtils.isBlank(dataMap.getOrDefault("name", "") + "")) {
@@ -95,7 +100,7 @@ public class ReqFormatter {
         }
 
         if (dataMap.get(HEADERS) instanceof String) {
-            dataMap.put(HEADERS, new HashMap<String, String>());
+            dataMap.put(HEADERS, new HashMap<String, String>(Constants.DEFAULT_MAP_SIZE));
         }
         result = JsonUtils.toJson(dataMap);
 

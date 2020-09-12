@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
-
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,10 +42,12 @@ public  class DependencyCostTracking {
     }
 
     public Map<String, String> getRequestHeader() {
-    	String apiKeyName  = "ApiKey";
-    	if(requestHeader != null && requestHeader.get(apiKeyName) != null && requestHeader.get(apiKeyName).length() > 4) {
-    		requestHeader.put(apiKeyName, requestHeader.get(apiKeyName).substring(0, 4) + "...");
-    	}
+        String apiKeyName = "ApiKey";
+        int minaApiKeyLength = 4;
+        if (requestHeader != null && requestHeader.get(apiKeyName) != null
+                && requestHeader.get(apiKeyName).length() > minaApiKeyLength) {
+            requestHeader.put(apiKeyName, requestHeader.get(apiKeyName).substring(0, 4) + "...");
+        }
         return requestHeader;
     }
 

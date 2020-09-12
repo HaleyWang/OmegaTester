@@ -10,7 +10,8 @@ import com.haleywang.monitor.utils.JsonUtils;
 import java.util.List;
 
 /**
- * Created by haley on 2018/8/18.
+ * @author haley
+ * @date 2018/12/16
  */
 public class BatchHistoryCtrl extends BaseCtrl {
 

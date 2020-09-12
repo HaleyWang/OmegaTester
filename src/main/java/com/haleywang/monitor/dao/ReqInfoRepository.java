@@ -9,13 +9,24 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 public interface ReqInfoRepository extends MyMapper<ReqInfo> {
 
 
+    /**
+     * Retrieve a list of mapped objects.
+     *
+     * @param createdById
+     * @param hisType
+     * @return
+     */
     @Results({
-            @Result(column="id",property="id"),
-            @Result(column="url",property="url"),
-            @Result(column="name",property="name")
+            @Result(column = "id", property = "id"),
+            @Result(column = "url", property = "url"),
+            @Result(column = "name", property = "name")
     })
     @Select("select * from req_info where id in (select req_id from req_task_history WHERE created_by_id = #{createdById} and his_type = #{hisType} order by task_history_id desc limit 0, 1000) ")
     List<ReqInfo> findHistoryReqInfo(@Param("createdById") Long createdById, @Param("hisType") String hisType);

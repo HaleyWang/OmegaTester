@@ -8,7 +8,6 @@ import com.haleywang.monitor.dao.ReqGroupRepository;
 import com.haleywang.monitor.dao.ReqRelationRepository;
 import com.haleywang.monitor.dto.ConfigDto;
 import com.haleywang.monitor.dto.ResultMessage;
-import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.dto.msg.GroupDeleteMsg;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.entity.ReqGroup;
@@ -25,8 +24,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements ReqGroupService {
-	
+
+	public static final String REQ_GROUP = "ReqGroup";
 	private ReqGroupRepository reqGroupRepository;
 	private ReqAccountRepository reqAccountRepository;
 	private ReqRelationRepository reqRelationRepository;
@@ -98,8 +102,8 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 
 	}
 
-    @Override
-    public List<ReqGroup> listByAccount(ReqAccount currentAccount) {
+	@Override
+	public List<ReqGroup> listByAccount(ReqAccount currentAccount) {
 
 		List<ReqGroup> data = findGroupData(currentAccount);
 		if(CollectionUtils.isEmpty(data)) {
@@ -107,13 +111,13 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 			data = findGroupData(currentAccount);
 		}
 		return data;
-    }
+	}
 
 	public List<ReqGroup> findGroupData(ReqAccount currentAccount) {
 
 		Example reqRelationExample = new Example(ReqRelation.class);
 		reqRelationExample.createCriteria().andEqualTo("accountId", currentAccount.getAccountId())
-				.andEqualTo("type", "ReqGroup");
+				.andEqualTo("type", REQ_GROUP);
 		List<ReqRelation> groups = reqRelationRepository.selectByExample(reqRelationExample);
 
 		List<Long> groupIds = groups.stream().filter(Objects::nonNull).map(ReqRelation::getObjectId).collect(Collectors.toList());
@@ -135,8 +139,8 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 		g.setCreatedBy(c);
 		reqGroupRepository.insert(g);
 
-		ReqRelation re = new ReqRelation(g.getGroupId(), "ReqGroup", "CMD", c);
-        re.setAccountId(c.getAccountId());
+		ReqRelation re = new ReqRelation(g.getGroupId(), REQ_GROUP, "CMD", c);
+		re.setAccountId(c.getAccountId());
 		reqRelationRepository.insert(re);
 
 		return g;
@@ -158,7 +162,7 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 
 		Example reqRelationExample = new Example(ReqRelation.class);
 		reqRelationExample.createCriteria().andEqualTo("accountId", currentAccount.getAccountId())
-				.andEqualTo("type", "ReqGroup").andEqualTo("objectId", id);
+				.andEqualTo("type", REQ_GROUP).andEqualTo("objectId", id);
 
 		return res.ofData(rg);
 	}

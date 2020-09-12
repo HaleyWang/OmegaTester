@@ -1,5 +1,6 @@
 package com.haleywang.db;
 
+import com.haleywang.monitor.common.Constants;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -7,10 +8,6 @@ import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.ParameterMode;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
-import org.apache.ibatis.reflection.factory.ObjectFactory;
-import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
-import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
@@ -24,12 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Mybatis - 获取Mybatis查询sql工具
- *
+ * @author haley
+ * @date 2018/12/16
  */
 public class SqlHelper {
-    private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
-    private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
 
     /**
      * 通过接口获取sql
@@ -88,19 +83,19 @@ public class SqlHelper {
             return getNamespaceSql(session, fullMapperMethodName, null);
         }
         Method method = getDeclaredMethods(mapperInterface, methodName);
-        Map params = new HashMap();
+        Map params = new HashMap(Constants.DEFAULT_MAP_SIZE);
         final Class<?>[] argTypes = method.getParameterTypes();
         for (int i = 0; i < argTypes.length; i++) {
             if (!RowBounds.class.isAssignableFrom(argTypes[i]) && !ResultHandler.class.isAssignableFrom(argTypes[i])) {
-                String paramName = "param" + String.valueOf(params.size() + 1);
+                String paramName = "param" + (params.size() + 1);
                 paramName = getParamNameFromAnnotation(method, i, paramName);
                 params.put(paramName, i >= args.length ? null : args[i]);
             }
         }
         if (args.length == 1) {
-            Object _params = wrapCollection(args[0]);
-            if (_params instanceof Map) {
-                params.putAll((Map) _params);
+            Object aParams = wrapCollection(args[0]);
+            if (aParams instanceof Map) {
+                params.putAll((Map) aParams);
             }
         }
         return getNamespaceSql(session, fullMapperMethodName, params);
@@ -151,7 +146,9 @@ public class SqlHelper {
                         value = metaObject.getValue(propertyName);
                     }
                     JdbcType jdbcType = parameterMapping.getJdbcType();
-                    if (value == null && jdbcType == null) jdbcType = configuration.getJdbcTypeForNull();
+                    if (value == null && jdbcType == null) {
+                        jdbcType = configuration.getJdbcTypeForNull();
+                    }
                     sql = replaceParameter(sql, value, jdbcType, parameterMapping.getJavaType());
                 }
             }
@@ -246,11 +243,11 @@ public class SqlHelper {
      */
     private static Object wrapCollection(final Object object) {
         if (object instanceof List) {
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<>(Constants.DEFAULT_MAP_SIZE);
             map.put("list", object);
             return map;
         } else if (object != null && object.getClass().isArray()) {
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<>(Constants.DEFAULT_MAP_SIZE);
             map.put("array", object);
             return map;
         }

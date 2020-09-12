@@ -6,13 +6,22 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
-import java.util.jar.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+/**
+ * @author haley
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtils {
 
@@ -37,9 +46,12 @@ public class FileUtils {
             if (!newDestDir.exists() && !newDestDir.mkdir()) {
                 return false;
             }
-            for (final File child : toCopy.listFiles()) {
-                if (!FileUtils.copyFilesRecusively(child, newDestDir)) {
-                    return false;
+            File[] files = toCopy.listFiles();
+            if (files != null) {
+                for (File child : files) {
+                    if (!FileUtils.copyFilesRecusively(child, newDestDir)) {
+                        return false;
+                    }
                 }
             }
         }
@@ -54,7 +66,7 @@ public class FileUtils {
         for (final Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements(); ) {
             final JarEntry entry = e.nextElement();
             if (entry.getName().startsWith(jarConnection.getEntryName())) {
-                final String filename = StringUtils.removeStart(entry.getName(), //
+                final String filename = StringUtils.removeStart(entry.getName(),
                         jarConnection.getEntryName());
 
                 final File f = new File(destDir, filename);

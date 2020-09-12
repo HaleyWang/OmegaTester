@@ -10,16 +10,18 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author haley
+ */
 public class Constants {
 
     private Constants(){}
 
+    public static final int DEFAULT_MAP_SIZE = 16;
     public static final String LOGIN_COOKIE = "hmsso";
     public static final String CURRENT_ACCOUNT = "current_account";
     public static final String REQUEST_ID_IN_LOG = "_req_id_in_log";
-
     public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
-
 
     public static final List<String> EXPORT_TYPE;
 

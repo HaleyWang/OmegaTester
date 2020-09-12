@@ -4,6 +4,10 @@ import com.haleywang.monitor.AppContext;
 import com.haleywang.monitor.utils.ServerName;
 import lombok.Data;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Data
 public class ResponseMeta {
 

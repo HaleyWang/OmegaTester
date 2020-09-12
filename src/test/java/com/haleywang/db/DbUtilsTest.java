@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by haley on 2018/12/7.
  */
-public class DBUtilsTest {
+public class DbUtilsTest {
     @Test
     public void demo() throws Exception {
 
@@ -20,17 +20,17 @@ public class DBUtilsTest {
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
-        SqlSession session = DBUtils.getOrOpenSqlSession();
+        SqlSession session = DbUtils.getOrOpenSqlSession();
         try {
             outputInitSql();
             //demoBlog(session);
             //doInitSql(session);
 
 
-            DBUtils.commitSession(session);
+            DbUtils.commitSession(session);
 
         } finally {
-            DBUtils.closeSession(session);
+            DbUtils.closeSession(session);
         }
     }
 
@@ -39,12 +39,12 @@ public class DBUtilsTest {
 
     public static void outputInitSql() throws IOException {
 
-        SqlSession session = DBUtils.getOrOpenSqlSession();
+        SqlSession session = DbUtils.getOrOpenSqlSession();
         try {
-            DBUtils.outputInitSql(session);
-            DBUtils.commitSession(session);
+            DbUtils.outputInitSql(session);
+            DbUtils.commitSession(session);
         } finally {
-            DBUtils.closeSession(session);
+            DbUtils.closeSession(session);
         }
     }
 

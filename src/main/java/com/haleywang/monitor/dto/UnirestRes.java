@@ -1,21 +1,27 @@
 package com.haleywang.monitor.dto;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.haleywang.monitor.common.Constants;
 import com.haleywang.monitor.utils.JsonUtils;
 import lombok.Data;
 import okhttp3.Response;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Data
-public class UnirestRes  {
+public class UnirestRes {
 
 	@JsonIgnore
 	Response res;
 
 	String testResult;
-	
+
 	Boolean testSuccess;
 
 	private long begin;
@@ -32,7 +38,7 @@ public class UnirestRes  {
 		body = res.body().string();
 		return this;
 	}
-	
+
 	public int getStatus() {
 		if(res == null) {
 			return 0;
@@ -57,21 +63,19 @@ public class UnirestRes  {
 	 * For instance use <code>getHeaders().getFirst("Location")</code> and not <code>getHeaders().getFirst("location")</code> to get first header "Location"
 	 */
 	public String getHeaders() {
-		if(res == null) {
+		if (res == null) {
 			return null;
 		}
 		return JsonUtils.toJson(res.headers().toMultimap());
 	}
 
 
-	public Map<String, Object> toMap ()  {
-		Map<String, Object> map = new HashMap<>();
-
-		map.put("statusCode" , getStatus());
-		map.put("body" , body);
-
+	public Map<String, Object> toMap() {
+		Map<String, Object> map = new HashMap<>(Constants.DEFAULT_MAP_SIZE);
+		map.put("statusCode", getStatus());
+		map.put("body", body);
 		return map;
-    }
+	}
 
 	public String getBody() {
 		return body;
@@ -86,7 +90,7 @@ public class UnirestRes  {
 	}
 
 
-	public long getSpent_time() {
+	public long getSpentTime() {
 		return end - begin;
 	}
 

@@ -7,15 +7,23 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileTool {
 
-
-    public static final String UTF_8 = "UTF-8";
+    public static final Charset UTF_8 = StandardCharsets.UTF_8;
     public static final String PATH_DELIMITER = "/";
+    public static final String NAME_DELIMITER = ".";
+    public static final char PATH_DELIMITER_CHAR = '/';
+    public static final char NAME_DELIMITER_CHAR = '.';
 
     public static String readInSamePkg(Class cls, String fileName) throws IOException {
         return readInSamePkg(cls, fileName, false);
@@ -23,7 +31,7 @@ public class FileTool {
 
     public static String readInSamePkg(Class cls, String fileName, boolean forTest) throws IOException {
         String path = cls.getResource("").getPath();
-        if(!forTest) {
+        if (!forTest) {
             path = path.replace("test-classes", "classes");
         }
 

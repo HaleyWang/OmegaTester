@@ -16,18 +16,21 @@ import com.haleywang.monitor.dto.ResultMessage;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.service.ReqAccountService;
-import com.haleywang.monitor.utils.AESUtil;
+import com.haleywang.monitor.utils.AesUtil;
 import com.haleywang.monitor.utils.CollectionUtils;
 import com.haleywang.monitor.utils.Md5Utils;
 import com.haleywang.monitor.utils.StringTool;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import tk.mybatis.mapper.entity.Example;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implements ReqAccountService {
 
 	public static final String ACCOUNT_NOT_FOUND = "Account not found";
@@ -42,15 +45,16 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		this.mapper = reqAccountRepository;
 	}
 
+	@Override
 	public ResultStatus<ReqAccount> register(String name, String email, String pass) {
 
 		ReqAccount a = new ReqAccount();
 		a.setName(name);
 		a.setEmail(email);
-		a.setAkey(AESUtil.generateKey());
+		a.setAkey(AesUtil.generateKey());
 		String password = null;
 		try {
-			password = Md5Utils.getT4MD5(pass);
+			password = Md5Utils.gett4Md5(pass);
 		} catch (Exception e) {
 			throw new ReqException(e.getMessage(), e);
 		}
@@ -68,23 +72,24 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		return register(dto);
 	}
 
+	@Override
 	public ResultMessage<LoginResultDto, LoginMsg> login(String email, String pass)
 			throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
 		ResultMessage<LoginResultDto, LoginMsg> res = new ResultMessage<>();
-		if(email == null || pass == null) {
+		if (email == null || pass == null) {
 			res.ofMessage(LoginMsg.EMAIL_OR_PASSWORD_IS_INCORRECT);
 			return res;
 		}
-		String passwordMD5 = null;
+		String passwordMd5 = null;
 		try {
-			passwordMD5 = Md5Utils.getT4MD5(pass);
+			passwordMd5 = Md5Utils.gett4Md5(pass);
 		} catch (Exception e) {
 			throw new ReqException(e.getMessage(), e);
 		}
 
 		Example example = new Example(ReqAccount.class);
-		example.createCriteria().andEqualTo("email", email).andEqualTo("password", passwordMD5);
+		example.createCriteria().andEqualTo("email", email).andEqualTo("password", passwordMd5);
 		List<ReqAccount> list = reqAccountRepository.selectByExample(example);
 
 		if (CollectionUtils.isEmpty(list)) {
@@ -110,7 +115,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		return res;
 	}
 
-
+	@Override
 	public ResultMessage<ReqAccount, Message> sendUpdatePassUrlToEmail(String email) {
 		ResultMessage<ReqAccount, Message> res = new ResultMessage<>();
 
@@ -121,25 +126,21 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		}
 
 		a.setToken(UUID.randomUUID().toString());
-
-		// TODO get host & create url
-		// TODO send email
-
 		return res;
 	}
 
+	@Override
 	public ResultStatus<ReqAccount> updatePass(String token, String email, String pass) {
 		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
 		String password = null;
 		try {
-			password = Md5Utils.getT4MD5(pass);
+			password = Md5Utils.gett4Md5(pass);
 		} catch (Exception e) {
 			throw new ReqException(e.getMessage(), e);
 		}
 		ReqAccount a = reqAccountRepository.findByEmailAndToken(email, token);
 		if (a == null) {
-			//res.ofCode(1004+"");
 			return res;
 		}
 
@@ -154,18 +155,17 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 
 		ReqAccount a = new ReqAccount();
 		a.setName(dto.getName());
-		if(StringUtils.isBlank(a.getName())) {
+		if (StringUtils.isBlank(a.getName())) {
 			a.setName(Splitter.on('@').splitToList(dto.getEmail()).get(0));
 		}
 		a.setEmail(dto.getEmail());
-		a.setAkey(AESUtil.generateKey());
-		String password = null;
+		a.setAkey(AesUtil.generateKey());
+		
 		try {
-			password = Md5Utils.getT4MD5(dto.getPassword());
+			a.setPassword(Md5Utils.gett4Md5(dto.getPassword()));
 		} catch (Exception e) {
 			throw new ReqException(e.getMessage(), e);
 		}
-		a.setPassword(password);
 
 		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
@@ -181,7 +181,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 
 		ResultStatus<ReqAccount> res = new ResultStatus<>();
 
-		String password = Md5Utils.getT4MD5(dto.getPassword());
+		String password = Md5Utils.gett4Md5(dto.getPassword());
 
 		ReqAccount a = reqAccountRepository.findByEmail(dto.getEmail());
 
@@ -189,8 +189,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 			throw new NotFoundException(ACCOUNT_NOT_FOUND);
 		}
 
-		if(a.getPassword().equals(Md5Utils.getT4MD5(dto.getOldPassword()))) {
-			//res.ofCode("1005");
+		if (a.getPassword().equals(Md5Utils.gett4Md5(dto.getOldPassword()))) {
 			return res;
 		}
 
@@ -205,7 +204,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 
 		String password = null;
 		try {
-			password = Md5Utils.getT4MD5(dto.getPassword());
+			password = Md5Utils.gett4Md5(dto.getPassword());
 		} catch (Exception e) {
 			throw new ReqException(e.getMessage(), e);
 		}

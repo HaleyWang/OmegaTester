@@ -1,13 +1,19 @@
 package com.haleywang.db;
 
 import com.haleywang.db.mapper.MyMapper;
-import tk.mybatis.mapper.common.Mapper;
 
 /**
- * Created by haley on 2018/8/15.
+ * @author haley
+ * @date 2018/12/16
  */
 public interface BlogMapper extends MyMapper<Blog> {
 
 
+    /**
+     * etrieve a single row mapped
+     *
+     * @param id
+     * @return
+     */
     Blog selectBlog(long id);
 }

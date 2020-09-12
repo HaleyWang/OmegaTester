@@ -1,5 +1,6 @@
 package com.haleywang.monitor.utils;
 
+import com.haleywang.monitor.common.Constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +12,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+
+/**
+ * @author haley
+ */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public abstract class AnnotationUtils {
+public class AnnotationUtils {
 
     static final String VALUE = "value";
 
@@ -30,10 +35,10 @@ public abstract class AnnotationUtils {
     public static Annotation findAnnotation(Method method, Class annotationType) {
         Annotation annotation = getAnnotation(method, annotationType);
         Class cl = method.getDeclaringClass();
+        if (annotation != null) {
+            return annotation;
+        }
         do {
-            if (annotation != null) {
-                break;
-            }
             cl = cl.getSuperclass();
             if (cl == null || cl.equals(Object.class)) {
                 break;
@@ -51,29 +56,33 @@ public abstract class AnnotationUtils {
 
     public static Annotation findAnnotation(Class clazz, Class annotationType) {
         Annotation annotation = clazz.getAnnotation(annotationType);
-        if (annotation != null)
+        if (annotation != null) {
             return annotation;
-        Class clazzes[] = clazz.getInterfaces();
+        }
+        Class[] clazzes = clazz.getInterfaces();
         int len = clazzes.length;
         for (int i = 0; i < len; i++) {
             Class ifc = clazzes[i];
             annotation = findAnnotation(ifc, annotationType);
-            if (annotation != null)
+            if (annotation != null) {
                 return annotation;
+            }
         }
 
-        if (clazz.getSuperclass() == null || Object.class.equals(clazz.getSuperclass()))
+        if (clazz.getSuperclass() == null || Object.class.equals(clazz.getSuperclass())) {
             return null;
-        else
+        } else {
             return findAnnotation(clazz.getSuperclass(), annotationType);
+        }
     }
 
 
     public static Class findAnnotationDeclaringClass(Class annotationType, Class clazz) {
-        if (clazz == null || clazz.equals(Object.class))
+        if (clazz == null || clazz.equals(Object.class)) {
             return null;
-        else
+        } else {
             return isAnnotationDeclaredLocally(annotationType, clazz) ? clazz : findAnnotationDeclaringClass(annotationType, clazz.getSuperclass());
+        }
     }
 
 
@@ -100,12 +109,13 @@ public abstract class AnnotationUtils {
 
 
     public static Map getAnnotationAttributes(Annotation annotation) {
-        Map attrs = new HashMap();
-        Method methods[] = annotation.annotationType().getDeclaredMethods();
+        Map attrs = new HashMap(Constants.DEFAULT_MAP_SIZE);
+        Method[] methods = annotation.annotationType().getDeclaredMethods();
         for (int j = 0; j < methods.length; j++) {
             Method method = methods[j];
-            if (method.getParameterTypes().length != 0 || method.getReturnType() == Void.TYPE)
+            if (method.getParameterTypes().length != 0 || method.getReturnType() == Void.TYPE) {
                 continue;
+            }
             try {
                 attrs.put(method.getName(), method.invoke(annotation, new Object[0]));
             } catch (Exception ex) {

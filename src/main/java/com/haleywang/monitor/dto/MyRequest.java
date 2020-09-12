@@ -1,11 +1,18 @@
 package com.haleywang.monitor.dto;
 
+import com.haleywang.monitor.common.req.HttpMethod;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Map;
 
-import com.haleywang.monitor.common.req.HttpMethod;
-import lombok.Data;
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 
-@Data
+@Getter
+@Setter
 public class MyRequest {
     private String name;
 

@@ -5,13 +5,11 @@ import tk.mybatis.mapper.annotation.ColumnType;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Created by haley on 2018/8/15.
+ * @author haley
  */
-
 public class Blog {
 
     @Id

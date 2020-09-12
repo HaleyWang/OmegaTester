@@ -2,8 +2,10 @@ package com.haleywang.db.mapper;
 
 import org.apache.ibatis.annotations.SelectProvider;
 import tk.mybatis.mapper.annotation.RegisterMapper;
-import tk.mybatis.mapper.provider.base.BaseSelectProvider;
 
+/**
+ * @author haley
+ */
 @RegisterMapper
 public interface BaseCreateTableMapper<T> {
 

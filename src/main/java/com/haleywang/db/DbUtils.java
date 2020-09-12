@@ -1,12 +1,22 @@
 package com.haleywang.db;
 
 import com.google.common.base.Splitter;
-import com.haleywang.monitor.dao.*;
-
+import com.haleywang.monitor.dao.ReqAccountRepository;
+import com.haleywang.monitor.dao.ReqBatchHistoryRepository;
+import com.haleywang.monitor.dao.ReqBatchRepository;
+import com.haleywang.monitor.dao.ReqGroupRepository;
+import com.haleywang.monitor.dao.ReqInfoRepository;
+import com.haleywang.monitor.dao.ReqMetaRepository;
+import com.haleywang.monitor.dao.ReqRelationRepository;
+import com.haleywang.monitor.dao.ReqSettingRepository;
+import com.haleywang.monitor.dao.ReqTaskHistoryMetaRepository;
+import com.haleywang.monitor.dao.ReqTaskHistoryRepository;
+import com.haleywang.monitor.utils.PathUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.SqlSession;
@@ -14,7 +24,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import com.haleywang.monitor.utils.PathUtils;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
 import tk.mybatis.mapper.session.Configuration;
 
@@ -28,11 +37,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author haley
  * Created by haley on 2018/8/15.
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DBUtils {
+public class DbUtils {
 
     private static final ThreadLocal<SqlSession> THREADLOCAL_SQLSESSION = new ThreadLocal<>();
 
@@ -41,7 +51,7 @@ public class DBUtils {
     public static SqlSessionFactory getSqlSessionFactory() {
         if (sqlSessionFactory == null) {
 
-            synchronized (DBUtils.class) {
+            synchronized (DbUtils.class) {
                 if (sqlSessionFactory == null) {
                     //it is a bad practice to use multiple connections when connecting to SQLite
                     //change to h2 db
@@ -103,7 +113,7 @@ public class DBUtils {
     }
 
     public static void doInitSql(SqlSession session, boolean dropTableBefore) throws SQLException {
-        Class<?>[] types = DBUtils.getAllMapperClasses();
+        Class<?>[] types = DbUtils.getAllMapperClasses();
         for (Class<?> type : types) {
             List<String> sqlList = new ArrayList<>();
 
@@ -149,7 +159,7 @@ public class DBUtils {
     }
 
     private static SqlSession openSession() {
-        SqlSessionFactory sqlSessionFactory = DBUtils.getSqlSessionFactory();
+        SqlSessionFactory sqlSessionFactory = DbUtils.getSqlSessionFactory();
         return sqlSessionFactory.openSession();
     }
 
@@ -171,7 +181,6 @@ public class DBUtils {
         session.commit();
     }
 
-    //closeSelectSession
     public static void closeSelectSession(SqlSession session) {
         closeSession(session, null);
     }
@@ -187,7 +196,7 @@ public class DBUtils {
         }
         try {
             if (commit != null) {
-                if (commit) {
+                if (BooleanUtils.isTrue(commit)) {
                     session.commit();
                 } else {
                     session.rollback();
@@ -206,7 +215,7 @@ public class DBUtils {
         }
         try {
             if (commit != null) {
-                if (commit) {
+                if (BooleanUtils.isTrue(commit)) {
                     session.commit();
                 } else {
                     session.rollback();

@@ -8,16 +8,16 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 /**
- * Created by haley on 2018/12/5.
+ * @author haley
+ * @date 2018/12/16
  */
 @Data
 public class SimpleJob implements Job {
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleJob.class);
 
+    @Override
     public void execute(JobExecutionContext context)
             throws JobExecutionException {
 

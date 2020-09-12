@@ -1,9 +1,15 @@
 package com.haleywang.monitor.dto;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
-import lombok.Data;
-
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Data
 public class Har {
 
@@ -19,6 +25,7 @@ public class Har {
     public static class HarEntry {
         private HarRequest request;
     }
+
     @Data
     public static class HarRequest {
         private String method;
@@ -30,7 +37,8 @@ public class Har {
         private List<HarCookie> cookies;
     }
 
-    @Data
+    @Getter
+    @Setter
     public static class HarCookie extends NameValue {
         private String expires;
         private Boolean httpOnly;

@@ -30,6 +30,7 @@ import com.haleywang.monitor.service.ReqSettingService;
 import com.haleywang.monitor.utils.CollectionUtils;
 import com.haleywang.monitor.utils.JavaExecScript;
 import com.haleywang.monitor.utils.JsonUtils;
+import com.haleywang.monitor.utils.ReqFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -46,6 +47,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Slf4j
 public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         ReqInfoService {
@@ -54,6 +59,8 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
     public static final String NAME_DESC = " name desc ";
     public static final String REQ_ID = "req_id";
     public static final String TASK_HISTORY_ID = "taskHistoryId";
+    public static final String VAR_TEXT = ReqFormatter.VAR_TEXT;
+    public static final String CASES = "cases";
 
     private ReqInfoRepository requestInfoRepository;
 
@@ -83,6 +90,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         this.reqGroupService = new ReqGroupServiceImpl();
     }
 
+    @Override
     public List<ReqGroup> listRequestInfoByAccount(ReqAccount acc) {
 
 
@@ -319,9 +327,9 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
 
             String reqData = JsonUtils.toJson(reqItem);
             log.info("send req: {}", reqData);
-            long begin = new Date().getTime();
+            long begin = System.currentTimeMillis();
             result = HttpUtils.send(reqItem);
-            long end = new Date().getTime();
+            long end = System.currentTimeMillis();
             result.setBegin(begin);
             result.setEnd(end);
             jsonRes = JsonUtils.toJson(result);
@@ -360,10 +368,10 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
     }
 
     private String parseCasesData(ReqInfo ri) {
-        String requestMeta = ri.getMeta().get("cases");
+        String requestMeta = ri.getMeta().get(CASES);
         requestMeta = StringUtils.defaultIfBlank(requestMeta, "{}").trim();
-        if (requestMeta.indexOf("var") == 0) {
-            requestMeta = JsonUtils.toJson(JavaExecScript.returnJson(requestMeta, "cases"));
+        if (requestMeta.indexOf(VAR_TEXT) == 0) {
+            requestMeta = JsonUtils.toJson(JavaExecScript.returnJson(requestMeta, CASES));
         }
         return requestMeta;
     }
@@ -371,7 +379,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
     private String parseRequestData(ReqInfo ri) {
         String requestMeta = ri.getMeta().get("request");
         requestMeta = StringUtils.defaultIfBlank(requestMeta, "{}").trim();
-        if (requestMeta.indexOf("var") == 0) {
+        if (requestMeta.indexOf(VAR_TEXT) == 0) {
             requestMeta = JsonUtils.toJson(JavaExecScript.returnJson(requestMeta, "req"));
         }
         return requestMeta;
@@ -504,7 +512,7 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         return requestInfoRepository.selectByExample(reqInfoExample);
     }
 
-
+    @Override
     public List<ReqInfo> listRequestInfoByReqGroup(Long reqGroupId) {
         return listRequestInfoByReqGroup(reqGroupService.findOne(reqGroupId));
     }

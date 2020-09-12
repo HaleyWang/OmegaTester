@@ -6,7 +6,8 @@ import java.text.ParseException;
 import java.util.Date;
 
 /**
- * Created by haley on 2018/12/6.
+ * @author haley
+ * @date 2018/12/16
  */
 public class CronUtils {
 

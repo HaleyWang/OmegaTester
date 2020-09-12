@@ -2,13 +2,15 @@ package com.haleywang.monitor;
 
 import com.haleywang.monitor.common.mvc.Server;
 import com.haleywang.monitor.schedule.CronScheduleHelper;
-import com.haleywang.monitor.service.impl.ReqBatchServiceImpl;
 
+
+/**
+ * @author haley
+ */
 public class App {
 
-    public static void main( String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         Server.start(args);
         CronScheduleHelper.start();
-
     }
 }

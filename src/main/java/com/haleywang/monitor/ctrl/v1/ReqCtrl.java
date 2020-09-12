@@ -27,7 +27,8 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by haley on 2018/8/18.
+ * @author haley
+ * @date 2018/12/16
  */
 public class ReqCtrl extends BaseCtrl {
 
@@ -125,13 +126,9 @@ public class ReqCtrl extends BaseCtrl {
     public ResultStatus<Long> delete() {
 
         Long id = Long.parseLong(getUrlParam("id"));
-
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();
-        //todo check userid
         requestInfoService.deleteByPrimaryKey(id);
-
         return new ResultStatus<>(id);
-
     }
 
     public ResultStatus<List<ReqGroup>> groupList() {

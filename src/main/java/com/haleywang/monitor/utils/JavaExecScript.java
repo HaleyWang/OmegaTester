@@ -12,12 +12,17 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.File;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 //TODO use NashornScriptEngineFactory
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JavaExecScript {
     private  static final Pattern PATTERN_VAR_NAME = Pattern.compile("var\\s+(\\w+)\\s+");
@@ -84,7 +89,7 @@ public class JavaExecScript {
         filePath = filePath.replaceAll("//", "/").replaceAll("test-classes", "classes");
 
         try {
-            lib = FileUtils.readFileToString(new File(filePath), "utf-8");
+            lib = FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
             ScriptEngineManager sem = new ScriptEngineManager();
             se = sem.getEngineByName(JAVASCRIPT);
             se.eval(lib);

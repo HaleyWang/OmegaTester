@@ -7,6 +7,10 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Getter
 public class LoginResultDto extends  ReqAccount {
 

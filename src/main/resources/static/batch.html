@@ -369,14 +369,15 @@
 								<button data-ng-click="fetchReqHistoryDetail(reqHistory)">Detail</button>
 							</div>
 						</div>
-						<div data-ng-if="reqHistory.req.showDetail" class="row" style="padding: 10px 0 0 0;">
+						<div data-ng-if="reqHistory.showDetail" class="row" style="padding: 10px 0 0 0;">
 							<div class="col-md-12">
-
 
 
 								<ul class="nav nav-tabs" role="tablist">
 									<li role="presentation" class="active">
-										<a href="#req-data-{{reqHistory.taskHistoryId}}" aria-controls="req-data-{{reqHistory.taskHistoryId}}" role="tab" data-toggle="tab">Request data</a>
+										<a href="#req-data-{{reqHistory.taskHistoryId}}"
+										   aria-controls="req-data-{{reqHistory.taskHistoryId}}" role="tab"
+										   data-toggle="tab">Request data</a>
 									</li>
 
 									<li role="presentation" class="">

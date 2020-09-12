@@ -3,7 +3,8 @@ package com.haleywang.monitor.entity;
 import org.apache.ibatis.type.EnumTypeHandler;
 
 /**
- * Created by haley on 2018/8/19.
+ * @author haley
+ * @date 2018/12/16
  */
 public class DataTypeEnumTypeHandler extends EnumTypeHandler<ReqMeta.DataType> {
 

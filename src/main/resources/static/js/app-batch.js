@@ -278,10 +278,11 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 
 	$scope.fetchReqHistoryDetail =  function(reqHistory) {
 	    var id = reqHistory.taskHistoryId;
-	    reqHistory.req.showDetail = !reqHistory.req.showDetail;
+	    reqHistory.showDetail = !reqHistory.showDetail;
         $http.get("/v1/reqHistory/detail?id=" +id).success(function(res) {
             console.log(res);
 
+            reqHistory.req = {};
             reqHistory.req.meta = res.data.req.meta;
 			var resContent = JSON.parse(res.data.reqTaskHistoryMeta.content);
 			resContent.body = JSON.parse(resContent.body);

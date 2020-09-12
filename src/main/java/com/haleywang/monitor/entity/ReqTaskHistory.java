@@ -3,8 +3,9 @@ package com.haleywang.monitor.entity;
 import com.haleywang.monitor.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;
 
@@ -16,28 +17,35 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 public class ReqTaskHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     public static enum HisType {
-    	BATCH, MANUAL
+        /**
+         * Options of enum
+         */
+        BATCH, MANUAL
     }
-    
+
     @Id
-	@GeneratedValue(generator= "JDBC")
+    @GeneratedValue(generator = "JDBC")
     private Long taskHistoryId;
 
     private Long batchHistoryId;
-	private Long reqId;
+    private Long reqId;
 
-	@ColumnType(column = "his_type", jdbcType = JdbcType.VARCHAR)
+    @ColumnType(column = "his_type", jdbcType = JdbcType.VARCHAR)
 	private HisType hisType;
 
     private Long createdById;

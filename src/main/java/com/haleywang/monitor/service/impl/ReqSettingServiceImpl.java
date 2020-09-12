@@ -8,7 +8,6 @@ import com.haleywang.monitor.dao.ReqSettingRepository;
 import com.haleywang.monitor.dto.ConfigDto;
 import com.haleywang.monitor.dto.IdValuePair;
 import com.haleywang.monitor.dto.ResultMessage;
-import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.dto.msg.SettingDeleteMsg;
 import com.haleywang.monitor.dto.msg.SettingSaveMsg;
 import com.haleywang.monitor.entity.ReqAccount;
@@ -25,6 +24,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 public class ReqSettingServiceImpl extends BaseServiceImpl<ReqSetting> implements ReqSettingService {
 
     private ReqSettingRepository reqSettingRepository;
@@ -131,9 +134,9 @@ public class ReqSettingServiceImpl extends BaseServiceImpl<ReqSetting> implement
                 for (String exampleCategory : exampleGroups) {
                     Optional.ofNullable(node.selectSingleNode(exampleCategory))
                             .map(Node::getStringValue)
-                            .ifPresent(text -> {
-                                configDto.examplesMap().get(exampleCategory).add(new IdValuePair().of(idx, StringUtils.trim(text)));
-                            });
+                            .ifPresent(text ->
+                                    configDto.examplesMap().get(exampleCategory).add(new IdValuePair().of(idx, StringUtils.trim(text)))
+                            );
                 }
 
             }

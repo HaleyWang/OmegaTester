@@ -3,6 +3,9 @@ package com.haleywang.monitor.dto;
 
 import lombok.Data;
 
+/**
+ * @author haley
+ */
 @Data
 public class ResultMessage<T, M extends Message> {
 
@@ -16,11 +19,13 @@ public class ResultMessage<T, M extends Message> {
 		super();
 		meta = new ResponseMeta();
 	}
+
 	public ResultMessage(T data) {
 		super();
 		meta = new ResponseMeta();
 		this.data = data;
 	}
+
 	public ResultMessage(M message, T data) {
 		super();
 		meta = new ResponseMeta();
@@ -32,6 +37,7 @@ public class ResultMessage<T, M extends Message> {
 	public T getData() {
 		return data;
 	}
+
 	public void setData(T data) {
 		this.data = data;
 	}

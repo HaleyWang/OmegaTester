@@ -1,10 +1,10 @@
 package com.haleywang.monitor.entity;
 
-import com.haleywang.monitor.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;
 
@@ -15,24 +15,31 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 public class ReqBatch implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public static enum Status {
+		/**
+		 * Options of enum
+		 */
 		RUNNING
 	}
 
 	@Id
-	@GeneratedValue(generator= "JDBC")
+	@GeneratedValue(generator = "JDBC")
 	private Long batchId;
-	
+
 	private Long scheduleId;
 
 	private Long envSettingId;

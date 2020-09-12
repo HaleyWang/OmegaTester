@@ -1,7 +1,10 @@
 package com.haleywang.monitor.dto;
 
 import lombok.Data;
-
+/**
+ * @author haley
+ * @date 2018/12/16
+ */
 @Data
 public class IdValuePair {
 
