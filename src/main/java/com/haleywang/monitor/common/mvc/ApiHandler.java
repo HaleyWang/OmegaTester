@@ -89,9 +89,10 @@ public class ApiHandler implements HttpHandler {
         if(e instanceof InvocationTargetException) {
             result = ((InvocationTargetException) e).getTargetException().getMessage();
         }
+
         int status = STATUS_500;
 
-        ResultStatus rs = new ResultStatus().ofMsg(result);
+        ResultStatus rs = new ResultStatus();
         JsonUtils.toJson(rs);
 
         responseData(he, JsonUtils.toJson(rs), status);
@@ -101,7 +102,7 @@ public class ApiHandler implements HttpHandler {
         String result = "not found";
         int status = STATUS_404;
 
-        ResultStatus rs = new ResultStatus().ofMsg(result);
+        ResultStatus rs = new ResultStatus();
         responseData(he, JsonUtils.toJson(rs), status);
     }
 

@@ -14,7 +14,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
+import java.util.stream.Stream;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * Created by haley on 2018/8/17.
@@ -30,6 +36,21 @@ public class StaticResourcesHandler implements HttpHandler {
     public static final String INDEX_HTML = "/index.html";
     public static final String DIAGONAL = "/";
 
+
+    public  void copyFolder(Path src, Path dest) throws IOException {
+        try (Stream<Path> stream = Files.walk(src)) {
+            stream.forEach(source -> copy(source, dest.resolve(src.relativize(source))));
+        }
+    }
+
+    private void copy(Path source, Path dest) {
+        try {
+            Files.copy(source, dest, REPLACE_EXISTING);
+        } catch (Exception e) {
+            //throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
     public void handle(HttpExchange t) throws IOException {
         String root = PathUtils.getRoot();
         URI uri = t.getRequestURI();
@@ -39,15 +60,17 @@ public class StaticResourcesHandler implements HttpHandler {
         }
         String rootPath = root.endsWith(DIAGONAL) ? root : root + DIAGONAL;
         String filePath = rootPath + "static" + path;
-
-
+        File file = new File(filePath).getCanonicalFile();
+        boolean fileExists = file.isFile();
+        if (!fileExists && filePath.contains("target")) {
+            copyResources(root);
+            fileExists = file.isFile();
+        }
 
         filePath = filePath.replaceAll("//", DIAGONAL);
         log.info("looking for path: " + filePath);
 
-        File file = new File(filePath).getCanonicalFile();
-
-        if (!file.isFile()) {
+        if (!fileExists) {
             // Object does not exist or is not a file: reject with 404 error.
             String response = "404 (Not Found)\n";
             t.sendResponseHeaders(404, response.length());
@@ -79,6 +102,16 @@ public class StaticResourcesHandler implements HttpHandler {
                 IOUtils.closeQuietly(os);
             }
         }
+    }
+
+    private void copyResources(String root) throws IOException {
+        synchronized (this) {
+            String projectPath = Paths.get(root, "").getParent().getParent().toString();
+            String projectResources = projectPath + DIAGONAL + "src/main/resources";
+
+            copyFolder(Paths.get(projectResources), Paths.get(root));
+        }
+
     }
 
 }

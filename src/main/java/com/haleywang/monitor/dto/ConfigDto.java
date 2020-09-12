@@ -19,10 +19,13 @@ public class ConfigDto {
 
     private HttpMethod[] methods;
 
-
+    @Builder.Default
     private List<IdValuePair> reqExamples = new ArrayList<>();
+    @Builder.Default
     private List<IdValuePair> caseExamples = new ArrayList<>();
+    @Builder.Default
     private List<IdValuePair> preScriptExamples = new ArrayList<>();
+    @Builder.Default
     private List<IdValuePair> testScriptExamples = new ArrayList<>();
 
 

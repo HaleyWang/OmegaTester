@@ -8,7 +8,6 @@ import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.entity.ReqBatch;
 import com.haleywang.monitor.entity.ReqBatchHistory;
 import com.haleywang.monitor.entity.ReqInfo;
-import com.haleywang.monitor.entity.ReqMeta;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.service.ReqBatchHistoryService;
 import com.haleywang.monitor.service.ReqBatchService;
@@ -20,6 +19,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 public class ReqJobService extends BaseServiceImpl<ReqBatch> {
@@ -86,6 +86,10 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
                 .total(total).batchStartDate(new Date()).build();
         reqBatchHistory = reqBatchHistoryService.save(reqBatchHistory);
 
+        if(reqBatchHistory == null) {
+            return;
+        }
+
         long t = System.currentTimeMillis();
         //split batch to tasks
         for (ReqInfo ri : ll) {
@@ -100,7 +104,7 @@ public class ReqJobService extends BaseServiceImpl<ReqBatch> {
         }
         reqBatchHistory.setCostTime(System.currentTimeMillis() - t);
 
-        if (reqBatchHistory.getSuccessNum() == reqBatchHistory.getTotal()) {
+        if (Objects.equals(reqBatchHistory.getSuccessNum(), reqBatchHistory.getTotal())) {
             status = ReqBatchHistory.Status.COMPLETED;
         } else if(status != ReqBatchHistory.Status.CANCELLED) {
             status = ReqBatchHistory.Status.ERROR;

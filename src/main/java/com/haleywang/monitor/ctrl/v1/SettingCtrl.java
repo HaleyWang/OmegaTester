@@ -2,7 +2,10 @@ package com.haleywang.monitor.ctrl.v1;
 
 import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.common.mvc.ParamBody;
+import com.haleywang.monitor.dto.ResultMessage;
 import com.haleywang.monitor.dto.ResultStatus;
+import com.haleywang.monitor.dto.msg.SettingDeleteMsg;
+import com.haleywang.monitor.dto.msg.SettingSaveMsg;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.entity.ReqSetting;
 import com.haleywang.monitor.service.ReqSettingService;
@@ -17,13 +20,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class SettingCtrl extends BaseCtrl {
 
-    public ResultStatus<ReqSetting> save(@ParamBody ReqSetting ri) {
+    public ResultMessage<ReqSetting, SettingSaveMsg> save(@ParamBody ReqSetting ri) {
 
         ReqAccount acc = currentAccountAndCheck();
         return new ReqSettingServiceImpl().saveSetting(ri, acc);
     }
 
-    public ResultStatus<ReqSetting> add(@ParamBody ReqSetting ri)  {
+    public ResultMessage<ReqSetting, SettingSaveMsg> add(@ParamBody ReqSetting ri)  {
 
         ReqAccount acc = currentAccountAndCheck();
         ri.setOnwer(acc.getAccountId());
@@ -31,7 +34,7 @@ public class SettingCtrl extends BaseCtrl {
         return new ReqSettingServiceImpl().saveSetting(ri, acc);
     }
 
-    public ResultStatus<ReqSetting> update(@ParamBody ReqSetting ri)  {
+    public ResultMessage<ReqSetting, SettingSaveMsg> update(@ParamBody ReqSetting ri)  {
         return save(ri);
     }
 
@@ -43,7 +46,7 @@ public class SettingCtrl extends BaseCtrl {
         return new ResultStatus<>(ll);
     }
 
-    public ResultStatus<Long> delete()  {
+    public ResultMessage<Long, SettingDeleteMsg> delete()  {
 
         Long id = Long.parseLong(getUrlParam("id"));
         checkNotNull(id, "Parameter id must be not null");

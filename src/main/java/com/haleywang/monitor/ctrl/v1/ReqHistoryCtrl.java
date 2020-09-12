@@ -7,7 +7,6 @@ import com.haleywang.monitor.entity.ReqInfo;
 import com.haleywang.monitor.entity.ReqTaskHistory;
 import com.haleywang.monitor.service.ReqInfoService;
 import com.haleywang.monitor.service.impl.ReqInfoServiceImpl;
-import com.haleywang.monitor.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -32,12 +31,12 @@ public class ReqHistoryCtrl extends BaseCtrl {
         ReqInfoService requestInfoService = new ReqInfoServiceImpl();
         if (batchHistoryId != null) {
             List<ReqTaskHistory> ll = requestInfoService.findReqTaskHistory(acc, batchHistoryId);
-            return res.ofData(ll);
+            return res.withData(ll);
         }
 
         List<ReqTaskHistory> ll = requestInfoService.findReqTaskHistory(acc, hisType);
 
-        return res.ofData(ll);
+        return res.withData(ll);
     }
 
     public ResultStatus<ReqTaskHistory> detail() {

@@ -192,8 +192,9 @@
                             <!--
                     <div data-angular-treeview="true" class="req-tree"
                          data-tree-id="mytree" data-tree-model="reqList"></div>
+                         3
                          -->
-                            <div ui-tree="treeOptions" id="tree-root">
+                            <div ui-tree="treeOptions" id="tree-root" callbacks="treeOptions"  >
                                 <ol ui-tree-nodes="treeOptions" data-ng-model="reqList">
                                     <li data-ng-repeat="node in reqList" ui-tree-node data-ng-include="'nodes_renderer.html'" data-ng-show="visibleGroup(node)"></li>
                                 </ol>

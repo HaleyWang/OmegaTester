@@ -1,6 +1,5 @@
 package com.haleywang.monitor.ctrl.v1;
 
-import com.haleywang.monitor.common.Msg;
 import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.entity.ReqBatch;
@@ -25,7 +24,7 @@ public class BatchCtrl extends BaseCtrl {
         ReqBatchService service = new ReqBatchServiceImpl();
         service.save(reqBatch, currentAccountAndCheck());
 
-        return JsonUtils.toJson(res.of(Msg.OK));
+        return JsonUtils.toJson(res);
     }
 
     //
@@ -42,7 +41,7 @@ public class BatchCtrl extends BaseCtrl {
 
         service.update(reqBatch, currentAccount());
 
-        return res.of(Msg.OK);
+        return res;
     }
 
     public String list()  {

@@ -2,21 +2,21 @@ package com.haleywang.monitor.service.impl;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
-import com.haleywang.monitor.common.Msg;
 import com.haleywang.monitor.common.ReqException;
-import com.haleywang.monitor.common.mvc.ParamBody;
 import com.haleywang.monitor.ctrl.v1.ConfigCtrl;
 import com.haleywang.monitor.dao.ReqSettingRepository;
 import com.haleywang.monitor.dto.ConfigDto;
 import com.haleywang.monitor.dto.IdValuePair;
+import com.haleywang.monitor.dto.ResultMessage;
 import com.haleywang.monitor.dto.ResultStatus;
+import com.haleywang.monitor.dto.msg.SettingDeleteMsg;
+import com.haleywang.monitor.dto.msg.SettingSaveMsg;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.entity.ReqSetting;
 import com.haleywang.monitor.service.ReqSettingService;
 import com.haleywang.monitor.utils.FileTool;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Node;
 import tk.mybatis.mapper.entity.Example;
@@ -24,8 +24,6 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ReqSettingServiceImpl extends BaseServiceImpl<ReqSetting> implements ReqSettingService {
 
@@ -41,18 +39,18 @@ public class ReqSettingServiceImpl extends BaseServiceImpl<ReqSetting> implement
     }
 
 
-    public ResultStatus<ReqSetting> saveSetting(ReqSetting ri, ReqAccount acc) {
+    public ResultMessage<ReqSetting, SettingSaveMsg> saveSetting(ReqSetting ri, ReqAccount acc) {
 
-        ResultStatus<ReqSetting> res = new ResultStatus<>();
+        ResultMessage<ReqSetting, SettingSaveMsg> res = new ResultMessage<>();
 
         if (ri.getId() != null) {
             ReqSetting ri1 = findOne(ri.getId());
             if (ri1 == null) {
-                return res.of(Msg.NOT_FOUND);
+                return res.ofMessage(SettingSaveMsg.NOT_FOUND);
             }
 
             if (!Objects.equals(ri1.getOnwer() , acc.getAccountId())) {
-                return res.of(Msg.NOT_ALLOWED);
+                return res.ofMessage(SettingSaveMsg.NOT_ALLOWED);
             }
 
             if (ri.getId() != null) {
@@ -95,22 +93,22 @@ public class ReqSettingServiceImpl extends BaseServiceImpl<ReqSetting> implement
         return reqSettingRepository.selectByExample(reqSettingExample);
     }
 
-    public ResultStatus<Long> delete(Long id, ReqAccount acc)  {
+    public ResultMessage<Long, SettingDeleteMsg> delete(Long id, ReqAccount acc)  {
 
-        ResultStatus<List<ReqSetting>> res = new ResultStatus<>();
+        ResultMessage<Long, SettingDeleteMsg> res = new ResultMessage<>();
 
         ReqSetting ri1 = findOne(id);
         if (ri1 == null) {
-            return res.of(Msg.NOT_FOUND);
+            return res.ofMessage(SettingDeleteMsg.NOT_FOUND);
         }
 
         if (!Objects.equals(ri1.getOnwer() , acc.getAccountId())) {
-            return res.of(Msg.NOT_ALLOWED);
+            return res.ofMessage(SettingDeleteMsg.NOT_ALLOWED);
         }
 
         delete(ri1);
 
-        return res.of(Msg.OK).ofData(id);
+        return res.ofData(id);
     }
 
     public ConfigDto parseConfigDto() {

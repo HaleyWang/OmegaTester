@@ -5,9 +5,11 @@ import com.haleywang.monitor.common.mvc.BaseCtrl;
 import com.haleywang.monitor.common.mvc.ParamBody;
 import com.haleywang.monitor.common.req.converter.ConverterBuilder;
 import com.haleywang.monitor.dto.MyRequest;
+import com.haleywang.monitor.dto.ResultMessage;
 import com.haleywang.monitor.dto.ResultStatus;
 import com.haleywang.monitor.dto.TypeValuePair;
 import com.haleywang.monitor.dto.UnirestRes;
+import com.haleywang.monitor.dto.msg.GroupDeleteMsg;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.entity.ReqGroup;
 import com.haleywang.monitor.entity.ReqInfo;
@@ -83,7 +85,7 @@ public class ReqCtrl extends BaseCtrl {
 
         UnirestRes result = new ReqInfoServiceImpl().send(ri, currentAccountAndCheck());
 
-        return new ResultStatus<>().ofData(result);
+        return new ResultStatus<>().withData(result);
     }
 
     public ResultStatus<List<ReqGroup>> list() {
@@ -92,7 +94,7 @@ public class ReqCtrl extends BaseCtrl {
 
         List<ReqGroup> ll = new ReqInfoServiceImpl().listRequestInfoByAccount(acc);
 
-        return new ResultStatus<>().ofData(ll);
+        return new ResultStatus<>().withData(ll);
     }
 
     public ResultStatus<List<ReqGroup>> tree() {
@@ -106,7 +108,7 @@ public class ReqCtrl extends BaseCtrl {
 
         List<ReqInfo> ll = new ReqInfoServiceImpl().listRequestInfoBySwaggerId(currentAccountAndCheck(), swaggerId);
 
-        return new ResultStatus<>().ofData(ll);
+        return new ResultStatus<>().withData(ll);
     }
 
     public ResultStatus<ReqInfo> detail() {
@@ -159,7 +161,7 @@ public class ReqCtrl extends BaseCtrl {
         return new ResultStatus<>(reqGroup);
     }
 
-    public ResultStatus<ReqGroup> groupDelete() {
+    public ResultMessage<ReqGroup, GroupDeleteMsg> groupDelete() {
         ReqAccount acc = currentAccountAndCheck();
 
         Long id = Long.parseLong(getUrlParam("id"));

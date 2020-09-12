@@ -1,14 +1,15 @@
 package com.haleywang.monitor.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.haleywang.monitor.common.Msg;
 import com.haleywang.monitor.common.mvc.Server;
 import com.haleywang.monitor.common.req.HttpMethod;
 import com.haleywang.monitor.dao.ReqAccountRepository;
 import com.haleywang.monitor.dao.ReqGroupRepository;
 import com.haleywang.monitor.dao.ReqRelationRepository;
 import com.haleywang.monitor.dto.ConfigDto;
+import com.haleywang.monitor.dto.ResultMessage;
 import com.haleywang.monitor.dto.ResultStatus;
+import com.haleywang.monitor.dto.msg.GroupDeleteMsg;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.entity.ReqGroup;
 import com.haleywang.monitor.entity.ReqInfo;
@@ -141,8 +142,8 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 		return g;
 	}
 
-	public ResultStatus<ReqGroup> groupDelete(Long id, ReqAccount currentAccount) {
-		ResultStatus<ReqGroup> res = new ResultStatus<>();
+	public ResultMessage<ReqGroup, GroupDeleteMsg> groupDelete(Long id, ReqAccount currentAccount) {
+		ResultMessage<ReqGroup, GroupDeleteMsg> res = new ResultMessage<>();
 
 		ReqInfoService requestInfoService = new ReqInfoServiceImpl();
 
@@ -150,7 +151,8 @@ public class ReqGroupServiceImpl extends BaseServiceImpl<ReqGroup> implements Re
 
 		List<ReqInfo> reqs = requestInfoService.listRequestInfoByReqGroup(rg);
 		if (!reqs.isEmpty()) {
-			return res.of(Msg.NOT_ALLOWED);
+			return res.ofMessage(GroupDeleteMsg.NOT_ALLOWED);
+
 		}
 		delete(rg);
 

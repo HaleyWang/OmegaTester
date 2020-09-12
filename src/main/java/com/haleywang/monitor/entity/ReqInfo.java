@@ -78,6 +78,7 @@ public class ReqInfo implements Serializable, ReqGroupItem {
 
 	@JsonDeserialize(using = CustomDateDeserializer.class)
 	@ColumnType(column = "method", jdbcType = JdbcType.VARCHAR)
+	@Builder.Default
 	private HttpMethod method = HttpMethod.GET;
 
 	private Long groupId;
@@ -94,6 +95,7 @@ public class ReqInfo implements Serializable, ReqGroupItem {
     private Date updatedOn;
     
     @Transient
+	@Builder.Default
     private Map<String, String> meta = new HashMap<>();
     private int caseIndex;
 

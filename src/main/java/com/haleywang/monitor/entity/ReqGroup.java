@@ -54,6 +54,7 @@ public class ReqGroup implements Serializable , ReqGroupItem  {
     private ReqAccount modifiedBy;
 
     @Transient
+	@Builder.Default
 	private transient List<ReqGroupItem> children = new ArrayList<>();
 
     public ReqGroup(ReqGroup reqGroup) {

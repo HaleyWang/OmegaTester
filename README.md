@@ -3,7 +3,8 @@
 ## Run from jar
 
 ```
-cd OmegaTester/target
+mvn clean package
+cd ./target
 java -jar omegatester-0.1.jar
 ```
 
@@ -18,10 +19,6 @@ Prerequisites:
 cd OmegaTester
 mvn clean install
 mvn exec:java
-```
-
-```
-source ~/.bash_profile
 
 ```
 

@@ -1,29 +1,32 @@
 package com.haleywang.monitor.service.impl;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
+import com.haleywang.monitor.common.LoginMsg;
 import com.haleywang.monitor.common.NotFoundException;
 import com.haleywang.monitor.common.ReqException;
+import com.haleywang.monitor.common.login.LoginCookieEncrypt;
+import com.haleywang.monitor.dao.ReqAccountRepository;
 import com.haleywang.monitor.dto.ChangePasswordDto;
+import com.haleywang.monitor.dto.LoginResultDto;
+import com.haleywang.monitor.dto.Message;
 import com.haleywang.monitor.dto.NewAccountDto;
 import com.haleywang.monitor.dto.ResetPasswordDto;
-import com.haleywang.monitor.utils.CollectionUtils;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.haleywang.monitor.dao.ReqAccountRepository;
+import com.haleywang.monitor.dto.ResultMessage;
 import com.haleywang.monitor.dto.ResultStatus;
-import com.haleywang.monitor.common.login.LoginCookieEncrypt;
 import com.haleywang.monitor.entity.ReqAccount;
 import com.haleywang.monitor.service.ReqAccountService;
 import com.haleywang.monitor.utils.AESUtil;
+import com.haleywang.monitor.utils.CollectionUtils;
 import com.haleywang.monitor.utils.Md5Utils;
 import com.haleywang.monitor.utils.StringTool;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import tk.mybatis.mapper.entity.Example;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.UUID;
 
 public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implements ReqAccountService {
 
@@ -65,14 +68,14 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		return register(dto);
 	}
 
-	public ResultStatus<Pair<String, ReqAccount>> login(String email, String pass) {
-		ResultStatus<Pair<String, ReqAccount>> res = new ResultStatus<>();
+	public ResultMessage<LoginResultDto, LoginMsg> login(String email, String pass)
+			throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+
+		ResultMessage<LoginResultDto, LoginMsg> res = new ResultMessage<>();
 		if(email == null || pass == null) {
-			res.ofCode(1005+"");
+			res.ofMessage(LoginMsg.EMAIL_OR_PASSWORD_IS_INCORRECT);
 			return res;
 		}
-		
-
 		String passwordMD5 = null;
 		try {
 			passwordMD5 = Md5Utils.getT4MD5(pass);
@@ -85,13 +88,13 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		List<ReqAccount> list = reqAccountRepository.selectByExample(example);
 
 		if (CollectionUtils.isEmpty(list)) {
-			res.ofCode(1002+"");
+			res.ofMessage(LoginMsg.EMAIL_OR_PASSWORD_IS_INCORRECT);
 			return res;
 		}
 
 		ReqAccount a = list.get(0);
 		if (a == null) {
-			res.ofCode(1002+"");
+			res.ofMessage(LoginMsg.EMAIL_OR_PASSWORD_IS_INCORRECT);
 			return res;
 		}
 
@@ -101,20 +104,19 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		} catch (Exception e) {
 			throw new ReqException(e.getMessage(), e);
 		}
-		
-		res.setData(Pair.of(loginCookieVal, a) );
 
+		LoginResultDto loginResultDto = new LoginResultDto(loginCookieVal, a);
+		res.setData(loginResultDto);
 		return res;
 	}
 
 
-
-	public ResultStatus<ReqAccount> sendUpdatePassUrlToEmail(String email) {
-		ResultStatus<ReqAccount> res = new ResultStatus<>();
+	public ResultMessage<ReqAccount, Message> sendUpdatePassUrlToEmail(String email) {
+		ResultMessage<ReqAccount, Message> res = new ResultMessage<>();
 
 		ReqAccount a = reqAccountRepository.findByEmail(email);
 		if (a == null) {
-			res.ofCode(1003+"");
+			res.ofMessage(null);
 			return res;
 		}
 
@@ -137,7 +139,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		}
 		ReqAccount a = reqAccountRepository.findByEmailAndToken(email, token);
 		if (a == null) {
-			res.ofCode(1004+"");
+			//res.ofCode(1004+"");
 			return res;
 		}
 
@@ -188,7 +190,7 @@ public class ReqAccountServiceImpl extends BaseServiceImpl<ReqAccount> implement
 		}
 
 		if(a.getPassword().equals(Md5Utils.getT4MD5(dto.getOldPassword()))) {
-			res.ofCode("1005");
+			//res.ofCode("1005");
 			return res;
 		}
 
