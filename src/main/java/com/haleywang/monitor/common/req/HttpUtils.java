@@ -64,7 +64,7 @@ public class HttpUtils {
 		Charset charset = Util.bomAwareCharset(response.body().source(), charset(response.body()));
 
 		try (InputStream in = response.body().byteStream()) {
-
+			// fix chunked response
 			List<String> lines = IOUtils.readLines(in, charset);
 			return new UnirestRes().withRes(response, StringUtils.join(lines, "\n"));
 		}
