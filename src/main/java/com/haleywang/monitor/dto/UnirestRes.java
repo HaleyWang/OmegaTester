@@ -6,7 +6,6 @@ import com.haleywang.monitor.utils.JsonUtils;
 import lombok.Data;
 import okhttp3.Response;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,14 +32,14 @@ public class UnirestRes {
 	}
 
 
-	public UnirestRes withRes(Response res) throws IOException {
+	public UnirestRes withRes(Response res, String body) {
 		this.res = res;
-		body = res.body().string();
+		this.body = body;
 		return this;
 	}
 
 	public int getStatus() {
-		if(res == null) {
+		if (res == null) {
 			return 0;
 		}
 		return res.code();

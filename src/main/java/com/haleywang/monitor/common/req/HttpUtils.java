@@ -7,10 +7,20 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okhttp3.internal.Util;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static okhttp3.internal.Util.UTF_8;
+
 /**
  * @author haley
  * @date 2018/12/16
@@ -51,8 +61,19 @@ public class HttpUtils {
 				.build();
 		Response response = CLIENT.newCall(request).execute();
 
-		return new UnirestRes().withRes(response);
+		Charset charset = Util.bomAwareCharset(response.body().source(), charset(response.body()));
 
+		try (InputStream in = response.body().byteStream()) {
+
+			List<String> lines = IOUtils.readLines(in, charset);
+			return new UnirestRes().withRes(response, StringUtils.join(lines, "\n"));
+		}
+
+	}
+
+	private static Charset charset(ResponseBody rb) {
+		MediaType contentType = rb.contentType();
+		return contentType != null ? contentType.charset(UTF_8) : UTF_8;
 	}
 
 }
