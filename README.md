@@ -2,6 +2,12 @@
 
 ## Run from jar
 
+
+git filter-branch --force --index-filter \
+  'git rm -r --cached --ignore-unmatch src' \
+  --prune-empty --tag-name-filter cat -- --all
+
+
 ```
 mvn clean package
 cd ./target
