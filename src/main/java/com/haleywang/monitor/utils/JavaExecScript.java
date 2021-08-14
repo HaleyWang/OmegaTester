@@ -2,17 +2,25 @@ package com.haleywang.monitor.utils;
 
 import com.haleywang.monitor.common.ReqException;
 import com.haleywang.monitor.common.req.HttpTool;
+import com.haleywang.monitor.common.req.HttpUtils;
+import com.haleywang.monitor.dto.UnirestRes;
+import com.haleywang.monitor.entity.ReqSetting;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,27 +89,105 @@ public class JavaExecScript {
         }
     }
 
-    static String lib = "";
-    static ScriptEngine se = null;
+    private static String TEST_SCRIPT = "";
+    private static String PRE_SCRIPT = "";
 
     static {
-        String filePath = PathUtils.getRoot() + "/static/js/underscore-min.js";
-        filePath = filePath.replaceAll("//", "/").replaceAll("test-classes", "classes");
 
         try {
-            lib = FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
-            ScriptEngineManager sem = new ScriptEngineManager();
-            se = sem.getEngineByName(JAVASCRIPT);
-            se.eval(lib);
-            HttpTool ht = new HttpTool();
-            se.put("$httpTool", ht);
+            TEST_SCRIPT = PathUtils.getRresource("conf/js_script/test_script.js");
+            PRE_SCRIPT = PathUtils.getRresource("conf/js_script/pre_script.js");
 
         } catch (Exception e) {
             throw new ReqException(e.getMessage(), e);
         }
     }
 
-    public static String jsRunTestCode(String code, String response, String preReqResultStr) {
+    private static ScriptEngine createScriptEngine(String code) throws IOException, ScriptException {
+        File jsLibFolder = new File(getJsLibFolder());
+        FileUtils.ensureDirectoryExists(jsLibFolder);
+
+        ScriptEngineManager sem = new ScriptEngineManager();
+        ScriptEngine se = sem.getEngineByName(JAVASCRIPT);
+
+        addLibDefault(se);
+        addLibByCode(se, code);
+
+        HttpTool ht = new HttpTool();
+        se.put("$httpTool", ht);
+        return se;
+    }
+
+    private static String getJsLibFolder() {
+        return PathUtils.getRoot() + "/data1/js_lib";
+    }
+
+    private static void addLibDefault(ScriptEngine se) throws IOException, ScriptException {
+        String fileRelatePath = "/static/js/underscore-min.js";
+        if (!LIB_CACHE.containsKey(fileRelatePath)) {
+            String lib = PathUtils.getRresource(fileRelatePath);
+            LIB_CACHE.put(fileRelatePath, lib);
+        }
+        se.eval(LIB_CACHE.get(fileRelatePath));
+    }
+
+    static void addLibByCode(ScriptEngine se, String code) throws IOException, ScriptException {
+        if (StringUtils.isBlank(code)) {
+            return;
+        }
+        List<String> libUrls = parseLibUrls(code);
+        for (String libUrl : libUrls) {
+            addLibByUrl(libUrl, se);
+        }
+    }
+
+    static final Pattern IMPORT_PATTERN = Pattern.compile("//\\s?import\\s+\"(.+)\"");
+
+    static List<String> parseLibUrls(String code) {
+        List<String> res = new ArrayList<>();
+        String[] arr = code.split("\n");
+        for (String line : arr) {
+            line = line.trim();
+            Matcher m = IMPORT_PATTERN.matcher(line);
+            if (m.find()) {
+                String url = m.group(1);
+                res.add(url);
+            }
+        }
+        return res;
+    }
+
+    static final Map<String, String> LIB_CACHE = new ConcurrentHashMap<>();
+
+    static void addLibByUrl(String libUrl, ScriptEngine se) throws IOException, ScriptException {
+        String lib = getCodeByLibUrl(libUrl);
+        se.eval(lib);
+    }
+
+    static String getCodeByLibUrl(String libUrl) throws IOException {
+        String fileRelatePath = PathUtils.urlToPath(libUrl);
+
+        if (!LIB_CACHE.containsKey(fileRelatePath)) {
+
+            File jsFile = new File(getJsLibFolder() + "/" + fileRelatePath);
+            String lib;
+
+            if (jsFile.exists()) {
+                lib = org.apache.commons.io.FileUtils.readFileToString(jsFile, StandardCharsets.UTF_8);
+            } else {
+                UnirestRes result = HttpUtils.get(libUrl);
+                lib = result.getBody();
+                FileUtils.ensureDirectoryExists(jsFile.getParentFile());
+                org.apache.commons.io.FileUtils.writeStringToFile(jsFile, lib, StandardCharsets.UTF_8);
+            }
+
+            LIB_CACHE.put(fileRelatePath, lib);
+        }
+
+        return LIB_CACHE.get(fileRelatePath);
+    }
+
+    public static String jsRunTestCode(String code, String response, String preReqResultStr, ReqSetting envString) {
         if (code == null) {
             return null;
         }
@@ -112,14 +198,13 @@ public class JavaExecScript {
 
         try {
 
-            String assertThatFun = " function $assertThat(msg, actual,expect, condition) { if(!condition) { condition = function(a, e) { return a === e; } } try{ $tests[msg] = condition(actual, expect); if(!$tests[msg]) {$tests[msg] = JSON.stringify(arguments) ;} }catch(e) {$tests[ msg] = $tests[ msg] + ' ' + JSON.stringify(arguments) + ' ' + e.toString();}; }; ";
+            String script = TEST_SCRIPT.replace("{{my_code}}", code);
 
-            String script = " function test($response, $preReqResultStr){ var $preReqResult = JSON.parse($preReqResultStr); var $tests = {}; " + assertThatFun + " try{ " + code + " } catch(e){$tests.error = e.toString();} return JSON.stringify($tests); }";
-
+            ScriptEngine se = createScriptEngine(code);
             se.eval(script);
 
             Invocable inv2 = (Invocable) se;
-            return (String) inv2.invokeFunction("test", response, preReqResultStr);
+            return (String) inv2.invokeFunction("test", response, preReqResultStr, envString);
         } catch (Exception e) {
             throw new ReqException(e.getMessage(), e);
 
@@ -132,8 +217,10 @@ public class JavaExecScript {
         }
 
         try {
-            String script = "function runPreRequestScript($envString){ var $preReqResult = {} ;try{ " + code + " } catch(e){$preReqResult.error = e.toString();} return JSON.stringify($preReqResult); }";
 
+            String script = PRE_SCRIPT.replace("{{my_code}}", code);
+
+            ScriptEngine se = createScriptEngine(code);
             se.eval(script);
 
             Invocable inv2 = (Invocable) se;
@@ -152,6 +239,7 @@ public class JavaExecScript {
         String funName = script.substring("function".length(), script.indexOf('(')).trim();
 
         try {
+            ScriptEngine se = createScriptEngine(code);
             se.eval(script);
 
             Invocable inv2 = (Invocable) se;

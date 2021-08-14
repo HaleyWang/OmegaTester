@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -51,6 +52,16 @@ public class HttpUtils {
 		String bodyStr = reqItem.getDataBuff().toString();
 
 
+		return send(url, httpMethod, reqHeaders, bodyStr);
+
+	}
+
+	public static UnirestRes get(String url) throws IOException {
+		return send(url, HttpMethod.GET, null, null);
+	}
+
+	private static UnirestRes send(String url, HttpMethod httpMethod, Map<String, String> reqHeaders1, String bodyStr) throws IOException {
+		Map<String, String> reqHeaders = reqHeaders1 != null ? reqHeaders1 : new HashMap<>();
 		String contentType = reqHeaders.getOrDefault(reqHeaders.get("content-type"), reqHeaders.getOrDefault("Content-Type", "text/plain"));
 		MediaType mediaType = MediaType.parse(contentType);
 		RequestBody body = okhttp3.internal.http.HttpMethod.permitsRequestBody(httpMethod.name()) ? RequestBody.create(mediaType, bodyStr) : null;
@@ -68,7 +79,6 @@ public class HttpUtils {
 			List<String> lines = IOUtils.readLines(in, charset);
 			return new UnirestRes().withRes(response, StringUtils.join(lines, "\n"));
 		}
-
 	}
 
 	private static Charset charset(ResponseBody rb) {

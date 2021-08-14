@@ -339,9 +339,12 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         }
 
 
-        String testResults = runTestRespone(ri, jsonRes, preReqResultStr);
+        String testResults = runTestRespone(ri, jsonRes, preReqResultStr, envString);
+        result.setPreReqResult(preReqResultStr);
         result.setTestResult(testResults);
         result.setTestSuccess(isTestResultSuccess(testResults));
+
+        saveEnv(testResults, currentAccout);
 
         ReqTaskHistory reqTaskHistory = new ReqTaskHistory();
         reqTaskHistory.setCreatedOn(new Date());
@@ -365,6 +368,32 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         removeOldHistory(currentAccout, hisType);
 
         return result;
+    }
+
+    private void saveEnv(String testResults, ReqAccount currentAccout) {
+
+        TypeReference<HashMap> t = new TypeReference<HashMap>() {
+        };
+
+        HashMap<String, Object> testResultsMap = JsonUtils.fromJson(testResults, t);
+        if (testResultsMap == null) {
+            return;
+        }
+
+        HashMap<String, Object> envMap = (HashMap<String, Object>) testResultsMap.get("$env");
+        ReqSetting envSt = reqSettingService.findByTypeAndOnwerAndCurrent(ReqSetting.SettingType.ENV, currentAccout.getAccountId(), 1);
+        if (envMap == null) {
+            return;
+        }
+        String envJson = envSt.getContent() != null ? envSt.getContent() : "{}";
+
+        HashMap<String, Object> envJsonInDb = JsonUtils.fromJson(envJson, t);
+        envJsonInDb.putAll(envMap);
+
+        envSt.setContent(JsonUtils.toJson(envJsonInDb));
+
+        reqSettingService.update(envSt);
+
     }
 
     private String parseCasesData(ReqInfo ri) {
@@ -440,13 +469,13 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
         return JavaExecScript.jsRunPreRequestScriptCode(preRequestScriptCode, envContent);
     }
 
-    private String runTestRespone(ReqInfo ri, String response, String preReqResultStr) {
+    private String runTestRespone(ReqInfo ri, String response, String preReqResultStr, ReqSetting envString) {
 
         Map<String, String> riMeta = ri.getMeta();
         String key = DataType.TEST_SCRIPT.name();
         String code = riMeta.getOrDefault(key.toLowerCase(), riMeta.get(key));
 
-        return JavaExecScript.jsRunTestCode(code, response, preReqResultStr);
+        return JavaExecScript.jsRunTestCode(code, response, preReqResultStr, envString);
 
     }
 
@@ -455,11 +484,11 @@ public class ReqInfoServiceImpl extends BaseServiceImpl<ReqInfo> implements
             return true;
         }
 
-        TypeReference<HashMap<String, String>> t = new TypeReference<HashMap<String, String>>() {
+        TypeReference<HashMap<String, Object>> t = new TypeReference<HashMap<String, Object>>() {
         };
-        Map<String, String> testResultMap = JsonUtils.fromJson(testResult, t);
+        Map<String, Object> testResultMap = JsonUtils.fromJson(testResult, t);
 
-        return !testResultMap.entrySet().stream().anyMatch(o -> !"true".equals(o.getValue()));
+        return !testResultMap.entrySet().stream().filter(o -> !o.getKey().startsWith("$")).anyMatch(o -> !"true".equals(o.getValue()));
     }
 
 

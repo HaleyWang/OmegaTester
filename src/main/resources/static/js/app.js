@@ -239,6 +239,11 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
     };
 
+    $scope.clickEnv = function() {
+        console.log("clickEnv");
+        $scope.fetchReqMethods();
+};
+
     $scope.login = function() {
 
         $http({
@@ -971,12 +976,20 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
             if (res.data.testResult) {
                 res.data.testResult = JSON.parse(res.data.testResult);
+                res.data.preReqResult = JSON.parse(res.data.preReqResult);
 
-                res.data.testResultArr = _.map(res.data.testResult, function(val, key) {
+
+                var testRes = _.filter(res.data.testResult, function(o){ console.log(o);return true; });
+
+                 var testRes = _.map(res.data.testResult, function(val, key) {
                     var success = _.isBoolean(val) ? val : false;
                     var res = { i: key, v: val, success: success };
                     return res;
                 });
+
+                res.data.testResultArr = _.filter(testRes, function(o){ console.log(o);return o.i.indexOf("$") != 0; });
+                res.data.testLogs = res.data.testResult["$log"];
+                res.data.preReqResultLogs = res.data.preReqResult["$log"];
 
                 res.data.testErrorCount = _.filter(res.data.testResultArr, function(o) { return !o.success; }).length;
                 res.data.testError = !!res.data.testErrorCount;
@@ -989,6 +1002,8 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
             // $scope.currentReqTabData.response.body = "loading";
 
             log(res);
+            $('#collapse-pre-logs').collapse('show');
+            $('#collapse-test-logs').collapse('show');
 
         }).error(function(data, status, headersFn, config) {
             log(' error ---');

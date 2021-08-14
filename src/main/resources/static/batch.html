@@ -545,17 +545,16 @@
 					<form class="form-horizontal" id="form-edit-to-collection">
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >Batch
-								name</label>
+							<label class="col-sm-4 control-label">Batch name *</label>
 
 							<div class="col-sm-8">
 								<input ng-model="currentEditBatch.name" type="text"
-									   class="form-control" id="new-request-name" />
+									   class="form-control" id="new-request-name"/>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label  class="col-sm-4 control-label">Groups
+							<label class="col-sm-4 control-label">Request group *
 							</label>
 							<div class="col-sm-8">
 								<select ng-model="currentEditBatch.groupId"
@@ -574,7 +573,7 @@
 						</div>
 
 						<div class="form-group">
-							<label  class="col-sm-4 control-label">Env
+							<label class="col-sm-4 control-label">Env *
 							</label>
 							<div class="col-sm-8">
 								<select ng-model="currentEditBatch.envSettingId"
@@ -594,12 +593,11 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >Time
-								Expression </label>
+							<label class="col-sm-4 control-label">Time Expression *</label>
 
 							<div class="col-sm-8">
 								<input ng-model="currentEditBatch.timeExpression" type="text"
-									   class="form-control"  />
+									   class="form-control"/>
 								<p>
 									<code>0 0/5 * * * ?</code>
 									//every 5 minutes
@@ -614,7 +612,7 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >Request
+							<label class="col-sm-4 control-label">Request
 								description</label>
 
 							<div class="col-sm-8">
@@ -623,12 +621,15 @@
 							</div>
 						</div>
 					</form>
+					<div class="alert alert-danger" role="alert" data-ng-show="batchUpdateMessage">
+						{{batchUpdateMessage}}
+					</div>
 				</div>
 
 				<div class="modal-footer">
-					<a data-dismiss="modal" class="btn btn-primary"
-					   ng-click="batchEdit()">Save</a> <a data-dismiss="modal"
-														 class="btn btn-secondary">Cancel</a>
+					<a class="btn btn-primary"
+					   ng-click="batchEdit(0)">Save</a> <a data-dismiss="modal"
+														   class="btn btn-secondary">Cancel</a>
 				</div>
 			</div>
 		</div>
@@ -654,22 +655,22 @@
 					<form class="form-horizontal" id="form-add-to-collection">
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >Batch
-								name</label>
+							<label class="col-sm-4 control-label">Batch
+								name *</label>
 
 							<div class="col-sm-8">
 								<input ng-model="newBatchObj.name" type="text"
-									class="form-control"  />
+									   class="form-control"/>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label  class="col-sm-4 control-label">Groups
+							<label class="col-sm-4 control-label">Request groups *
 							</label>
 							<div class="col-sm-8">
 								<select ng-model="newBatchObj.groupId"
-									name="select-collection" class="form-control"
-									id="select-groupId-collection1">
+										name="select-collection" class="form-control"
+										id="select-groupId-collection1">
 
 									<option value="">Select</option>
 
@@ -678,30 +679,32 @@
 								</select>
 							</div>
 						</div>
-						
+
 						<div class="form-group">
-							<label  class="col-sm-4 control-label">Env
+							<label class="col-sm-4 control-label">Env *
 							</label>
 							<div class="col-sm-8">
 								<select ng-model="newBatchObj.envSettingId"
-									name="select-collection" class="form-control"
-									>
+										name="select-collection" class="form-control"
+								>
 
 									<option value="">Select</option>
 
-									<option ng-repeat="setting in settingList " ng-show="{{setting.type == 'ENV'}}" value="{{setting.id}}">{{setting.name}}</option>
+									<option ng-repeat="setting in settingList " ng-show="{{setting.type == 'ENV'}}"
+											value="{{setting.id}}">{{setting.name}}
+									</option>
 
 								</select>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >Time
-								Expression </label>
+							<label class="col-sm-4 control-label">Time
+								Expression *</label>
 
 							<div class="col-sm-8">
 								<input ng-model="newBatchObj.timeExpression" type="text"
-									class="form-control"  />
+									   class="form-control"/>
 								<p>
 									<code>0 0/5 * * * ?</code>
 									//every 5 minutes
@@ -716,21 +719,25 @@
 
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >Request
+							<label class="col-sm-4 control-label">Request
 								description</label>
 
 							<div class="col-sm-8">
 								<textarea ng-model="newBatchObj.description"
-									class="form-control" ></textarea>
+										  class="form-control"></textarea>
 							</div>
 						</div>
 					</form>
+					<div class="alert alert-danger" role="alert" data-ng-show="batchUpdateMessage">
+						{{batchUpdateMessage}}
+					</div>
+
 				</div>
 
 				<div class="modal-footer">
-					<a data-dismiss="modal" class="btn btn-primary"
-						ng-click="batchAdd()">Save</a> <a data-dismiss="modal"
-						class="btn btn-secondary">Cancel</a>
+					<a class="btn btn-primary"
+					   ng-click="batchEdit(1)">Save</a> <a data-dismiss="modal"
+														   class="btn btn-secondary">Cancel</a>
 				</div>
 			</div>
 		</div>

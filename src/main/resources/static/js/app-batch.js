@@ -90,16 +90,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 
 	$scope.batchAdd = function() {
 
-		$http({
-			method : 'POST',
-			url : '/v1/batch/add',
-			data : $scope.newBatchObj,
-		}).success(function(res) {
-			console.log(res);
-			$scope.fetchBatchs();
 
-
-		})
 	};
 
 
@@ -121,7 +112,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 			for(var i in batchList) {
 				var item = batchList[i];
 				if(!item.name) {
-					item.name = item.reqGroup.name;
+					item.name = item.reqGroup ? item.reqGroup.name : "";
 				}
                 if(item.batchId == activeBatchId) {
                     item.active = "active";
@@ -149,17 +140,43 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 	}
 
 	//batchEdit
+	$scope.batchEdit = function(isNew) {
 
-	$scope.batchEdit = function() {
+    	    var batchData = $scope.currentEditBatch;
+    	    var url = '/v1/batch/update';
+    	    if(isNew) {
+    	        batchData = $scope.newBatchObj;
+                url = '/v1/batch/add';
+    	    }
+
+            if(!batchData.name) {
+                $scope.batchUpdateMessage = "Batch name is required";
+                return;
+            }
+            if(!batchData.groupId) {
+                $scope.batchUpdateMessage = "Request group is required";
+                return;
+            }
+    	    if(!batchData.envSettingId) {
+                $scope.batchUpdateMessage = "Env is required";
+                return;
+            }
+            if(!batchData.timeExpression) {
+                $scope.batchUpdateMessage = "Time expression is required";
+                return;
+            }
+
+            $('#modal-edit-batch').modal('hide');
+            $('#modal-add-batch').modal('hide');
+
 
     		$http({
     			method : 'POST',
-    			url : '/v1/batch/update',
-    			data : $scope.currentEditBatch,
+    			url : url,
+    			data : batchData,
     		}).success(function(res) {
     			console.log(res);
     			$scope.fetchBatchs();
-
 
     		})
     	};
@@ -168,8 +185,7 @@ app.controller('TodoController', function($rootScope, $scope, $http) {
 
 		$http({
 			method : 'POST',
-			url : '/v1/batch/delete',
-			data : "batchId=" + batch.batchId,
+			url : '/v1/batch/delete?id=' + batch.batchId,
 			headers : {
 				'Content-Type' : 'application/x-www-form-urlencoded'
 			}

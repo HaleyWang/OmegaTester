@@ -100,13 +100,17 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Env
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                            aria-haspopup="true" aria-expanded="false"
+                                            data-ng-click="clickEnv()"
+                    >Env
 
-                    <span data-ng-repeat="item in settingList | filter:{type: 'env', current: 1}">
+                        <span
+                                data-ng-repeat="item in settingList | filter:{type: 'env', current: 1}">
                         : <span data-ng-bind="item.name"></span>
                     </span>
 
-                    <span class="caret"></span></a>
+                        <span class="caret"></span></a>
                         <ul class="dropdown-menu setting-dropdown-menu">
                             <li><a href="#" data-toggle="modal" data-target="#myModal_env">Manange Env</a></li>
                             <li role="separator" class="divider"></li>
@@ -294,14 +298,21 @@
                             <div class="js-max-box req-box " data-ng-class="reqMaxBox">
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs req-data-tab" role="tablist">
-                                    <li data-idx="0" role="presentation" class="active"><a data-ng-dblclick="reqTabDblclick()" href="#req_data" aria-controls="home" role="tab" data-toggle="tab">Request</a></li>
-                                    <li class="" data-idx="3" role="presentation">
-                                        <a href="#cases" aria-controls="messages" role="tab" data-ng-dblclick="reqTabDblclick()" data-toggle="tab">Cases</a>
+                                    <li data-idx="0" role="presentation" class="active"><a
+                                            data-ng-dblclick="reqTabDblclick()" href="#req_data" aria-controls="home"
+                                            role="tab" data-toggle="tab">Request</a></li>
+                                    <li class="" data-idx="3" role="presentation" data-ng-hide="true">
+                                        <a href="#cases" aria-controls="messages" role="tab"
+                                           data-ng-dblclick="reqTabDblclick()" data-toggle="tab">Cases</a>
                                     </li>
                                     <li class="" data-idx="1" role="presentation">
-                                        <a href="#req_script" aria-controls="messages" role="tab" data-ng-dblclick="reqTabDblclick()" data-toggle="tab">Pre script</a>
+                                        <a href="#req_script" aria-controls="messages" role="tab"
+                                           data-ng-dblclick="reqTabDblclick()" data-toggle="tab">Pre script</a>
                                     </li>
-                                    <li data-idx="2" role="presentation"><a href="#req_test" data-ng-dblclick="reqTabDblclick()" aria-controls="settings" role="tab" data-toggle="tab">Test</a>
+                                    <li data-idx="2" role="presentation"><a href="#req_test"
+                                                                            data-ng-dblclick="reqTabDblclick()"
+                                                                            aria-controls="settings" role="tab"
+                                                                            data-toggle="tab">Test</a>
                                     </li>
                                 </ul>
                                 <!-- Tab panes -->
@@ -504,17 +515,33 @@
                     <div class="panel-body response-box js-max-box" data-ng-class="resMaxBox">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#res-body" data-ng-dblclick="resTabDblclick()" aria-controls="res-body" role="tab" data-toggle="tab">Body</a>
+                            <li role="presentation" class="active"><a href="#res-body"
+                                                                      data-ng-dblclick="resTabDblclick()"
+                                                                      aria-controls="res-body" role="tab"
+                                                                      data-toggle="tab">Body</a>
                             </li>
                             <li class="hide " role="presentation">
-                                <a href="#res-body-json" data-ng-click="drawBodyJson()" data-ng-dblclick="resTabDblclick()" aria-controls="res-body-json" role="tab" data-toggle="tab">Body json</a>
+                                <a href="#res-body-json" data-ng-click="drawBodyJson()"
+                                   data-ng-dblclick="resTabDblclick()" aria-controls="res-body-json" role="tab"
+                                   data-toggle="tab">Body json</a>
                             </li>
-                            <li role="presentation"><a href="#res-headers" data-ng-dblclick="resTabDblclick()" aria-controls="res-headers" role="tab" data-toggle="tab">Headers</a>
+                            <li role="presentation"><a href="#res-headers" data-ng-dblclick="resTabDblclick()"
+                                                       aria-controls="res-headers" role="tab"
+                                                       data-toggle="tab">Headers</a>
                             </li>
                             <!-- //todo -->
-                            <li class="hide " role="presentation"><a href="#res-cookies" data-ng-dblclick="resTabDblclick()" aria-controls="res-cookies" role="tab" data-toggle="tab">Cookies</a>
+                            <li class="hide " role="presentation"><a href="#res-cookies"
+                                                                     data-ng-dblclick="resTabDblclick()"
+                                                                     aria-controls="res-cookies" role="tab"
+                                                                     data-toggle="tab">Cookies</a>
                             </li>
-                            <li role="presentation"><a href="#res-tests" data-ng-dblclick="resTabDblclick()" aria-controls="res-tests" role="tab" data-toggle="tab"><span data-ng-class="currentReqTabData.response.testError ? 'test-success-false':'test-success-true' " >Tests</span></a></li>
+                            <li role="presentation"><a href="#res-tests" data-ng-dblclick="resTabDblclick()"
+                                                       aria-controls="res-tests" role="tab" data-toggle="tab"><span
+                                    data-ng-class="currentReqTabData.response.testError ? 'test-success-false':'test-success-true' ">Tests</span></a>
+                            </li>
+                            <li role="presentation"><a href="#res-logs" data-ng-dblclick="resTabDblclick()"
+                                                       aria-controls="res-logs" role="tab" data-toggle="tab">Logs</a>
+                            </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content res-body-content">
@@ -586,13 +613,82 @@
                             <div role="tabpanel" class="tab-pane" id="res-tests">
                                 <br/>
                                 <ul class="list-group">
-                                    <li data-ng-repeat="testResult in currentReqTabData.response.testResultArr" class="list-group-item ">
-                                        <span data-ng-if="testResult.success" class="test-success-{{testResult.success}}" data-ng-bind="testResult.i + ' : ' + testResult.v"></span>
-                                        <span data-ng-if="!testResult.success" class="test-success-false" data-ng-bind="testResult.i + ' : ' + testResult.v"></span>
+                                    <li data-ng-repeat="testResult in currentReqTabData.response.testResultArr"
+                                        class="list-group-item ">
+                                        <span data-ng-if="testResult.success"
+                                              class="test-success-{{testResult.success}}"
+                                              data-ng-bind="testResult.i + ' : ' + testResult.v"></span>
+                                        <span data-ng-if="!testResult.success" class="test-success-false"
+                                              data-ng-bind="testResult.i + ' : ' + testResult.v"></span>
                                     </li>
                                 </ul>
                             </div>
+
+                            <div role="tabpanel" class="tab-pane" id="res-logs">
+                                <br/>
+
+
+                                <div class="panel-group" id="accordion-pre-logs" role="tablist"
+                                     aria-multiselectable="true">
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="padding: 10px 15px;" role="tab"
+                                             id="heading-pre-logs">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse"
+                                                   data-parent="#accordion" href="#collapse-pre-logs"
+                                                   aria-expanded="true"
+                                                   aria-controls="collapse-pre-logs">
+                                                    <div>Pre script logs</div>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapse-pre-logs" class="panel-collapse collapse" role="tabpanel"
+                                             aria-expanded="true"
+                                             aria-labelledby="headingThree">
+                                            <div class="panel-body">
+
+                                                <div data-ng-repeat="log in currentReqTabData.response.preReqResultLogs"
+                                                >
+                                                    <span class="test-success-" data-ng-bind="log"></span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" style="padding: 10px 15px;" role="tab"
+                                         id="heading-test-logs">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse"
+                                               data-parent="#accordion" href="#collapse-test-logs" aria-expanded="true"
+                                               aria-controls="collapse-test-logs">
+                                                <div>Test logs</div>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse-test-logs" class="panel-collapse collapse" role="tabpanel"
+                                         aria-expanded="true"
+                                         aria-labelledby="headingThree">
+                                        <div class="panel-body">
+
+                                            <div data-ng-repeat="log in currentReqTabData.response.testLogs"
+                                            >
+                                                <span class="test-success-" data-ng-bind="log"></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
+
+                    </div>
                     </div>
                 </div>
             </div>

@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -58,13 +57,13 @@ public class ReqInfoHelper {
 
 		Preconditions.checkNotNull(request, "request should not be null");
 
-		HashMap<String, Objects> map = new HashMap<>(Constants.DEFAULT_MAP_SIZE);
+		HashMap<String, Object> map = new HashMap<>(Constants.DEFAULT_MAP_SIZE);
 		if (StringUtils.isNotBlank(envJson)) {
 
 			TypeReference<HashMap> t = new TypeReference<HashMap>() {
 			};
 
-			HashMap<String, Objects> envMap = JsonUtils.fromJson(envJson, t);
+			HashMap<String, Object> envMap = JsonUtils.fromJson(envJson, t);
 			if (envMap != null) {
 				map.putAll(envMap);
 			}
@@ -88,7 +87,7 @@ public class ReqInfoHelper {
 			TypeReference<HashMap> t = new TypeReference<HashMap>() {
 			};
 
-			HashMap<String, Objects> preReqResultMap = JsonUtils.fromJson(preReqResultStr, t);
+			HashMap<String, Object> preReqResultMap = JsonUtils.fromJson(preReqResultStr, t);
 			map.putAll(preReqResultMap);
 		}
 

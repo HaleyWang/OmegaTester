@@ -15,6 +15,8 @@ import java.io.OutputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -128,6 +130,11 @@ public class FileUtils {
     }
 
     public static boolean ensureDirectoryExists(final File f) {
-        return f.exists() || f.mkdir();
+        try {
+            Files.createDirectories(Paths.get(f.toURI()));
+        } catch (IOException e) {
+            return false;
+        }
+        return f.exists();
     }
 }

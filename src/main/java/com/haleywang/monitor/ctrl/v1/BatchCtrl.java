@@ -60,4 +60,10 @@ public class BatchCtrl extends BaseCtrl {
 
     }
 
+    public ResultStatus<Long> delete() {
+        Long id = Long.parseLong(getUrlParam("id"));
+        ReqBatchService service = new ReqBatchServiceImpl();
+        service.deleteByPrimaryKey(id);
+        return new ResultStatus<>(id);
+    }
 }

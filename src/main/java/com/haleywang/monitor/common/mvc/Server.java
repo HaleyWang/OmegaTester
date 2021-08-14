@@ -127,14 +127,16 @@ public class Server {
 
     private static void copyDbDataFromResourceToDbFolder() {
         URL dbInitData = App.class.getResource("/data/h2db.mv.db");
-        String parentPath = new File("").getAbsolutePath();
+        String parentPath = PathUtils.getRoot();
 
         File dbFolder = new File(parentPath + "/data1");
+        //File jsLibFolder = new File(parentPath + "/data1/js_lib");
         File dbFile = new File(parentPath + "/data1/h2db.mv.db");
         if (!dbFile.exists()) {
             FileUtils.ensureDirectoryExists(dbFolder);
             FileUtils.copyResourcesRecursively(dbInitData, dbFolder);
         }
+        //FileUtils.ensureDirectoryExists(jsLibFolder);
     }
 
     private static void copyDbDataFromJarToDbFolder() {

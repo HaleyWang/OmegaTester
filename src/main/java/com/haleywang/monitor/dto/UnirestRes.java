@@ -20,7 +20,7 @@ public class UnirestRes {
 	Response res;
 
 	String testResult;
-
+	String preReqResult;
 	Boolean testSuccess;
 
 	private long begin;
@@ -92,5 +92,6 @@ public class UnirestRes {
 	public long getSpentTime() {
 		return end - begin;
 	}
+
 
 }
