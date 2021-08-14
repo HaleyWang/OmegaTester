@@ -548,18 +548,24 @@
                             <div role="tabpanel" class="tab-pane active" id="res-body">
                                 <div ui-ace="{require: ['ace/ext/beautify'], onLoad: aceLoaded,mode: 'javascript'}" data-ng-show="showAce" data-ng-model="currentReqTabData.response.body"></div>
                                 <div class="box-format" style="float:right; position:absolute; top:-30px;right:0; ">
-                                    <div data-ng-show="currentReqTabData.loading" class="box-req-loading" style="margin: 0 30px 0 0">
+                                    <div data-ng-show="currentReqTabData.loading" class="box-req-loading"
+                                         style="margin: 0 30px 0 0">
                                         loading
                                     </div>
-                                    <div class="box-status" style="margin: 0 30px 0 0" data-ng-show="currentReqTabData.response && !currentReqTabData.loading">
-                                        Status: {{currentReqTabData.response.status}} Time: {{currentReqTabData.response.spent_time}}
+                                    <div class="box-status" style="margin: 0 35px 0 0"
+                                         data-ng-show="currentReqTabData.response && !currentReqTabData.loading">
+                                        Status: {{currentReqTabData.response.status}} Time:
+                                        {{currentReqTabData.response.spentTime}}
                                     </div>
                                     <div class="dropdown" style="display:inline-block">
-                                        <button data-ng-click="toggleShowResSettings()" class="btn btn-default btn-xs " type="button">
+                                        <button data-ng-click="toggleShowResSettings()" class="btn btn-default btn-xs "
+                                                type="button">
                                             <span class="caret"></span>
                                         </button>
-                                        <div class="dropdown-menu1 dropdown-menu-right show-{{showResSettings}}" data-ng-show="showResSettings">
-                                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="dropdown-menu1 dropdown-menu-right show-{{showResSettings}}"
+                                             data-ng-show="showResSettings">
+                                            <div class="panel-group" id="accordion" role="tablist"
+                                                 aria-multiselectable="true">
                                                 <div class="panel1 panel-default">
                                                     <div class="panel-heading" role="tab" id="headingOne">
                                                         <h4 class="panel-title">

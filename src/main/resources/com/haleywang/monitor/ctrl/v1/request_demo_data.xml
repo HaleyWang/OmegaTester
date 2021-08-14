@@ -36,6 +36,7 @@ var cases = [
             <![CDATA[
 
 $preReqResult.date_now = new Date();
+condole.log('hello pre_script');
 
             ]]>
 
@@ -50,6 +51,9 @@ $assertThat("status should be 200", response.status,200);
 $assertThat("body should contain case", response.body, "case", function(actual, expect) {
     return actual.indexOf(expect) >= 0;
 });
+condole.log('hello ' + $env);
+
+condole.log('hello test_script');
 
             ]]>
 
@@ -89,6 +93,7 @@ $assertThat("body should contain case", response.body, "case", function(actual, 
         <pre_script>
             <![CDATA[
 
+condole.log('hello pre_script');
 
 
             ]]>
@@ -101,7 +106,7 @@ $assertThat("body should contain case", response.body, "case", function(actual, 
 var response = JSON.parse($response);
 
 $assertThat("status should be 200", response.status,200);
-
+condole.log('test done');
 
             ]]>
 
