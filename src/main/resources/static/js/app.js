@@ -1015,7 +1015,7 @@ app.controller('TodoController', function($rootScope, $scope, $http, $timeout) {
 
             currentReqTabData.responseMeta = { response_status: status };
 
-            toastr.error('Error.');
+            toastr.error('Error: ' + data.msg);
 
 
         }).finally(function() {

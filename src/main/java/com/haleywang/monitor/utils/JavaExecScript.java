@@ -1,6 +1,7 @@
 package com.haleywang.monitor.utils;
 
 import com.haleywang.monitor.common.ReqException;
+import com.haleywang.monitor.common.ReqScriptException;
 import com.haleywang.monitor.common.req.HttpTool;
 import com.haleywang.monitor.common.req.HttpUtils;
 import com.haleywang.monitor.dto.UnirestRes;
@@ -159,9 +160,13 @@ public class JavaExecScript {
 
     static final Map<String, String> LIB_CACHE = new ConcurrentHashMap<>();
 
-    static void addLibByUrl(String libUrl, ScriptEngine se) throws IOException, ScriptException {
-        String lib = getCodeByLibUrl(libUrl);
-        se.eval(lib);
+    static void addLibByUrl(String libUrl, ScriptEngine se) {
+        try {
+            String lib = getCodeByLibUrl(libUrl);
+            se.eval(lib);
+        } catch (Exception e) {
+            throw new ReqScriptException(e.getMessage() + ", " + libUrl, e);
+        }
     }
 
     static String getCodeByLibUrl(String libUrl) throws IOException {

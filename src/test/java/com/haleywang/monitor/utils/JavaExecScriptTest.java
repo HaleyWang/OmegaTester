@@ -85,7 +85,7 @@ public class JavaExecScriptTest {
 
 		List<String> res = JavaExecScript.parseLibUrls(code);
 		Assert.assertEquals(2, res.size());
-		Assert.assertEquals("https://cdn.jsdelivr.net/npm/md5.js@1.3.5/index.js", res.get(0));
+		Assert.assertEquals("https://cdn.jsdelivr.net/npm/base-64@1.0.0/base64.min.js", res.get(0));
 		System.out.println(res);
 	}
 

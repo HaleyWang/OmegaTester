@@ -12,6 +12,7 @@ public class ResultMessage<T, M extends Message> {
 
 	private T data;
 	private M code;
+	private String msg;
 
 	private ResponseMeta meta;
 

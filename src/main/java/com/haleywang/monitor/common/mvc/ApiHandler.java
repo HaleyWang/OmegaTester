@@ -97,7 +97,7 @@ public class ApiHandler implements HttpHandler {
         int status = STATUS_500;
 
         ResultStatus rs = new ResultStatus();
-        JsonUtils.toJson(rs);
+        rs.setMsg(result);
 
         responseData(he, JsonUtils.toJson(rs), status);
     }
